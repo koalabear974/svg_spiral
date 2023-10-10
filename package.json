@@ -4,13 +4,14 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "CANVAS_SKETCH_OUTPUT=/Users/adrienrobert/gitrepo/ART/p5stuff/exports canvas-sketch $(ls -t p5stuff/sketches/* | head -1)",
+    "browser": "browser-sync start --server --directory --files *"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "canvas-sketch": "^0.7.6",
     "canvas-sketch-util": "^1.10.0",
     "convex-hull": "^1.0.3",
     "d3": "^7.8.0",

@@ -1,0 +1,847 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   height="29.70001604cm"
+   version="1.2"
+   viewBox="0 0 793.7012159999999 1122.5202912"
+   width="21.00001134cm"
+   id="svg129838"
+   sodipodi:docname="cross_grid_same_points_v6_2.svg"
+   inkscape:version="1.2.1 (9c6d41e, 2022-07-14)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:ns="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+   xmlns:ns0="http://creativecommons.org/ns">
+  <sodipodi:namedview
+     id="namedview129840"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="cm"
+     showgrid="false"
+     inkscape:zoom="2.0876778"
+     inkscape:cx="272.07263"
+     inkscape:cy="761.37227"
+     inkscape:window-width="1728"
+     inkscape:window-height="1051"
+     inkscape:window-x="0"
+     inkscape:window-y="38"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer1" />
+  <metadata
+     id="metadata129439">
+    <ns:RDF>
+      <ns0:Work>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:source>vpype read cross_grid_same_points_v6_2.svg linemerge linesort --no-flip reloop linesimplify write cross_grid_same_points_v6_2.svg
+</dc:source>
+        <dc:date>2023-02-26T16:46:38.128431</dc:date>
+      </ns0:Work>
+    </ns:RDF>
+  </metadata>
+  <defs
+     id="defs129441" />
+  <g
+     fill="none"
+     id="layer1"
+     inkscape:groupmode="layer"
+     inkscape:label="1"
+     stroke="#000000"
+     stroke-width="0.378"
+     style="display:inline">
+    <path
+       id="polyline129443"
+       d="m 113.3858,555.5906 -13.0899,53.9932 34.9065,107.9865 -21.8166,43.085 -6.5449,77.9914 19.6349,40.9033 -13.09,53.9933"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129445"
+       d="m 115.7817,556.058 -13.1568,52.7244 18.4662,62.1411 15.6055,46.8917 -21.5383,43.5302 -6.4893,75.6651 18.5329,41.8717 -11.8877,54.1936"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129447"
+       d="m 180.469,568.6805 -14.9599,18.4634 -13.0899,105.418 24.6215,31.865 -14.0249,55.5516 -4.9867,12.8534 -11.2199,68.0182 20.5699,59.6033"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129449"
+       d="m 182.1636,567.9792 -14.793,20.0663 -11.9546,102.947 23.553,32.5885 -14.4701,56.1081 -4.0072,14.0778 -10.3517,68.2854 18.9337,59.1023"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129451"
+       d="m 227.9173,549.0456 -10.285,63.3432 18.7,36.2283 -5.2983,52.1233 -26.4916,71.1348 22.4399,47.1366 13.0899,75.4982 -25.2448,45.5783"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129453"
+       d="m 229.6119,548.8898 -9.7841,64.267 17.1639,35.7386 -4.4301,52.5017 -25.2115,70.1887 21.4937,48.105 12.2663,75.1643 -24.5102,44.6098"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129455"
+       d="m 275.3656,544.6823 3.74,89.2114 -24.3099,22.515 19.0115,62.7199 9.35,44.6433 -4.0516,74.2515 -9.9733,66.1482 -4.675,18.4634"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129457"
+       d="m 273.671,544.8381 3.2391,88.2876 -22.7738,23.0048 18.1433,62.3414 8.0699,45.5894 -3.1055,73.2831 -9.1496,66.4822 -5.4096,19.4317"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129459"
+       d="m 340.2671,544.6823 -19.6349,70.5115 32.1015,105.4931 -45.1914,68.0183 41.1398,8.8017 -22.4399,86.4065 3.1166,60.5382"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129461"
+       d="m 341.8059,545.5394 -18.9003,69.2871 10.8526,38.7328 19.98,66.5934 -43.3549,68.1851 39.537,10.438 -22.4399,84.4141 3.8068,61.3396"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129463"
+       d="m 383.3521,568.6805 0.935,36.2283 -7.48,55.8633 10.285,117.6481 -3.74,54.6166 -22.4399,30.6183 22.4399,82.9781"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129465"
+       d="m 381.8133,567.8234 0.2004,37.4527 -6.801,55.2288 4.6416,45.7564 4.3967,72.5262 -2.1371,52.9803 -22.4399,32.6108 21.7498,82.1767"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129467"
+       d="m 450.4353,542.5006 1.87,55.8632 -18.6999,100.7431 8.4149,-2.4182 -23.3749,68.0182 11.22,78.6148 22.4399,25.0084 -14.96,65.2132"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129469"
+       d="m 451.8961,542.9681 0.8682,55.329 -16.8633,99.5409 7.1015,0.3757 -21.3713,65.9589 10.4297,78.5147 22.1059,25.1085 -14.8931,65.7475"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129471"
+       d="m 491.3386,555.5906 -26.1799,40.9033 32.7249,67.0832 -28.3616,75.8098 32.7249,10.3601 -10.9083,75.8098 13.0899,27.8134 -13.0899,80.1731"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129473"
+       d="m 489.8777,555.1231 -25.178,41.4376 30.8882,68.2853 -27.0481,73.016 30.7213,12.4193 -10.118,75.91 13.4239,27.7131 -13.1568,79.6389"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129475"
+       d="m 488.4169,554.6556 -24.1763,41.9718 29.0517,69.4875 -25.7347,70.2221 28.7178,14.4785 -9.3277,76.0102 13.7577,27.613 -13.2235,79.1046"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129477"
+       d="m 486.9561,554.188 -23.1746,42.5062 27.2151,70.6896 -24.4212,67.4283 26.7142,16.5377 -8.5374,76.1104 14.0917,27.5128 -13.2903,78.5703"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129479"
+       d="m 385.7479,567.7455 0.9684,36.9296 -7.8807,57.4661 4.2075,43.263 5.1759,72.5262 -3.2057,55.4737 -20.8371,30.418 21.1042,82.3436"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129481"
+       d="m 380.2746,566.9663 -0.5343,38.6772 -6.122,54.5943 5.2315,46.5578 2.5601,72.3592 -0.5342,51.3441 -22.4399,34.6032 21.0596,81.3753"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129483"
+       d="m 388.1437,566.8105 1.0018,37.6308 -8.2814,59.0689 4.3633,41.5712 4.1185,72.3593 -2.6714,56.3307 -19.2342,30.2177 19.7684,81.7091"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129485"
+       d="m 378.7358,566.1093 -1.2689,39.9015 -5.443,53.9599 5.8215,47.3592 0.7235,72.1923 1.0685,49.7078 -22.4399,36.5956 20.3696,80.5739"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129487"
+       d="m 390.5396,565.8755 1.0351,38.3321 -8.6821,60.6718 4.5192,39.8792 3.061,72.1923 -2.1372,57.1878 -17.6313,30.0173 18.4328,81.0748"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129489"
+       d="m 377.1971,565.2522 -2.0036,41.1259 -4.764,53.3254 6.4114,48.1607 -1.1131,72.0253 2.6714,48.0716 -22.4399,38.5881 19.6794,79.7724"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129491"
+       d="m 392.9354,564.9405 1.0686,39.0333 -9.0829,62.2747 4.675,38.1873 2.0036,72.0254 -1.6029,58.0448 -16.0285,29.817 17.0971,80.4403"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129493"
+       d="m 375.6583,564.3951 -2.7382,42.3503 -4.085,52.691 7.0013,48.962 -2.9497,71.8584 4.2743,46.4354 -22.4399,40.5805 18.9893,78.971"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129495"
+       d="m 374.1196,563.538 -3.4729,43.5748 -3.406,52.0564 7.5913,49.7635 -4.7863,71.6914 5.8771,44.7991 -22.4399,42.573 18.2992,78.1695"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129497"
+       d="m 395.3312,564.0055 1.102,39.7346 -9.4835,63.8775 4.8308,36.4955 0.9461,71.8583 -1.0686,58.902 -14.4256,29.6166 15.7613,79.8058"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129499"
+       d="m 397.727,563.0706 1.1354,40.4357 -9.8842,65.4804 4.9866,34.8035 -0.1113,71.6914 -0.5343,59.7591 -12.8228,29.4162 14.4257,79.1714"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129501"
+       d="m 400.1229,562.1356 1.1687,41.137 -10.2849,67.0832 5.1425,33.1117 -1.1688,71.5244 v 60.6161 l -11.22,29.2159 13.09,78.5369"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129503"
+       d="m 372.5808,562.681 -4.2075,44.7991 -2.727,51.422 8.1812,50.5649 -6.6229,71.5244 7.48,43.1629 -22.4399,44.5654 17.6091,77.3681"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129505"
+       d="m 371.0421,561.8239 -4.9421,46.0235 -2.0481,50.7876 8.7712,51.3663 -8.4596,71.3575 9.0829,41.5266 -22.4399,46.5578 16.9189,76.5667"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129507"
+       d="m 369.5033,560.9668 -5.6767,47.2479 -1.3691,50.1531 9.3611,52.1678 -10.2961,71.1905 10.6856,39.8904 -22.4399,48.5502 16.2289,75.7653"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129509"
+       d="m 367.9646,560.1097 -6.4114,48.4723 -0.6901,49.5187 9.951,52.9691 -12.1327,71.0236 12.2885,38.2541 -22.4398,50.5427 15.5386,74.9639"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129511"
+       d="m 402.5187,561.2006 1.2021,41.8382 -10.6856,68.6861 5.2983,31.4198 -2.2262,71.3574 0.5343,61.4732 -9.6171,29.0156 11.7542,77.9024"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129513"
+       d="m 404.9145,560.2656 1.2356,42.5395 -11.0864,70.2889 5.4541,29.7279 -3.2836,71.1904 1.0686,62.3303 -8.0143,28.8152 10.4185,77.268"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129515"
+       d="m 407.3103,559.3306 1.269,43.2407 -11.4871,71.8918 5.61,28.036 -4.3411,71.0235 1.6028,63.1874 -6.4114,28.6148 9.0829,76.6335"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129517"
+       d="m 409.7062,558.3956 1.3023,43.942 -11.8878,73.4946 5.7659,26.3441 -5.3986,70.8565 2.1371,64.0445 -4.8085,28.4144 7.7471,75.9991"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129519"
+       d="m 412.102,557.4606 1.3357,44.6432 -12.2885,75.0975 5.9217,24.6522 -6.456,70.6896 2.6714,64.9015 -3.2057,28.2141 6.4115,75.3646"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129521"
+       d="m 366.4258,559.2527 -7.146,49.6967 -0.0111,48.8841 10.5409,53.7706 -13.9692,70.8566 13.8913,36.6179 -22.4399,52.5351 14.8486,74.1624"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129523"
+       d="m 364.8871,558.3956 -7.8807,50.9211 0.6679,48.2497 11.1309,54.572 -15.8059,70.6896 15.4942,34.9817 -22.4399,54.5275 14.1585,73.361"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129525"
+       d="m 363.3483,557.5385 -8.6153,52.1455 1.3469,47.6152 11.7208,55.3735 -17.6425,70.5226 17.0971,33.3455 -22.4399,56.5199 13.4684,72.5596"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129527"
+       d="m 361.8096,556.6814 -9.35,53.3699 2.0259,46.9808 12.3108,56.1749 -19.4791,70.3557 18.6999,31.7091 -22.4399,58.5124 12.7782,71.7582"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129529"
+       d="m 360.2708,555.8243 -10.0845,54.5943 2.7048,46.3464 12.9007,56.9763 -21.3157,70.1887 20.3028,30.0729 -22.4399,60.5048 12.0881,70.9567"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129531"
+       d="m 358.7321,554.9672 -10.8192,55.8188 3.3838,45.7118 13.4906,57.7778 -23.1523,70.0217 21.9057,28.4367 -22.4399,62.4972 11.398,70.1553"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129533"
+       d="m 357.1934,554.1101 -11.5539,57.0432 4.0627,45.0774 14.0806,58.5791 -24.9888,69.8548 23.5084,26.8005 -22.4399,64.4897 10.708,69.3538"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129535"
+       d="m 355.6546,553.2531 -12.2885,58.2675 4.7418,44.4429 14.6705,59.3806 -26.8255,69.6878 25.1113,25.1643 -22.4399,66.4821 10.0178,68.5524"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129537"
+       d="m 354.1158,552.396 -13.0231,59.4919 5.4207,43.8085 15.2605,60.182 -28.6621,69.5209 26.7142,23.5279 -22.4399,68.4746 9.3277,67.751"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129539"
+       d="m 352.5771,551.5389 -13.7578,60.7163 6.0998,43.174 15.8504,60.9835 -30.4987,69.3539 28.317,21.8917 -22.4399,70.467 8.6376,66.9496"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129541"
+       d="m 351.0383,550.6818 -14.4924,61.9407 6.7787,42.5396 16.4404,61.7849 -32.3353,69.1869 29.9199,20.2555 -22.4399,72.4594 7.9474,66.1482"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129543"
+       d="m 414.4978,556.5256 1.3691,45.3445 -12.6892,76.7003 6.0775,22.9603 -7.5134,70.5226 3.2057,65.7586 -1.6028,28.0138 5.0757,74.7301"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129545"
+       d="m 416.8937,555.5906 1.4025,46.0458 -13.09,78.3031 6.2334,21.2684 -8.5709,70.3557 3.74,66.6156 v 27.8134 l 3.74,74.0957"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129547"
+       d="m 419.2895,554.6556 1.4359,46.747 -13.4907,79.906 6.3892,19.5765 -9.6282,70.1887 5.8771,95.0858 2.4042,73.4612"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129549"
+       d="m 421.6853,553.7206 1.4693,47.4483 -13.8914,81.5088 6.545,17.8846 -10.6857,70.0217 4.8086,68.3299 3.2057,27.4127 1.0685,72.8267"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129551"
+       d="m 424.0811,552.7856 1.5027,48.1495 -14.2921,83.1117 6.7009,16.1927 -11.7431,69.8548 5.3428,69.1869 4.8085,27.2123 -0.2671,72.1923"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129553"
+       d="m 426.477,551.8506 1.536,48.8508 -14.6928,84.7145 6.8567,14.5008 -12.8005,69.6878 5.8771,70.044 6.4114,27.012 -1.6029,71.5578"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129555"
+       d="m 428.8728,550.9156 1.5694,49.552 -15.0935,86.3174 7.0125,12.8089 -13.8579,69.5208 6.4113,70.9011 8.0143,26.8116 -2.9386,70.9234"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129557"
+       d="m 431.2686,549.9806 1.6029,50.2533 -15.4942,87.9202 7.1683,11.117 -14.9154,69.3539 6.9456,71.7582 9.6171,26.6112 -4.2742,70.2889"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129559"
+       d="m 433.6645,549.0456 1.6362,50.9545 -15.8949,89.5231 7.3242,9.4251 -15.9729,69.1869 7.4799,72.6153 11.22,26.4109 -5.61,69.6544"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129561"
+       d="m 485.4952,553.7205 -22.1727,43.0405 25.3784,71.8917 -23.1077,64.6344 24.7106,18.597 -7.7471,76.2105 14.4256,27.4127 -13.357,78.036"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129563"
+       d="m 484.0344,553.253 -21.171,43.5748 23.5419,73.0939 -21.7943,61.8405 22.707,20.6562 -6.9568,76.3107 14.7596,27.3125 -13.4239,77.5017"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129565"
+       d="m 482.5736,552.7855 -20.1692,44.1091 21.7052,74.296 -20.4808,59.0467 20.7035,22.7154 -6.1666,76.4109 15.0936,27.2123 -13.4907,76.9674"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129567"
+       d="m 481.1128,552.318 -19.1675,44.6434 19.8687,75.4981 -19.1674,56.2528 18.6999,24.7747 -5.3762,76.511 15.4274,27.1121 -13.5574,76.4332"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129569"
+       d="m 479.6519,551.8505 -18.1656,45.1776 18.032,76.7003 -17.8539,53.459 16.6964,26.8339 -4.586,76.6112 15.7614,27.0119 -13.6243,75.8989"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129571"
+       d="m 478.1911,551.383 -17.1639,45.7119 16.1955,77.9025 -16.5405,50.6651 14.6928,28.893 -3.7957,76.7114 16.0954,26.9118 -13.6911,75.3646"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129573"
+       d="m 476.7302,550.9155 -16.162,46.2462 14.3588,79.1046 -15.227,47.8712 12.6892,30.9523 -3.0053,76.8116 16.4292,26.8116 -13.7578,74.8303"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129575"
+       d="m 475.2694,550.448 -15.1603,46.7805 12.5223,80.3067 -13.9136,45.0774 10.6856,33.0115 -2.215,76.9118 16.7632,26.7114 -13.8246,74.296"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129577"
+       d="m 473.8086,549.9805 -14.1585,47.3148 10.6856,81.5088 -12.6001,42.2836 8.6821,35.0707 -1.4248,77.0119 17.0971,26.6112 -13.8914,73.7618"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129579"
+       d="m 472.3477,549.513 -13.1567,47.8491 8.8491,82.7109 -11.2868,39.4897 6.6786,37.13 -0.6344,77.1121 17.431,26.511 -13.9582,73.2275"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129581"
+       d="m 470.8869,549.0455 -12.1549,48.3834 7.0124,83.9131 -9.9733,36.6958 4.675,39.1891 0.1559,77.2124 17.7649,26.4108 -14.0249,72.6932"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129583"
+       d="m 469.4261,548.578 -11.1532,48.9176 5.1759,85.1153 -8.6599,33.902 2.6715,41.2483 0.9461,77.3125 18.0989,26.3107 -14.0918,72.1589"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129585"
+       d="m 467.9652,548.1105 -10.1514,49.4519 3.3393,86.3174 -7.3464,31.1081 0.6679,43.3076 1.7364,77.4127 18.4328,26.2105 -14.1585,71.6246"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129587"
+       d="m 466.5044,547.6431 -9.1496,49.9861 1.5027,87.5195 -6.033,28.3143 -1.3357,45.3668 2.5268,77.5128 18.7667,26.1104 -14.2253,71.0903"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129589"
+       d="m 436.0603,548.1106 1.6696,51.6558 -16.2956,91.1259 7.48,7.7332 -17.0303,69.02 8.0142,73.4723 12.8228,26.2105 -6.9457,69.02"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129591"
+       d="m 438.4561,547.1756 1.7031,52.357 -16.6964,92.7288 7.6358,6.0413 -18.0877,68.853 8.5485,74.3294 14.4257,26.0102 -8.2814,68.3855"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129593"
+       d="m 440.8519,546.2406 1.7365,53.0583 -17.0971,94.3316 7.7917,4.3494 -19.1452,68.6861 9.0828,75.1864 16.0285,25.8098 -9.6171,67.7511"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129595"
+       d="m 465.0436,547.1756 -8.1478,50.5204 -0.334,88.7216 -4.7195,25.5205 -3.3393,47.426 3.3171,77.613 19.1006,26.0102 -14.2921,70.556"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129597"
+       d="m 463.5827,546.7081 -7.146,51.0547 -2.1705,89.9238 -3.4061,22.7265 -5.3428,49.4853 4.1073,77.7132 19.4346,25.9099 -14.3589,70.0218"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129599"
+       d="m 462.1219,546.2406 -6.1442,51.589 -4.0072,91.1259 -2.0926,19.9327 -7.3464,51.5445 4.8976,77.8133 19.7685,25.8098 -14.4256,69.4875"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129601"
+       d="m 460.6611,545.7731 -5.1425,52.1232 -5.8437,92.3281 -0.7792,17.1389 -9.3499,53.6036 5.6879,77.9136 20.1024,25.7096 -14.4924,68.9532"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129603"
+       d="m 443.2478,545.3056 1.7698,53.7595 -17.4978,95.9345 7.9475,2.6575 -20.2026,68.5191 9.6171,76.0436 17.6313,25.6094 -10.9528,67.1166"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129605"
+       d="m 459.2003,545.3056 -11.8211,146.1877 0.5343,14.345 -11.3535,55.6629 6.4782,78.0138 20.4363,25.6094 -14.5592,68.4189"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129607"
+       d="m 457.7394,544.8381 -3.1389,53.1918 -9.5169,94.7324 1.8477,11.5511 -13.3571,57.7221 7.2685,78.1139 20.7703,25.5093 -14.626,67.8846"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129609"
+       d="m 445.6436,544.3706 1.8032,54.4607 -17.8985,97.5374 8.1033,0.9656 -21.26,68.3522 10.1514,76.9006 19.2342,25.4091 -12.2886,66.4821"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129611"
+       d="m 456.2786,544.3706 -2.1371,53.7261 -11.3535,95.9345 3.1611,8.7573 -15.3606,59.7813 8.0587,78.2141 21.1042,25.4091 -14.6928,67.3503"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129613"
+       d="m 454.8178,543.9031 -1.1354,54.2604 -13.1901,97.1366 4.4746,5.9634 -17.3642,61.8406 8.8491,78.3142 21.4381,25.309 -14.7596,66.816"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129615"
+       d="m 448.0394,543.4356 1.8366,55.162 -18.2991,99.1402 8.2591,-0.7263 -22.3175,68.1852 10.6857,77.7577 20.837,25.2087 -13.6242,65.8477"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129617"
+       d="m 453.357,543.4356 -0.1336,54.7947 -15.0267,98.3387 5.788,3.1696 -19.3678,63.8997 9.6394,78.4145 21.7721,25.2087 -14.8264,66.2818"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129619"
+       d="m 349.4996,549.8247 -15.2271,63.1652 7.4577,41.9051 17.0303,62.5863 -34.1719,69.0199 31.5228,18.6193 -22.4399,74.4518 7.2573,65.3468"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129621"
+       d="m 347.9609,548.9677 -15.9617,64.3895 8.1366,41.2706 17.6203,63.3878 -36.0085,68.8529 33.1255,16.983 -22.4399,76.4443 6.5673,64.5453"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129623"
+       d="m 346.4221,548.1106 -16.6963,65.6139 8.8156,40.6362 18.2102,64.1891 -37.8451,68.6861 34.7284,15.3467 -22.4399,78.4367 5.8772,63.7439"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129625"
+       d="m 344.8834,547.2535 -17.431,66.8383 9.4946,40.0017 18.8001,64.9906 -39.6816,68.5191 36.3312,13.7105 -22.4399,80.4291 5.187,62.9425"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129627"
+       d="m 343.3446,546.3964 -18.1656,68.0627 10.1736,39.3673 19.3901,65.792 -41.5183,68.3521 37.9341,12.0743 -22.4399,82.4216 4.4969,62.141"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129629"
+       d="m 333.3134,544.6823 -17.1305,72.515 7.6915,36.4287 20.4029,66.894 -39.3477,65.5137 36.2979,15.8143 -21.1042,84.2359 2.2818,56.0302"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129631"
+       d="m 321.7238,544.6823 -12.9564,75.8543 1.2913,33.646 20.1246,66.0591 -29.6082,61.3397 28.228,27.5017 -18.878,80.6183 0.8904,48.5169"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129633"
+       d="m 183.8582,567.278 -14.626,21.6691 -10.8193,100.4759 22.4845,33.312 -14.9155,56.6647 -3.0275,15.3022 -9.4836,68.5525 17.2974,58.6015"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129635"
+       d="m 178.0732,568.213 -14.8932,19.7323 -11.9211,103.8152 24.2876,32.4216 -14.3032,55.1063 -5.0423,15.1798 -10.118,67.0498 19.3677,59.4029"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129637"
+       d="m 175.6774,567.7455 -14.8264,21.0012 -10.7525,102.2124 23.9538,32.9781 -14.5815,54.6611 -5.098,17.5062 -9.016,66.0813 18.1656,59.2026"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129639"
+       d="m 173.2816,567.278 -14.7596,22.2701 -9.5837,100.6095 23.6197,33.5347 -14.8597,54.2159 -5.1536,19.8325 -7.9141,65.113 16.9635,59.0022"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129641"
+       d="m 170.8857,566.8104 -14.6928,23.5392 -8.4149,99.0066 23.2858,34.0912 -15.138,53.7707 -5.2093,22.1588 -6.8121,64.1446 15.7614,58.8019"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129643"
+       d="m 168.4899,566.343 -14.626,24.808 -7.2462,97.4038 22.9519,34.6478 -15.4163,53.3254 -5.2649,24.4852 -5.7102,63.1762 14.5592,58.6015"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129645"
+       d="m 166.0941,565.8755 -14.5593,26.0769 -6.0774,95.801 22.6179,35.2043 -15.6945,52.8801 -5.3206,26.8116 -4.6082,62.2079 13.3571,58.4011"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129647"
+       d="m 185.5528,566.5767 -14.4591,23.272 -9.6839,98.0048 21.4159,34.0356 -15.3607,57.2212 -10.6634,85.3462 15.6612,58.1006"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129649"
+       d="m 187.2473,565.8755 -14.292,24.8748 -8.5486,95.5338 20.3473,34.759 -15.8059,57.7778 -1.0685,17.751 -7.7471,69.0868 14.0249,57.5996"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129651"
+       d="m 163.6983,565.408 -14.4925,27.3459 -4.9087,94.198 22.284,35.7609 -15.9728,52.4349 -5.3762,29.1379 -3.5063,61.2395 12.155,58.2008"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129653"
+       d="m 161.3024,564.9405 -14.4256,28.6148 -3.74,92.5952 21.9501,36.3174 -16.2511,51.9897 -5.4319,31.4643 -2.4043,60.2711 10.9529,58.0004"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129655"
+       d="m 158.9066,564.473 -14.3589,29.8837 -2.5712,90.9924 21.6162,36.8739 -16.5294,51.5445 -5.4875,33.7906 -1.3024,59.3027 9.7507,57.8001"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129657"
+       d="m 156.5108,564.0055 -14.2921,31.1526 -1.4025,89.3896 21.2822,37.4304 -16.8076,51.0993 -5.5432,36.117 -0.2004,58.3343 8.5486,57.5997"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129659"
+       d="m 154.115,563.538 -14.2254,32.4215 -0.2337,87.7867 20.9483,37.987 -17.0859,50.654 -5.5988,38.4434 0.9015,57.3659 7.3465,57.3994"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129661"
+       d="m 151.7191,563.0705 -14.1585,33.6905 0.935,86.1838 20.6144,38.5436 -17.3642,50.2087 -5.6545,40.7697 2.0035,56.3976 6.1443,57.199"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129663"
+       d="m 149.3233,562.603 -14.0917,34.9594 2.1037,84.581 20.2804,39.1001 -17.6424,49.7635 -5.7102,43.0961 3.1055,55.4291 4.9422,56.9987"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129665"
+       d="m 188.9419,565.1742 -14.1251,26.4777 -7.4132,93.0627 19.2788,35.4826 -16.2512,58.3343 -0.089,18.9754 -6.8789,69.3539 12.3887,57.0988"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129667"
+       d="m 190.6365,564.473 -13.9581,28.0805 -6.2779,90.5917 18.2102,36.2061 -16.6964,58.8908 0.8905,20.1998 -6.0107,69.6211 10.7525,56.5978"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129669"
+       d="m 192.3311,563.7718 -13.7912,29.6833 -5.1425,88.1206 17.1416,36.9296 -17.1416,59.4474 1.87,21.4242 -5.1425,69.8882 9.1163,56.097"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129671"
+       d="m 194.0257,563.0706 -13.6242,31.2861 -4.0072,85.6495 16.073,37.6532 -17.5868,60.0039 2.8495,22.6486 -4.2742,70.1553 7.4799,55.5961"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129673"
+       d="m 195.7202,562.3693 -13.4572,32.889 -2.8718,83.1785 15.0045,38.3766 -18.0321,60.5605 3.8291,23.873 -3.4061,70.4225 5.8437,55.0952"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129675"
+       d="m 197.4148,561.6681 -13.2902,34.4918 -1.7365,80.7075 13.9359,39.1 -18.4773,61.1171 4.8086,25.0974 -2.5379,70.6896 4.2075,54.5943"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129677"
+       d="m 199.1094,560.9668 -13.1233,36.0947 -0.6011,78.2364 12.8673,39.8236 -18.9225,61.6736 5.7881,26.3218 -1.6696,70.9567 2.5712,54.0935"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129679"
+       d="m 146.9275,562.1355 -14.025,36.2283 3.2725,82.9782 19.9465,39.6566 -17.9207,49.3183 -5.7658,45.4224 4.2074,54.4608 3.7401,56.7983"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129681"
+       d="m 144.5316,561.668 -13.9581,37.4973 4.4412,81.3752 19.6126,40.2132 -18.199,48.8731 -5.8215,47.7488 5.3094,53.4923 2.5379,56.598"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129683"
+       d="m 142.1358,561.2005 -13.8914,38.7662 5.61,79.7724 19.2786,40.7698 -18.4772,48.4278 -5.8771,50.0751 6.4113,52.524 1.3358,56.3976"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129685"
+       d="m 139.74,560.733 -13.8246,40.0351 6.7787,78.1696 18.9447,41.3263 -18.7555,47.9825 -5.9328,52.4016 7.5134,51.5555 0.1336,56.1973"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129687"
+       d="m 137.3442,560.2655 -13.7579,41.304 7.9475,76.5668 18.6108,41.8828 -19.0338,47.5373 -5.9884,54.7279 8.6153,50.5872 -1.0686,55.9969"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129689"
+       d="m 134.9483,559.798 -13.691,42.573 9.1162,74.9639 18.2769,42.4393 -19.3121,47.0921 -6.0441,57.0543 9.7173,49.6187 -2.2707,55.7965"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129691"
+       d="m 132.5525,559.3305 -13.6243,43.8419 10.285,73.361 17.943,42.9959 -19.5904,46.6469 -6.0997,59.3806 10.8192,48.6504 -3.4728,55.5961"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129693"
+       d="m 130.1567,558.863 -13.5575,45.1108 11.4537,71.7582 17.609,43.5525 -19.8686,46.2016 -6.1554,61.7069 11.9212,47.6821 -4.6749,55.3957"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129695"
+       d="m 127.7608,558.3955 -13.4906,46.3797 12.6224,70.1553 17.2751,44.1091 -20.1469,45.7564 -6.211,64.0333 13.0231,46.7136 -5.8771,55.1954"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129697"
+       d="m 125.365,557.928 -13.4239,47.6487 13.7912,68.5524 16.9412,44.6656 -20.4252,45.3112 -6.2667,66.3596 14.1251,45.7453 -7.0792,54.995"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129699"
+       d="m 122.9692,557.4605 -13.3571,48.9176 14.9599,66.9496 16.6073,45.2221 -20.7035,44.8659 -6.3223,68.6861 15.227,44.7768 -8.2813,54.7947"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129701"
+       d="m 120.5733,556.993 -13.2903,50.1865 16.1287,65.3468 16.2734,45.7787 -20.9818,44.4206 -6.378,71.0124 16.329,43.8085 -9.4835,54.5943"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129703"
+       d="m 118.1775,556.5255 -13.2235,51.4555 17.2974,63.7439 15.9394,46.3352 -21.26,43.9754 -6.4336,73.3388 17.4309,42.84 -10.6856,54.394"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129705"
+       d="m 200.804,560.2656 -12.9564,37.6975 0.5343,75.7653 11.7988,40.5472 -19.3678,62.2301 6.7676,27.5462 -0.8014,71.2239 0.935,53.5925"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129707"
+       d="m 202.4986,559.5643 -12.7894,39.3004 1.6696,73.2943 10.7302,41.2706 -19.813,62.7867 7.7471,28.7706 0.0668,71.491 -0.7013,53.0916"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129709"
+       d="m 204.1932,558.8631 -12.6225,40.9032 2.805,70.8232 9.6616,41.9942 -20.2582,63.3432 8.7266,29.995 0.935,71.7581 -2.3375,52.5908"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129711"
+       d="m 205.8878,558.1618 -12.4555,42.5061 3.9403,68.3522 8.593,42.7176 -20.7034,63.8998 9.7062,31.2194 1.8032,72.0253 -3.9738,52.0898"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129713"
+       d="m 207.5823,557.4606 -12.2885,44.1089 5.0757,65.8811 7.5245,43.4412 -21.1487,64.4563 10.6857,32.4438 2.6714,72.2924 -5.61,51.589"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129715"
+       d="m 209.2769,556.7593 -12.1215,45.7118 6.211,63.41 6.4559,44.1647 -21.594,65.0129 11.6653,33.6682 3.5396,72.5596 -7.2462,51.088"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129717"
+       d="m 210.9715,556.0581 -11.9546,47.3146 12.7337,105.8272 -22.0392,65.5693 12.6448,34.8927 4.4078,72.8267 -8.8825,50.5872"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129719"
+       d="m 212.6661,555.3568 -11.7877,48.9175 8.4818,58.4679 4.3188,45.6117 -22.4845,66.1259 13.6243,36.1171 5.2761,73.0938 -10.5188,50.0863"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129721"
+       d="m 214.3607,554.6556 -11.6207,50.5203 9.6171,55.9969 3.2502,46.3352 -22.9297,66.6824 14.6038,37.3415 6.1443,73.361 -12.155,49.5854"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129723"
+       d="m 216.0552,553.9544 -11.4537,52.1232 10.7525,53.5257 2.1816,47.0587 -23.3749,67.239 15.5833,38.5659 7.0125,73.6281 -13.7912,49.0845"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129725"
+       d="m 217.7498,553.2531 -11.2867,53.7261 11.8878,51.0547 1.113,47.7822 -23.8201,67.7955 16.5628,39.7903 7.8807,73.8953 -15.4274,48.5836"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129727"
+       d="m 219.4444,552.5518 -11.1198,55.329 13.0232,48.5836 0.0445,48.5057 -24.2654,68.3521 17.5423,41.0147 8.7489,74.1624 -17.0636,48.0827"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129729"
+       d="m 221.139,551.8506 -10.9528,56.9318 14.1585,46.1126 -1.0241,49.2292 -24.7106,68.9086 18.5219,42.239 9.6171,74.4296 -18.7,47.5819"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129731"
+       d="m 222.8336,551.1493 -10.7859,58.5347 15.2939,43.6415 -2.0926,49.9527 -25.1559,69.4652 19.5014,43.4634 10.4853,74.6968 -20.3362,47.0809"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129733"
+       d="m 224.5281,550.4481 -10.6188,60.1375 16.4292,41.1704 -3.1612,50.6763 -25.6011,70.0217 20.4809,44.6879 11.3535,74.9638 -21.9724,46.5801"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129735"
+       d="m 226.2227,549.7468 -10.4519,61.7404 17.5646,38.6994 -4.2298,51.3997 -26.0463,70.5783 21.4604,45.9123 12.2217,75.2309 -23.6086,46.0792"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129737"
+       d="m 231.3065,548.7339 -9.2832,65.191 15.6278,35.2488 -3.5619,52.8801 -23.9314,69.2426 20.5476,49.0734 11.4426,74.8303 -23.7756,43.6415"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129739"
+       d="m 233.001,548.578 -8.7822,66.1149 14.0917,34.759 -2.6937,53.2586 -22.6514,68.2965 19.6015,50.0418 10.6189,74.4964 -23.0409,42.6731"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129741"
+       d="m 234.6956,548.4222 -8.2814,67.0387 12.5557,34.2693 -1.8255,53.6371 -21.3713,67.3503 18.6554,51.0102 9.7952,74.1624 -22.3063,41.7047"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129743"
+       d="m 236.3902,548.2664 -7.7805,67.9626 11.0196,33.7795 -0.9573,54.0155 -20.0913,66.4042 17.7093,51.9786 8.9715,73.8285 -21.5716,40.7363"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129745"
+       d="m 238.0848,548.1105 -7.2796,68.8865 9.4835,33.2898 -0.089,54.3939 -18.8113,65.4581 16.7632,52.947 8.1478,73.4945 -20.837,39.768"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129747"
+       d="m 239.7794,547.9547 -6.7787,69.8103 7.9474,32.8 0.7792,54.7724 -17.5312,64.512 15.817,53.9153 7.3241,73.1607 -20.1023,38.7995"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129749"
+       d="m 241.4739,547.7989 -6.2778,70.7342 6.4114,32.3102 1.6474,55.1509 -16.2511,63.5658 14.8708,54.8837 6.5005,72.8267 -19.3678,37.8312"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129751"
+       d="m 243.1685,547.6431 -5.7769,71.658 4.8753,31.8205 2.5156,55.5293 -14.9711,62.6197 13.9248,55.8521 5.6768,72.4928 -18.6332,36.8628"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129753"
+       d="m 244.8631,547.4872 -5.276,72.5819 3.3392,31.3307 3.3838,55.9078 -13.691,61.6736 12.9786,56.8205 4.8531,72.1588 -17.8985,35.8944"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129755"
+       d="m 246.5577,547.3313 -4.7751,73.5059 1.8031,30.8409 4.2521,56.2862 -12.411,60.7275 12.0325,57.7889 4.0294,71.8249 -17.1639,34.926"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129757"
+       d="m 248.2523,547.1755 -4.2743,74.4297 0.2672,30.3512 5.1202,56.6647 -11.1309,59.7813 11.0863,58.7573 3.2057,71.4909 -16.4292,33.9577"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129759"
+       d="m 249.9469,547.0197 -5.0423,105.215 5.9884,57.0431 -9.8509,58.8352 10.1403,59.7256 2.382,71.1571 -15.6946,32.9892"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129761"
+       d="m 251.6414,546.8638 -3.2724,76.2775 -2.805,29.3716 6.8566,57.4216 -8.5708,57.8891 9.1941,60.6941 1.5583,70.8231 -14.9599,32.0208"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129763"
+       d="m 253.336,546.708 -2.7716,77.2013 -4.341,28.8819 7.7248,57.8 -7.2907,56.943 8.248,61.6624 0.7346,70.4892 -14.2253,31.0525"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129765"
+       d="m 255.0306,546.5522 -2.2707,78.1251 -5.8771,28.3922 8.5931,58.1785 -6.0108,55.9968 7.3019,62.6308 -0.089,70.1553 -13.4907,30.084"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129767"
+       d="m 256.7252,546.3964 -1.7698,79.049 -7.4132,27.9023 9.4613,58.557 -4.7307,55.0507 6.3557,63.5992 -0.9127,69.8213 -12.756,29.1157"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129769"
+       d="m 258.4198,546.2406 -1.2689,79.9728 -8.9493,27.4126 10.3295,58.9354 -3.4506,54.1046 5.4096,64.5676 -1.7364,69.4874 -12.0214,28.1473"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129771"
+       d="m 260.1143,546.0847 -0.768,80.8967 -10.4853,26.9229 11.1977,59.3138 -2.1705,53.1585 4.4634,65.536 -2.5601,69.1535 -11.2867,27.1788"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129773"
+       d="m 261.8089,545.9289 -0.2671,81.8206 -12.0214,26.433 12.0659,59.6923 -0.8905,52.2124 3.5174,66.5044 -3.3838,68.8195 -10.5521,26.2105"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129775"
+       d="m 263.5035,545.7731 0.2338,82.7444 -13.5575,25.9433 12.9341,60.0708 0.3896,51.2662 2.5712,67.4727 -4.2074,68.4857 -9.8175,25.2421"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129777"
+       d="m 265.1981,545.6172 0.7346,83.6683 -15.0935,25.4536 13.8024,60.4492 1.6696,50.3201 1.6251,68.4411 -5.0312,68.1517 -9.0828,24.2738"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129779"
+       d="m 266.8927,545.4614 1.2355,84.5922 -16.6296,24.9638 14.6706,60.8276 2.9496,49.374 0.679,69.4095 -5.8548,67.8178 -8.3482,23.3053"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129781"
+       d="m 268.5872,545.3056 1.7365,85.516 -18.1657,24.4741 15.5388,61.206 4.2297,48.4279 -0.2671,70.3779 -6.6786,67.4839 -7.6135,22.3369"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129783"
+       d="m 270.2818,545.1498 2.2373,86.4398 -19.7016,23.9843 16.4069,61.5846 5.5098,47.4816 -1.2133,71.3464 -7.5022,67.1499 -6.8789,21.3686"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129785"
+       d="m 271.9764,544.9939 2.7382,87.3637 -21.2377,23.4946 17.2751,61.963 6.7899,46.5355 -2.1594,72.3147 -8.3259,66.8161 -6.1443,20.4002"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129787"
+       d="m 277.6835,544.6823 2.9052,88.5435 -23.0299,23.0716 19.0673,62.8869 7.402,45.4781 -2.4377,71.914 -10.4185,66.8717 -4.3967,19.9661"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129789"
+       d="m 280.0014,544.6823 2.0703,87.8757 -21.7497,23.6281 19.1229,63.0538 5.4541,46.313 -0.8237,69.5765 -10.8637,67.5952 -4.1185,21.4688"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129791"
+       d="m 282.3193,544.6823 1.2355,87.2078 -20.4697,24.1847 19.1786,63.2208 3.5062,47.1477 0.7903,67.2391 -15.1492,91.2901"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129793"
+       d="m 284.6372,544.6823 0.4007,86.54 -19.1896,24.7412 19.2342,63.3878 3.9626,112.884 -11.7543,69.0423 -3.5619,24.4741"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129795"
+       d="m 286.9551,544.6823 -0.4341,85.8721 -17.9096,25.2978 19.2899,63.5547 -0.3896,48.8174 4.0182,62.564 -12.1994,69.7658 -3.2837,25.9768"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129797"
+       d="m 289.273,544.6823 -1.2689,85.2042 -16.6295,25.8544 19.3455,63.7217 -2.3375,49.6521 5.6322,60.2266 -12.6447,70.4893 -3.0053,27.4794"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129799"
+       d="m 291.591,544.6823 -2.1038,84.5364 -15.3495,26.4109 19.4012,63.8886 -4.2854,50.487 7.2462,57.8891 -13.09,71.2128 -2.727,28.9821"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129801"
+       d="m 293.9089,544.6823 -2.9386,83.8685 -14.0694,26.9675 19.4568,64.0556 -6.2333,51.3218 8.8602,55.5516 -13.5352,71.9363 -2.4488,30.4848"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129803"
+       d="m 296.2268,544.6823 -3.7734,83.2007 -12.7894,27.524 19.5125,64.2225 -8.1812,52.1567 10.4741,53.214 -13.9804,72.6599 -2.1705,31.9874"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129805"
+       d="m 298.5447,544.6823 -4.6082,82.5328 -11.5093,28.0806 19.5681,64.3895 -10.1291,52.9914 12.0881,50.8766 -14.4256,73.3834 -1.8923,33.4901"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129807"
+       d="m 300.8626,544.6823 -5.443,81.865 -10.2293,28.6371 19.6238,64.5564 -12.077,53.8263 13.7021,48.5391 -14.8709,74.1068 -1.614,34.9928"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129809"
+       d="m 303.1805,544.6823 -6.2778,81.1971 -8.9492,29.1937 19.6794,64.7234 -14.025,54.6611 15.3162,46.2016 -15.3162,74.8303 -1.3357,36.4955"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129811"
+       d="m 305.4984,544.6823 -7.1126,80.5293 -7.6692,29.7501 19.7351,64.8905 -15.9729,55.4959 16.9301,43.8641 -15.7613,75.5538 -1.0574,37.9982"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129813"
+       d="m 307.8163,544.6823 -7.9474,79.8614 -6.3891,30.3067 19.7907,65.0574 -17.9208,56.3307 18.5441,41.5266 -16.2066,76.2774 -0.7791,39.5008"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129815"
+       d="m 310.1343,544.6823 -8.7823,79.1935 -5.1091,30.8633 19.8464,65.2244 -19.8687,57.1655 20.1581,39.1891 -16.6518,77.0009 -0.5009,41.0035"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129817"
+       d="m 312.4522,544.6823 -13.4462,109.9455 19.9021,65.3913 -21.8166,58.0004 21.7721,36.8516 -17.0971,77.7244 -0.2226,42.5062"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129819"
+       d="m 314.7701,544.6823 -10.4519,77.8579 -2.549,31.9763 19.9577,65.5583 -23.7645,58.8351 23.386,34.5142 -17.5423,78.4479 0.0557,44.0088"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129821"
+       d="m 317.088,544.6823 -11.2867,77.19 -1.269,32.5329 20.0134,65.7252 -25.7124,59.67 25,32.1767 -17.9875,79.1714 0.3339,45.5115"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129823"
+       d="m 319.4059,544.6823 -12.1215,76.5221 0.0111,33.0895 20.069,65.8922 -27.6603,60.5048 26.614,29.8392 -18.4328,79.8949 0.6122,47.0141"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129825"
+       d="m 324.0417,544.6823 -13.7911,75.1865 2.5712,34.2025 20.1803,66.2261 -31.5561,62.1745 29.8419,25.1642 -19.3232,81.3418 1.1688,50.0196"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129827"
+       d="m 326.3597,544.6823 -14.6261,74.5186 3.8513,34.7591 20.236,66.393 -33.504,63.0093 31.4559,22.8267 -19.7685,82.0654 1.4471,51.5222"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129829"
+       d="m 328.6776,544.6823 -15.4609,73.8508 5.1314,35.3155 20.2916,66.5601 -35.4519,63.8441 33.0699,20.4892 -20.2137,82.7889 1.7253,53.0249"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129831"
+       d="m 330.9955,544.6823 -16.2957,73.1829 6.4114,35.8721 20.3473,66.727 -37.3998,64.6789 34.6839,18.1518 -20.659,83.5124 2.0036,54.5275"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129833"
+       d="m 335.6313,544.6823 -17.9653,71.8472 8.9715,36.9852 20.4586,67.0609 -41.2956,66.3486 37.9118,13.4768 -21.5494,84.9594 2.5601,57.5329"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+    <path
+       id="polyline129835"
+       d="m 337.9492,544.6823 -18.8001,71.1793 10.2516,37.5418 20.5142,67.2279 -43.2435,67.1834 39.5258,11.1392 -21.9947,85.683 2.8384,59.0355"
+       style="fill:none;stroke:#000000;stroke-opacity:1;stroke-width:0.37795276;stroke-dasharray:none;marker-end:" />
+  </g>
+</svg>

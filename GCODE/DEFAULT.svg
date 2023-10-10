@@ -2,13 +2,13 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   inkscape:version="1.2.1 (9c6d41e, 2022-07-14)"
-   sodipodi:docname="DEFAULT.svg"
-   width="210mm"
-   height="297mm"
-   viewBox="0 0 210 297"
-   version="1.1"
    id="svg20"
+   version="1.1"
+   viewBox="0 0 210 297"
+   height="297mm"
+   width="210mm"
+   sodipodi:docname="DEFAULT.svg"
+   inkscape:version="1.2.1 (9c6d41e, 2022-07-14)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -24,15 +24,15 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      showgrid="false"
-     inkscape:zoom="0.1430255"
-     inkscape:cx="1087.2187"
-     inkscape:cy="1457.782"
+     inkscape:zoom="0.44243907"
+     inkscape:cx="911.98998"
+     inkscape:cy="177.42556"
      inkscape:window-width="1728"
      inkscape:window-height="1051"
      inkscape:window-x="0"
      inkscape:window-y="38"
      inkscape:window-maximized="0"
-     inkscape:current-layer="layer3" />
+     inkscape:current-layer="layer1" />
   <defs
      id="defs17">
     <marker
@@ -86,8 +86,10 @@
      id="g47001" />
   <g
      inkscape:groupmode="layer"
-     id="layer3"
-     inkscape:label="Layer 1" />
+     id="layer1"
+     inkscape:label="Layer 1"
+     transform="translate(0.958753, 0.479376)"
+     style="fill:none;fill-opacity:1;stroke:#000000;stroke-opacity:1;stroke-width:0.7;stroke-dasharray:none" />
   <g
      inkscape:groupmode="layer"
      id="layer2"
@@ -372,7 +374,7 @@
              x="150"
              y="95"
              sodipodi:role="line"
-             id="tspan407">100.0</tspan></text>
+             id="tspan407">400.0</tspan></text>
       </g>
       <g
          gcodetools="Gcodetools tool parameter"
@@ -783,27 +785,5 @@
              id="tspan1649">(100.0; 0.0; -0.12500)</tspan></text>
       </g>
     </g>
-    <g
-       gcodetools="Preview group"
-       id="g9651" />
-    <g
-       gcodetools="Preview group"
-       id="g9653" />
-    <g
-       gcodetools="Preview group"
-       id="g9655" />
-    <g
-       gcodetools="Preview group"
-       id="g46993" />
-    <g
-       gcodetools="Preview group"
-       id="g46995" />
-    <g
-       gcodetools="Preview group"
-       id="g46997" />
   </g>
-  <g
-     id="g82994" />
-  <g
-     id="g59517" />
 </svg>

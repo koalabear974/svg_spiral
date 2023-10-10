@@ -305,18 +305,19 @@ const generateSpiral = (
 
           // center distance = 150
           // point distance =
+
           let ratio = getDistance(center, originalPoints[circleI]) / biggestDistance;
           points[i] = movePoint(
             points[previousPointIndex],
             originalPoints[circleI],
-            // increment  // without ratio
             (increment * ratio)
           );
         } else {
+
           points[i] = movePoint(
             center,
             originalPoints[circleI],
-            increment * circleItteration + increment*((circleI+1)/originalPoints.length)
+            increment*((circleI+1)/originalPoints.length- 1)
           );
         }
       }
@@ -402,6 +403,7 @@ const generateSpiral = (
       }
     } else {
       if (drawMethod === "4") {
+        // allPointsDistance = false;
         allPointsDistance = getDistance(points[i - 1], originalPoints[circleI -1]) < centerDistance;
       } else {
         allPointsDistance = getDistance(points[i - 1], center) < centerDistance
@@ -451,7 +453,7 @@ const drawNewShape = () => {
   const fillToEnd = document.getElementById('fillToEnd').checked;
   const preventLoops = document.getElementById('preventLoops').checked;
   const maxTotalCircleItteration = document.getElementById('maxTotalCircleItteration').value;
-  // window.originalCenter = new Point(Number(document.getElementById("centerPosition").value.split(',')[0]), Number(document.getElementById("centerPosition").value.split(',')[1]));
+  window.originalCenter = new Point(Number(document.getElementById("centerPosition").value.split(',')[0]), Number(document.getElementById("centerPosition").value.split(',')[1]));
 
   const spiralPoints = generateSpiral(
     window.originalPoints,
