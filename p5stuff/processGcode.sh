@@ -30,12 +30,12 @@ if [ "$colorBool" = true ]; then
     subFileName=$(echo "$subFile" | cut -f 1 -d '.')
     # take action on each file. $f store current file name
     echo "Processing $f file to $DEST_DIR/$name$subFileName.gcode..."
-    vpype read $f gwrite -p plotter $DEST_DIR/$name$subFileName.gcode
+    vpype read $f gwrite -p plotter_a3 $DEST_DIR/$name$subFileName.gcode
   done
   rm $FILES
   exit 0
 else
- vpype read $1 gwrite -p plotter $DEST_DIR/$name.gcode
+ vpype read $1 gwrite -p plotter_a3 $DEST_DIR/$name.gcode
   exit 0
 fi
 

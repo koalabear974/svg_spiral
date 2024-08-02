@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="libs/p5.js"></script>
+  <script src="libs/p5.utils.min.js"></script>
+  <script src="libs/p5.gui.js"></script>
+  <script src="libs/quicksettings.js"></script>
+  <script src="libs/p5-svg.js"></script>
+  <script src="helpers.js"></script>
+  <script src="midi.js"></script>
+  <meta charset="utf-8" />
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: black;
+    }
+    main {
+      text-align: center;
+    }
+    .p5Canvas {
+      box-shadow: 0px 0 10px gray;
+      background: white;
+      margin-top: 1rem;
+    }
+    .canvasOverlay.saving {
+      outline: 10px solid rgba(156,242,67,1);
+    }
+    .canvasOverlay.saved {
+      outline: 10px solid rgba(156,242,67,0);
+      transition: 0.5s linear all;
+    }
+    .canvasOverlay {
+      position: absolute;
+      width: 397px;
+      height: 559px;
+      background: transparent;
+      margin-top: 1em;
+      margin-left: auto;
+      margin-right: auto;
+      left: 0;
+      right: 0;
+      text-align: center;
+    }
+    .transparentInside {
+      border: 20px solid white;
+      width: calc(397px - 40px);
+      height: calc(559px - 40px);
+    }
+  </style>
+</head>
+<body>
+<mai
+  <div class="canvasOverlay" id="canvasOverlay">
+    <div class="transparentInside"></div>
+  </div>
+</main>
+<script src="interact.js"></script>
+</body>
+</html>

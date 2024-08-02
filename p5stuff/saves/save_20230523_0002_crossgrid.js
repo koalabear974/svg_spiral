@@ -79,8 +79,7 @@ function keyPressed() {
 async function draw() {
   randomSeed(seed);
   noiseSeed(seed);
-  background("white");
-
+  clear();
   let pageCenter = [width / 2, height / 2];
   stroke("red")
   // circle(...pageCenter, 1);
@@ -167,6 +166,7 @@ async function draw() {
   if (showHorizontalLines) {
     // createSVGGroup('horizontalLine');
     stroke(randomColor())
+    stroke("black")
     strokeWeight(1);
     for (let x = 0; x < allPoints2Vert[0].length; x++) {
       let curLine = [];
@@ -187,6 +187,7 @@ async function draw() {
   if (showVerticalLines) {
     // createSVGGroup('verticalLine');
     stroke(randomColor())
+    stroke("black")
     strokeWeight(1);
     for (let x = 0; x < allPoints2Hori[0].length; x++) {
       let curLine = [];

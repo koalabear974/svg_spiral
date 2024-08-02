@@ -6,15 +6,19 @@ var xOffset = -500;
 var xOffsetMin = -500;
 var xOffsetMax = 500;
 var xOffsetStep = 1;
-var pagePadding = 10;
+var yOffset = 0;
+var yOffsetMin = -500;
+var yOffsetMax = 500;
+var yOffsetStep = 1;
+var pagePadding = 40;
 var pagePaddingMin = 0;
 var pagePaddingMax = 100;
 var pagePaddingStep = 1;
-var lineNumber = 240;
+var lineNumber = 140;
 var lineNumberMin = 1;
 var lineNumberMax = 500;
 var lineNumberStep = 1;
-var linePadding = 3.5;
+var linePadding = 6;
 var linePaddingMin = 1;
 var linePaddingMax = 10;
 var linePaddingStep = 0.1;
@@ -60,6 +64,7 @@ function setup() {
     'seed',
     'pagePadding',
     'xOffset',
+    'yOffset',
     'lineNumber',
     'linePadding',
     'noiseScale',
@@ -107,7 +112,7 @@ function draw() {
     let lineLength = Math.floor(random(cutOff1, cutOff2));
     while(isOnScreen && points.length <= lineLength) {
       let lastPoint = points[points.length - 1];
-      let n = noise(lastPoint[0] * noiseScale, lastPoint[1] * noiseScale, i * noiseScale * noiseScale);
+      let n = noise(lastPoint[0] * noiseScale, (lastPoint[1] + yOffset) * noiseScale, i * noiseScale * noiseScale);
       n = map(n, 0, 1, 0.25, 0.75)
       let a = TAU * n;
       let newPoint = [lastPoint[0] - (cos(a)*noiseStrengh*xFactor), lastPoint[1] + (sin(a)*noiseStrengh*yFactor)];

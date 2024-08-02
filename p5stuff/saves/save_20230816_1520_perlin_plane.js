@@ -31,9 +31,9 @@ var gui;
 
 function setup() {
   if (typeof SVG === 'undefined') {
-    createCanvas(...a4Format4);
+    createCanvas(...a3Format);
   } else {
-    createCanvas(...a4Format4, SVG);
+    createCanvas(...a3Format, SVG);
   }
   pixelDensity(1);
   gui = createGui('My awesome GUI');

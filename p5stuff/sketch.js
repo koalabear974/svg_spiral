@@ -1,59 +1,49 @@
-var seed = 0;
+var seed = 678;
 var seedMin = 0;
 var seedMax = 1000;
 var seedStep = 1;
-var angleIncrement = 0.05;
-var angleIncrementMin = 0;
-var angleIncrementMax = 1;
-var angleIncrementStep = 0.0001;
-var scaling = 0.65;
-var scalingMin = 0;
-var scalingMax = 5;
-var scalingStep = 0.001;
-var noiseAmplitude = 75;
-var noiseAmplitudeMin = 0;
-var noiseAmplitudeMax = 300;
-var noiseAmplitudeStep = 1;
-var pointNumber = 10000;
-var pointNumberMin = 100;
-var pointNumberMax = 15000;
-var pointNumberStep = 100;
-var showPoints = false;
-var size = 4000;
-var sizeMin = 0;
-var sizeMax = 10000;
-var sizeStep = 10;
-var perlinSize = 30;
-var perlinSizeMin = 1;
-var perlinSizeMax = 100;
-var perlinSizeStep = 1;
+var seed1 = 78;
+var seed1Min = 0;
+var seed1Max = 1000;
+var seed1Step = 1;
 
-var startPoint = 3000;
-var startPointMin = 1;
-var startPointMax = 10000;
-var startPointStep = 1;
+var lineDivision = 50;
+var lineDivisionMin = 1;
+var lineDivisionMax = 200;
+var lineDivisionStep = 1;
+
+var xOffset = 0;
+var xOffsetMin = 0;
+var xOffsetMax = 200;
+var xOffsetStep = 1;
+var yOffset = 0;
+var yOffsetMin = 0;
+var yOffsetMax = 200;
+var yOffsetStep = 1;
+var pagePadding = 100;
+var pagePaddingMin = 0;
+var pagePaddingMax = 300;
+var pagePaddingStep = 1;
 
 var gui;
 
 function setup() {
   if (typeof SVG === 'undefined') {
-    createCanvas(...a4Format4);
+    createCanvas(...a3Format);
   } else {
-    createCanvas(...a4Format4, SVG);
+    createCanvas(...a3Format, SVG);
   }
   pixelDensity(1);
   gui = createGui('My awesome GUI');
-  gui.addGlobals(
+  let globals = [
     'seed',
-    'scaling',
-    'angleIncrement',
-    'pointNumber',
-    'showPoints',
-    'size',
-    'perlinSize',
-    'noiseAmplitude',
-    'startPoint',
-  );
+    'seed1',
+    'lineDivision',
+    'pagePadding',
+    'xOffset',
+    'yOffset',
+  ]
+  gui.addGlobals(...globals);
   noLoop();
 }
 
@@ -64,42 +54,108 @@ function keyPressed() {
   if (keyCode === 83) {
     const d = new Date();
     let fileName = 'art_' + d.toISOString().split('.')[0].replaceAll(':', '-');
-    save(fileName+".svg");
+    save(fileName + ".svg");
   }
 }
 
 function draw() {
   randomSeed(seed);
+  noiseSeed(seed);
   clear();
-  strokeWeight(1);
+  noFill();
 
-  let perlin = new Perlin(size, perlinSize);
-  let spiralPoints = [];
+  // let point1 = generateRandomPoint({maxWidth: width / 2, maxHeight: height / 2})
+  // let point2 = generateRandomPoint({minWidth: width / 2, maxHeight: height / 2})
+  // let point3 = generateRandomPoint({minWidth: width / 2, minHeight: height / 2})
+  // let point4 = generateRandomPoint({maxWidth: width / 2, minHeight: height / 2})
+  // let point1 = [0, height / 4];
+  // let point2 = [width / 4, height / 4 * 3];
+  // let point3 = [width / 4 * 3, height / 4]
+  // let point4  = [width / 4 * 3, height / 4 * 3];
+  let dist = 100;
+  let point1 = [width / 2, dist];
+  let point2 = [width - dist, height / 2];
+  let point3 = [width / 2 , height - dist]
+  let point4   = [dist, height / 2];
+  let center = getPageCenter()
 
-  let angle = 0;
-  for (let i = 0; i < pointNumber; i++) {
-    let r = scaling * angle
-    let x1 = r * cos(angle)
-    let y1 = r * sin(angle)
+  console.log(point1, point2, point3)
 
-    let deviation = perlin.get(x1, y1);
 
-    x1 += cos(deviation * Math.PI) * noiseAmplitude;
-    y1 += sin(deviation * Math.PI) * noiseAmplitude;
-    spiralPoints.push([x1, y1]);
-    angle += angleIncrement;
+  // let linePoint = [point1, point2, point3]
+  // drawLine(linePoint)
+  noFill()
+
+  stroke(randomColor())
+  traceBetweenPairs(point1, point2, center)
+  traceBetweenPairs(point2, point3, center)
+  traceBetweenPairs(point4, point3, center)
+  traceBetweenPairs(point4, point1, center)
+
+  // randomSeed(seed1);
+  // noiseSeed(seed1);
+  // stroke(randomColor())
+  //
+  // point1 = generateRandomPoint({maxWidth: width / 2, maxHeight: height / 2})
+  // point2 = generateRandomPoint({minWidth: width / 2, maxHeight: height / 2})
+  // point3 = generateRandomPoint({minWidth: width / 2, minHeight: height / 2})
+  // point4 = generateRandomPoint({maxWidth: width / 2, minHeight: height / 2})
+  //
+  // traceBetweenPairs(point1, point2, center)
+  // traceBetweenPairs(point2, point3, center)
+  // traceBetweenPairs(point4, point3, center)
+  // traceBetweenPairs(point4, point1, center)
+
+}
+
+function generateRandomPoint({minWidth, maxWidth, minHeight, maxHeight}) {
+  minWidth = minWidth || pagePadding
+  maxWidth = maxWidth || width - pagePadding
+  minHeight = minHeight || pagePadding
+  maxHeight = maxHeight || height - pagePadding
+
+  return [
+    Math.round(random(minWidth, maxWidth)),
+    Math.round(random(minHeight, maxHeight))
+  ]
+}
+
+function traceBetweenPairs(p1, p2, center) {
+  let line1 = []
+  let line2 = []
+
+  let dist = roundToPrecision(distance(center, p1), 5)
+  let itt = roundToPrecision(dist / lineDivision, 5)
+  for (let j = 0; roundToPrecision(j, 5) <= (dist); j += itt) {
+    line1.push(intersectLineCircle(center, p1, center, j))
   }
-  let center = spiralPoints[0];
-  let widthOffset = width/2 - center[0];
-  let heightOffset = height/2 - center[1];
-  spiralPoints.forEach((spiralPoint, i) => {
-    spiralPoints[i] = [spiralPoint[0] + widthOffset, spiralPoint[1] + heightOffset];
-    stroke("blue");
-    showPoints && circle(...spiralPoints[i],1)
-  })
-  stroke("black");
 
-  !showPoints && drawCurve(spiralPoints.slice(startPoint));
+  dist = roundToPrecision(distance(center, p2), 5)
+  itt = roundToPrecision(dist / lineDivision, 5)
+  for (let j = 0; roundToPrecision(j, 5) <= (dist); j += itt) {
+    line2.push(intersectLineCircle(center, p2, center, j))
+  }
 
+  line1 = line1.filter((p) => !!p)
+  line2 = line2.filter((p) => !!p)
 
+  // line1.forEach((p) => circle(...p, 10))
+  // line2.forEach((p) => circle(...p, 10))
+
+  if (line1.length < line2.length) {
+    line1.push(p1)
+  }
+  if (line2.length < line1.length) {
+    line2.push(p2)
+  }
+
+  for (let i = 0; i < line1.length; i++) {
+    let curLine = [line1[i], line2[line2.length - 1 - i]]
+    drawLine(curLine)
+  }
+}
+
+function roundToPrecision(number, precision) {
+  const factor = Math.pow(10, precision);
+  return Math.round(number * factor) / factor;
 }

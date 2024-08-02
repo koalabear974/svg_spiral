@@ -66,7 +66,7 @@ function draw() {
     const c1 = points[1];
     const c2 = points[2];
     // stroke(...randomColor());
-    // const curve = bezier(...startPoint, ...c1, ...c2, ...endPoint);
+    const curve = bezier(...startPoint, ...c1, ...c2, ...endPoint);
 
     let curvePoints = [];
     let coilPoints = [];

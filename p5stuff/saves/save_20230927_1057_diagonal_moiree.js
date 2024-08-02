@@ -4,11 +4,11 @@ var seedMax = 1000;
 var seedStep = 1;
 
 
-var padding = 100;
+var padding = 60;
 var paddingMin = 0;
 var paddingMax = 400;
 var paddingStep = 1;
-var lineDistance = 10;
+var lineDistance = 8;
 var lineDistanceMin = 2;
 var lineDistanceMax = 100;
 var lineDistanceStep = 1;

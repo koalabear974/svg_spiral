@@ -5,7 +5,8 @@
   "main": "sketch.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "browser-sync start --server --directory --files * --startPath index.html"
+    "start": "browser-sync start --server --directory --files * --startPath index.html",
+    "interact": "browser-sync start --server --directory --files * --startPath interact.html"
   },
   "keywords": [],
   "author": "",

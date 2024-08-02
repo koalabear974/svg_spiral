@@ -25,11 +25,11 @@ var gridOffsetMax = 10;
 var gridOffsetStep = 1;
 var noiseFactor = 0.005;
 var noiseFactorMin = 0;
-var noiseFactorMax = 0.1;
+var noiseFactorMax = 0.005;
 var noiseFactorStep = 0.0001;
 var noiseStrentgh = 12.5;
 var noiseStrentghMin = 1;
-var noiseStrentghMax = 20;
+var noiseStrentghMax = 200;
 var noiseStrentghStep = 0.1;
 var gui;
 
@@ -100,6 +100,10 @@ function draw() {
 
   noFill();
   stroke("blue")
+  stroke("black")
+  let noiseArray =  []
+  let noiseMin = 100;
+  let noiseMax = 0;
   for (const allPointsKey in allPoints) {
     for (const horiPointsKey in allPoints[allPointsKey]) {
       let curPoint = allPoints[allPointsKey][horiPointsKey];
@@ -110,24 +114,42 @@ function draw() {
       let n = noise(curPoint[0] * noiseFactor, curPoint[1] * noiseFactor);
       // curPoint = [curPoint[0] + (n * noiseStrentgh), curPoint[1] + (n * noiseStrentgh)];
       allPoints[allPointsKey][horiPointsKey] = curPoint;
-      circle(...curPoint, n*noiseStrentgh);
+      // console.log("n:", n);
+      if (!noiseArray[allPointsKey]) noiseArray[allPointsKey] = [];
+      noiseArray[allPointsKey][horiPointsKey] = n
+
+      if (n > noiseMax) noiseMax = n
+      if (n < noiseMin) noiseMin = n
+      // circle(...curPoint, n*noiseStrentgh);
     }
   }
 
-  stroke("red")
-  let r = random() * 1000;
-  noiseSeed(r);
+  console.log("noiseMin:", noiseMin);
+  console.log("noiseMax:", noiseMax);
+
   for (const allPointsKey in allPoints) {
     for (const horiPointsKey in allPoints[allPointsKey]) {
       let curPoint = allPoints[allPointsKey][horiPointsKey];
-      curPoint = [curPoint[0] + gridOffset, curPoint[1] + gridOffset];
-      // (noise(x*noiseFactor, y*noiseFactor) * noiseStrentgh)
-      // noiseDetail(2, 0.2);
-      // let n = noise(curPoint[0] * noiseFactor, curPoint[1] * noiseFactor) - 0.5;
-      let n = noise(curPoint[0] * noiseFactor, curPoint[1] * noiseFactor);
-      // curPoint = [curPoint[0] + (n * noiseStrentgh), curPoint[1] + (n * noiseStrentgh)];
-      allPoints[allPointsKey][horiPointsKey] = curPoint;
-      circle(...curPoint, n*noiseStrentgh);
+      let n2 = map(noiseArray[allPointsKey][horiPointsKey], noiseMin, noiseMax, 0, 1);
+      circle(...curPoint, n2*noiseStrentgh);
     }
   }
+
+
+  // stroke("red")
+  // let r = random() * 1000;
+  // noiseSeed(r);
+  // for (const allPointsKey in allPoints) {
+  //   for (const horiPointsKey in allPoints[allPointsKey]) {
+  //     let curPoint = allPoints[allPointsKey][horiPointsKey];
+  //     curPoint = [curPoint[0] + gridOffset, curPoint[1] + gridOffset];
+  //     // (noise(x*noiseFactor, y*noiseFactor) * noiseStrentgh)
+  //     // noiseDetail(2, 0.2);
+  //     // let n = noise(curPoint[0] * noiseFactor, curPoint[1] * noiseFactor) - 0.5;
+  //     let n = noise(curPoint[0] * noiseFactor, curPoint[1] * noiseFactor);
+  //     // curPoint = [curPoint[0] + (n * noiseStrentgh), curPoint[1] + (n * noiseStrentgh)];
+  //     allPoints[allPointsKey][horiPointsKey] = curPoint;
+  //     circle(...curPoint, n*noiseStrentgh);
+  //   }
+  // }
 }

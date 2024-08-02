@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   height="29.7cm"
+   version="1.2"
+   viewBox="0 0 793.7007874015749 1122.5196850393702"
+   width="21.0cm"
+   id="svg11545"
+   sodipodi:docname="halloween_door_fm_vp_1_fill_2.svg"
+   inkscape:version="1.2.2 (b0a84865, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:ns="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+   xmlns:ns0="http://creativecommons.org/ns">
+  <sodipodi:namedview
+     id="namedview11547"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="cm"
+     showgrid="false"
+     inkscape:zoom="4.0525714"
+     inkscape:cx="493.14368"
+     inkscape:cy="954.82586"
+     inkscape:window-width="1728"
+     inkscape:window-height="1051"
+     inkscape:window-x="0"
+     inkscape:window-y="38"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer7590" />
+  <metadata
+     id="metadata9070">
+    <ns:RDF>
+      <ns0:Work>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:source>vpype read halloween_door_fm_vp_1.svg pagesize a4 linemerge -t 0.5mm linesort --no-flip reloop linesimplify -t 0.1mm write halloween_door_fm_vp_1.svg
+</dc:source>
+        <dc:date>2023-10-03T16:55:09.755974</dc:date>
+      </ns0:Work>
+    </ns:RDF>
+  </metadata>
+  <defs
+     id="defs9072" />
+  <g
+     fill="none"
+     id="layer7590"
+     inkscape:groupmode="layer"
+     inkscape:label="Image"
+     stroke="#000000"
+     stroke-width="3.7795"
+     style="display:inline">
+    <g
+       id="g22064"
+       style="display:inline;fill:#000000;fill-opacity:1">
+      <polyline
+         points="558.08,957.1205 561.335,955.0398 569.5755,954.8784 571.5052,956.8762 572.6781,960.8931 575.9962,963.7664 577.081,972.6956 573.5815,977.378 571.0913,979.5588 566.4,981.3413 563.0902,980.9435 557.0875,977.3593 555.8496,975.9717 555.2304,972.2293 552.504,965.6517 553.8176,961.7413 556.9643,958.3018 557.76,955.2005 559.04,956.1605"
+         id="polyline9312"
+         style="fill:#000000;fill-opacity:1;stroke-width:0.377953;stroke-dasharray:none" />
+      <line
+         x1="541.1196"
+         x2="541.1196"
+         y1="968.0005"
+         y2="968.3205"
+         id="line9320"
+         style="display:inline;stroke-width:0.37795276;stroke-dasharray:none"
+         inkscape:label="line9320" />
+      <g
+         id="g23711">
+        <path
+           id="polygon9332"
+           style="display:inline;fill:#000000;fill-opacity:1;stroke-width:0.377953"
+           d="m 520.1478,969.9907 5.0106,-6.179 -1.216,-4.1312 -0.3766,-5.9789 c 0.31698,-6.06653 -2.196,-7.2363 -2.196,-7.2363 l -1.6898,1.468 -5.0868,1.1302 -4.4892,0.018 -5.2344,-0.976 -2.7816,-1.8335 -1.3268,-1.9463 -2.8031,3.4549 0.4635,1.9801 2.0788,2.916 10.8588,11.164 5.5616,4.0288 0.405,1.0575 z"
+           sodipodi:nodetypes="cccccccccccccccccc"
+           inkscape:label="polygon9332" />
+        <path
+           style="stroke:#000000;fill:none;stroke-width:0.377953"
+           d="M 498.521516,947.993780 l 1.229437,-1.229437 c 1.639250,-1.639250 3.831199,0.411441 2.191949,2.050691 l -0.499866,0.499866 c -2.121320,2.121320 -0.220277,4.462917 1.901044,2.341597 l 1.213005,-1.213005 c 2.121320,-2.121320 5.740663,-1.498022 3.619343,0.623298 l -2.740426,2.740426 c -2.121320,2.121320 -0.029398,4.272039 2.091922,2.150718 l 4.800738,-4.800738 c 2.121320,-2.121320 7.583692,-3.341051 5.462372,-1.219731 l -8.171188,8.171188 c -2.121320,2.121320 -0.029398,4.272039 2.091922,2.150718 l 9.360915,-9.360915 c 2.121320,-2.121320 2.697327,1.545313 0.576007,3.666634 l -7.752499,7.752499 c -2.121320,2.121320 0.339043,3.903597 2.460364,1.782277 l 5.335916,-5.335916 c 2.121320,-2.121320 2.622303,1.620338 0.500983,3.741658 l -3.376535,3.376535 c -2.121320,2.121320 0.319438,3.923203 2.440758,1.801882 l 3.524538,-3.524538"
+           id="path23709" />
+      </g>
+      <g
+         id="g23716">
+        <polygon
+           points="532.1245,951.4076 530.3731,948.8449 529.8783,943.509 531.8792,939.2991 534.6922,936.6834 540.5971,934.3766 545.4168,934.5112 547.0964,935.3769 549.4743,938.007 550.2566,939.4972 550.2208,941.5373 546.0649,949.8159 543.9546,951.6453 541.76,952.3973 537.1782,952.5515 "
+           id="polygon9328"
+           style="fill:#000000;fill-opacity:1;stroke-width:0.377953;stroke-dasharray:none" />
+        <path
+           style="stroke:#000000;fill:none;stroke-width:0.377953"
+           d="M 535.999062,936.709662 l -2.860073,2.860073 c -2.121320,2.121320 -3.029036,7.271677 -0.907716,5.150356 l 8.212166,-8.212166 c 2.121320,-2.121320 5.967917,-1.725276 3.846597,0.396044 l -11.163994,11.163994 c -2.121320,2.121320 0.439177,3.803463 2.560498,1.682143 l 10.871925,-10.871925 c 2.121320,-2.121320 3.832504,0.410137 1.711183,2.531457 l -9.158210,9.158210 c -2.121320,2.121320 2.392368,1.850272 4.513689,-0.271048 l 3.290981,-3.290981"
+           id="path23714" />
+      </g>
+    </g>
+  </g>
+</svg>

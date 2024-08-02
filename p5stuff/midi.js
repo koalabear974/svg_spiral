@@ -17,18 +17,74 @@ window.canCall = true;
 function getMIDIMessage(midiMessage) {
   if (!window.canCall)
     return;
-  canCall = false;
+  window.canCall = false;
+  let longDelayedKeys = [36,37,40];
+  let shortDelayedKeys = [38,39];
+  let padId = midiMessage.data[1];
+  let padValue = midiMessage.data[2];
+  let timeout = longDelayedKeys.includes(padId) ? 500 : 10;
+  if( timeout === 10 ) timeout = shortDelayedKeys.includes(padId) ? 200 : 10;
+
   setTimeout(function () {
-    canCall = true;
-  }, 100);
-  let curVar = window.midiMap[midiMessage.data[1] - 1];
-  let curVal = midiMessage.data[2];
+    window.canCall = true;
+  }, timeout);
+
+  if (window.animateDesgin) {
+    clearTimeout(window.animateDesginTimer);
+    window.isAnimatingDesign = false;
+    window.animateDesginTimer = setTimeout(() => {
+      window.isAnimatingDesign = true;
+      window.startDesignAnimation()
+    }, window.animateDesignTimerTime)
+  }
+
+  // Scroll through designs
+  if (padId === 37) {
+    window.currentDesign = window.currentDesign + 1;
+    if (window.currentDesign >= window.availableDesigns.length) window.currentDesign = 0;
+    window.loadCurrentDesign();
+    return;
+  }
+  if (padId === 36) {
+    window.currentDesign = window.currentDesign - 1;
+    if (window.currentDesign < 0) window.currentDesign = window.availableDesigns.length - 1;
+    window.loadCurrentDesign();
+    return;
+  }
+
+  // Save button
+  if (padId === 40) {
+    document.getElementById("canvasOverlay").classList.remove("saving");
+    document.getElementById("canvasOverlay").classList.remove("saved");
+    document.getElementById("canvasOverlay").classList.add("saving");
+    setTimeout(() => {
+      document.getElementById("canvasOverlay").classList.add("saved");
+    }, 500)
+    keyPressed({keyCode: 83 });
+    return;
+  }
+
+  // Seed button
+  if (padId === 38) {
+    window["seed"] = Number(window["seed"]) + 1 ;
+    redraw();
+    return;
+  }
+  if (padId === 39) {
+    window["seed"] = Number(window["seed"]) - 1 ;
+    redraw();
+    return;
+  }
+
+  let curVar = window.midiMap[padId -1];
+  if (curVar === undefined) return;
+
+  let curVal = padValue;
   let min = window[curVar + "Min"];
   let max = window[curVar + "Max"];
   let step = window[curVar + "Step"];
   let targetVal = map(curVal, 0, 127, min, max);
   if (step % 1 === 0) targetVal = Math.round(targetVal);
-  console.log(curVar, curVal, min, max, targetVal);
   window[curVar] = targetVal;
   redraw();
 }

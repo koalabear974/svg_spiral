@@ -68,10 +68,9 @@ function generateSpiralFromLine(line) {
     let t = i / (curSteps);
     // TODO!! INTERSECT changed: debug
     const point = intersectLineCircle(line[0],line[1],line[0], dist * t);
-    // stroke("blue");
     // fill("blue");
-    // circle(...[point[0].x, point[0].y], 2);
-    curvePoints.push([point[0].x, point[0].y]);
+    // circle(...[point[0], point[1]], 2);
+    curvePoints.push([point[0], point[1]]);
   }
 
   const coilPoints = [];
@@ -85,7 +84,6 @@ function generateSpiralFromLine(line) {
     // circle(...[x1, y1], 1);
     angle += angleIncrement;
   }
-
   stroke(window.randomC);
   noFill();
   drawCurve(coilPoints);
@@ -95,10 +93,8 @@ function draw() {
   randomSeed(seed)
   window.randomC = randomColor();
   window.biggestDistance = 0;
-  background("white");
-
-  strokeWeight(1);
-  stroke("white");
+  clear();
+  noFill();
 
   let midPoint = height/2;
   let startLeft = [0, midPoint + lineAngle];
@@ -154,9 +150,12 @@ function draw() {
     i += 1;
   }
 
+  stroke("black")
   for (let j = 0; j < lines.length; j++) {
     drawLine(lines[j])
-    generateSpiralFromLine(lines[j]);
+  }
+  for (let j = 0; j < lines.length; j++) {
+    // generateSpiralFromLine(lines[j]);
   }
 }
 

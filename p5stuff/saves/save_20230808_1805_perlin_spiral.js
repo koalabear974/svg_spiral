@@ -10,7 +10,7 @@ var scaling = 0.65;
 var scalingMin = 0;
 var scalingMax = 5;
 var scalingStep = 0.001;
-var noiseAmplitude = 75;
+var noiseAmplitude = 200;
 var noiseAmplitudeMin = 0;
 var noiseAmplitudeMax = 300;
 var noiseAmplitudeStep = 1;
@@ -66,6 +66,7 @@ function draw() {
   randomSeed(seed);
   clear();
   strokeWeight(1);
+  background("white");
 
   let perlin = new Perlin(size, perlinSize);
   let spiralPoints = [];
