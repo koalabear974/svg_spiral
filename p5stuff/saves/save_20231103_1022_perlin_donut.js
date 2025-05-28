@@ -78,8 +78,12 @@ function draw() {
 
   let perlin = new Perlin(size, perlinSize);
 
+  stroke("black")
   drawDonutSpiral(perlin, noiseAmplitude);
-  // drawDonutSpiral(perlin, noiseAmplitude+20);
+  stroke("grey")
+  drawDonutSpiral(perlin, noiseAmplitude+20);
+  stroke("lightgrey")
+  drawDonutSpiral(perlin, noiseAmplitude+40);
 
 }
 
@@ -108,7 +112,6 @@ function drawDonutSpiral(perlin, nA) {
     showPoints && circle(...spiralPoints[i],1)
   })
   // stroke(randomColorString("0.7"));
-  stroke("black")
 
   !showPoints && drawCurve(spiralPoints.slice(startPoint));
 }

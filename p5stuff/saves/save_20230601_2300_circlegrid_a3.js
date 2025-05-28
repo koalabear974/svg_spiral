@@ -10,19 +10,23 @@ var seed2 = 441;
 var seed2Min = 0;
 var seed2Max = 1000;
 var seed2Step = 1;
-var verticalPoints = 85;
+// var verticalPoints = 85;
+var verticalPoints = 70;
 var verticalPointsMin = 0;
 var verticalPointsMax = 100;
 var verticalPointsStep = 1;
-var verticalSpacing = 13;
+var verticalSpacing = 17;
+// var verticalSpacing = 13;
 var verticalSpacingMin = 0;
 var verticalSpacingMax = 100;
 var verticalSpacingStep = 1;
-var horizontalPoints = 70;
+// var horizontalPoints = 70;
+var horizontalPoints = 50;
 var horizontalPointsMin = 0;
 var horizontalPointsMax = 100;
 var horizontalPointsStep = 1;
-var horizontalSpacing = 13;
+var horizontalSpacing = 17;
+// var horizontalSpacing = 13;
 var horizontalSpacingMin = 0;
 var horizontalSpacingMax = 100;
 var horizontalSpacingStep = 1;
@@ -161,19 +165,19 @@ function draw() {
 
   pageCenter = [width/2, height/2];
   noiseSeed(seed);
-  stroke("red")
+  stroke("rgba(255,0,0,0.5)")
   if (show1) {
     generateCircleGrid((horizontalPoints), verticalPoints, pageCenter)
   }
 
   noiseSeed(seed1);
-  stroke("blue")
+  stroke("rgba(0,255,0,0.5)")
   if (show2) {
     generateCircleGrid((horizontalPoints), verticalPoints, pageCenter)
   }
 
   noiseSeed(seed2);
-  stroke("green")
+  stroke("rgba(0,0,255,0.5)")
   if (true) {
     generateCircleGrid((horizontalPoints), verticalPoints, pageCenter)
   }

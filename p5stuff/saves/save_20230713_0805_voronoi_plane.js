@@ -74,6 +74,8 @@ function draw() {
   randomSeed(seed);
   noiseSeed(seed);
   // background("white");
+
+  strokeWeight(3);
   stroke("black");
   clear()
   noFill();

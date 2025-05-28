@@ -11,7 +11,7 @@ var noiseScale = 250;
 var noiseScaleMin = 1;
 var noiseScaleMax = 1000;
 var noiseScaleStep = 1;
-var scaleFactor = 2.5;
+var scaleFactor = 2;
 var scaleFactorMin = 0.01;
 var scaleFactorMax = 10;
 var scaleFactorStep = 0.01;
@@ -37,7 +37,7 @@ var xDisplacementStep = 0.01;
 
 var vertPadding = 80;
 var vertPaddingMin = 0;
-var vertPaddingMax = 100;
+var vertPaddingMax = 400;
 var vertPaddingStep = 1;
 var gui;
 
@@ -84,9 +84,12 @@ function draw() {
 
   let noise = new SimplexNoise(seed);
 
+  strokeWeight(3);
+  stroke("blue");
   drawVoronoiCurve(noise, waveSize, 5);
-  drawVoronoiCurve(noise, waveSize+20);
-  drawVoronoiCurve(noise, waveSize+40);
+  stroke("red");
+  drawVoronoiCurve(noise, waveSize+30);
+  // drawVoronoiCurve(noise, waveSize+40);
 }
 
 function drawVoronoiCurve(noise, waveSize, yOffset = 0) {
@@ -127,7 +130,7 @@ function drawVoronoiCurve(noise, waveSize, yOffset = 0) {
     })
   })
 
-  stroke(randomColorString(0.7));
+  // stroke(randomColorString(0.7));
   // stroke("rgba(255,0,0,0.7)");
   // stroke("black");
   lines.forEach((line, i) => {

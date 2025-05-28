@@ -60,6 +60,7 @@ function draw() {
   randomSeed(seed);
   clear();
   noFill();
+  strokeWeight(3)
 
   let randomPoints1 = [];
 

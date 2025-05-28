@@ -2,7 +2,7 @@ var seed = 40;
 var seedMin = 0;
 var seedMax = 1000;
 var seedStep = 1;
-var verticalPoints = 8;
+var verticalPoints = 11;
 var verticalPointsMin = 0;
 var verticalPointsMax = 20;
 var verticalPointsStep = 1;
@@ -166,7 +166,7 @@ async function draw() {
   if (showHorizontalLines) {
     // createSVGGroup('horizontalLine');
     stroke(randomColor())
-    stroke("black")
+    // stroke("black")
     strokeWeight(1);
     for (let x = 0; x < allPoints2Vert[0].length; x++) {
       let curLine = [];
@@ -187,7 +187,7 @@ async function draw() {
   if (showVerticalLines) {
     // createSVGGroup('verticalLine');
     stroke(randomColor())
-    stroke("black")
+    // stroke("black")
     strokeWeight(1);
     for (let x = 0; x < allPoints2Hori[0].length; x++) {
       let curLine = [];

@@ -54,12 +54,12 @@ function setup() {
     // 'size',
     // 'perlinSize',
     // 'noiseAmplitude',
-    // 'pointNumber',
+    'pointNumber',
     'noiseScale',
     'noiseStrengh',
     'noiseSize',
-    // 'lineCount',
-    // 'lineSpacing',
+    'lineCount',
+    'lineSpacing',
   );
   noLoop();
 }
@@ -80,6 +80,7 @@ function draw() {
   noiseSeed(seed);
   noFill();
   clear();
+  strokeWeight(3)
 
   // let line1Point = [[0,0]];
   let line2Point = [[0,0]];

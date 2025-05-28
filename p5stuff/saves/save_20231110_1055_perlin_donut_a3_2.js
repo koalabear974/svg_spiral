@@ -100,11 +100,12 @@ function draw() {
   let perlin = new Perlin(size, perlinSize);
 
   stroke("rgba(255, 106, 183, 0.5)")
+  stroke("black")
   drawDonutSpiral(perlin, noiseAmplitude, startPoint);
-  stroke("rgba(19, 252, 23, 0.5)")
+  stroke("grey")
   drawDonutSpiral(perlin, noiseAmplitude+noiseDiff, startPoint+startPointDiff);
-  stroke("rgba(19, 199, 252, 0.5)")
-  drawDonutSpiral(perlin, noiseAmplitude+noiseDiff+noiseDiff, startPoint+startPointDiff+startPointDiff);
+  // stroke("rgba(19, 199, 252, 0.5)")
+  // drawDonutSpiral(perlin, noiseAmplitude+noiseDiff+noiseDiff, startPoint+startPointDiff+startPointDiff);
 }
 
 function drawDonutSpiral(perlin, nA, sP) {

@@ -38,11 +38,11 @@ var yFactor = 1.4 ;
 var yFactorMin = 0.01;
 var yFactorMax = 3;
 var yFactorStep = 0.01;
-var cutOff1 = 444 ;
+var cutOff1 = 10 ;
 var cutOff1Min = 1;
 var cutOff1Max = 2000;
 var cutOff1Step = 1;
-var cutOff2 = 898 ;
+var cutOff2 = 100 ;
 var cutOff2Min = 2;
 var cutOff2Max = 2000;
 var cutOff2Step = 1;
@@ -110,7 +110,8 @@ function draw() {
     let points = [startPoint, startPoint]
     let isOnScreen = true;
     let lineLength = Math.floor(random(cutOff1, cutOff2));
-    while(isOnScreen && points.length <= lineLength) {
+    // while(isOnScreen && points.length <= lineLength) {
+    while(true && points.length <= lineLength) {
       let lastPoint = points[points.length - 1];
       let n = noise(lastPoint[0] * noiseScale, (lastPoint[1] + yOffset) * noiseScale, i * noiseScale * noiseScale);
       n = map(n, 0, 1, 0.25, 0.75)
@@ -118,7 +119,8 @@ function draw() {
       let newPoint = [lastPoint[0] - (cos(a)*noiseStrengh*xFactor), lastPoint[1] + (sin(a)*noiseStrengh*yFactor)];
 
       isOnScreen = onScreen(newPoint, pagePadding);
-      if (isOnScreen) {
+      if (true) {
+      // if (isOnScreen) {
         points.push(newPoint);
       }
     }

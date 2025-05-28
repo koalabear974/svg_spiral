@@ -1,0 +1,3601 @@
+$H
+G21
+G17
+G90
+G1 Z0F20000
+G1 F15000
+
+(Start Layer)
+
+(Start Block)
+
+
+G1X67.9980Y-73.5543
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X232.3939Y-28.7137
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-73.5543
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X235.9011Y-29.1288
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-73.5543
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X239.3650Y-29.8178
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-73.5543
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X242.7642Y-30.7765
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-73.5543
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X246.0776Y-31.9989
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-73.5543
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X249.2850Y-33.4775
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-73.5543
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X252.3664Y-35.2032
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-73.5543
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X255.3029Y-37.1653
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-73.5543
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X258.0765Y-39.3518
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-73.5543
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X260.6699Y-41.7491
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-73.5543
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X263.0673Y-44.3426
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-73.5543
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X265.2538Y-47.1161
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-73.5543
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X267.2159Y-50.0527
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-73.5543
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X268.9416Y-53.1341
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-73.5543
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X270.4202Y-56.3414
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-73.5543
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X271.6426Y-59.6549
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-73.5543
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X272.6013Y-63.0541
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-73.5543
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X273.2903Y-66.5179
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-73.5543
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X273.7054Y-70.0252
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-73.5543
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X273.8441Y-73.5543
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-73.5543
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X273.7054Y-77.0833
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-73.5543
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X273.2903Y-80.5906
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-73.5543
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X272.6013Y-84.0544
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-73.5543
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X271.6426Y-87.4536
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-73.5543
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X270.4202Y-90.7671
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-73.5543
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X268.9416Y-93.9744
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-73.5543
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X267.2159Y-97.0558
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-73.5543
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X265.2538Y-99.9924
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-73.5543
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X263.0673Y-102.7659
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-73.5543
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X260.6699Y-105.3594
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-73.5543
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X258.0765Y-107.7567
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-73.5543
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X255.3029Y-109.9432
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-73.5543
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X252.3664Y-111.9053
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-73.5543
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X249.2850Y-113.6310
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-73.5543
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X246.0776Y-115.1096
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-73.5543
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X242.7642Y-116.3320
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-73.5543
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X239.3650Y-117.2907
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-73.5543
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X235.9011Y-117.9797
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-73.5543
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X232.3939Y-118.3948
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-118.5335
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X64.4690Y-163.3740
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-118.5335
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X60.9617Y-162.9589
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-118.5335
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X57.4978Y-162.2699
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-118.5335
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X54.0986Y-161.3112
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-118.5335
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X50.7852Y-160.0888
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-118.5335
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X47.5779Y-158.6102
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-118.5335
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X44.4964Y-156.8845
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-118.5335
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X41.5599Y-154.9224
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-118.5335
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X38.7863Y-152.7359
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-118.5335
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X36.1929Y-150.3386
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-118.5335
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X33.7955Y-147.7451
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-118.5335
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X31.6090Y-144.9716
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-118.5335
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X29.6469Y-142.0351
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-118.5335
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X27.9212Y-138.9536
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-118.5335
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X26.4426Y-135.7463
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-118.5335
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X25.2202Y-132.4328
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-118.5335
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X24.2615Y-129.0337
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-118.5335
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X23.5725Y-125.5698
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-118.5335
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X23.1574Y-122.0625
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-118.5335
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X23.0188Y-118.5335
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-118.5335
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X23.1574Y-115.0044
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-118.5335
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X23.5725Y-111.4971
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-118.5335
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X24.2615Y-108.0333
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-118.5335
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X25.2202Y-104.6341
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-118.5335
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X26.4426Y-101.3207
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-118.5335
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X27.9212Y-98.1133
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-118.5335
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X29.6469Y-95.0319
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-118.5335
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X31.6090Y-92.0953
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-118.5335
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X33.7955Y-89.3218
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-118.5335
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X36.1929Y-86.7283
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-118.5335
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X38.7863Y-84.3310
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-118.5335
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X41.5599Y-82.1445
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-118.5335
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X44.4964Y-80.1824
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-118.5335
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X47.5779Y-78.4567
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-118.5335
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X50.7852Y-76.9781
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-118.5335
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X54.0986Y-75.7557
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-118.5335
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X57.4978Y-74.7970
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-118.5335
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X60.9617Y-74.1080
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-118.5335
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X64.4690Y-73.6929
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-118.5335
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X67.9980Y-73.5543
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-163.5127
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X232.3939Y-118.6721
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-163.5127
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X235.9011Y-119.0872
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-163.5127
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X239.3650Y-119.7762
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-163.5127
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X242.7642Y-120.7349
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-163.5127
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X246.0776Y-121.9573
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-163.5127
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X249.2850Y-123.4359
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-163.5127
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X252.3664Y-125.1616
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-163.5127
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X255.3029Y-127.1237
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-163.5127
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X258.0765Y-129.3102
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-163.5127
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X260.6699Y-131.7076
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-163.5127
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X263.0673Y-134.3010
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-163.5127
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X265.2538Y-137.0746
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-163.5127
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X267.2159Y-140.0111
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-163.5127
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X268.9416Y-143.0925
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-163.5127
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X270.4202Y-146.2999
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-163.5127
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X271.6426Y-149.6133
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-163.5127
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X272.6013Y-153.0125
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-163.5127
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X273.2903Y-156.4764
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-163.5127
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X273.7054Y-159.9837
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-163.5127
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X273.8441Y-163.5127
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-163.5127
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X273.7054Y-167.0417
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-163.5127
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X273.2903Y-170.5490
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-163.5127
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X272.6013Y-174.0129
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-163.5127
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X271.6426Y-177.4120
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-163.5127
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X270.4202Y-180.7255
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-163.5127
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X268.9416Y-183.9328
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-163.5127
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X267.2159Y-187.0143
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-163.5127
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X265.2538Y-189.9508
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-163.5127
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X263.0673Y-192.7244
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-163.5127
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X260.6699Y-195.3178
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-163.5127
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X258.0765Y-197.7151
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-163.5127
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X255.3029Y-199.9016
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-163.5127
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X252.3664Y-201.8638
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-163.5127
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X249.2850Y-203.5894
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-163.5127
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X246.0776Y-205.0680
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-163.5127
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X242.7642Y-206.2904
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-163.5127
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X239.3650Y-207.2491
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-163.5127
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X235.9011Y-207.9381
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-163.5127
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X232.3939Y-208.3532
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-208.4919
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X64.4690Y-253.3324
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-208.4919
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X60.9617Y-252.9173
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-208.4919
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X57.4978Y-252.2283
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-208.4919
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X54.0986Y-251.2697
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-208.4919
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X50.7852Y-250.0473
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-208.4919
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X47.5779Y-248.5687
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-208.4919
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X44.4964Y-246.8430
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-208.4919
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X41.5599Y-244.8808
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-208.4919
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X38.7863Y-242.6944
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-208.4919
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X36.1929Y-240.2970
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-208.4919
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X33.7955Y-237.7036
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-208.4919
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X31.6090Y-234.9300
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-208.4919
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X29.6469Y-231.9935
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-208.4919
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X27.9212Y-228.9120
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-208.4919
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X26.4426Y-225.7047
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-208.4919
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X25.2202Y-222.3912
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-208.4919
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X24.2615Y-218.9921
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-208.4919
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X23.5725Y-215.5282
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-208.4919
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X23.1574Y-212.0209
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-208.4919
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X23.0188Y-208.4919
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-208.4919
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X23.1574Y-204.9629
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-208.4919
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X23.5725Y-201.4556
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-208.4919
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X24.2615Y-197.9917
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-208.4919
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X25.2202Y-194.5925
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-208.4919
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X26.4426Y-191.2791
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-208.4919
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X27.9212Y-188.0718
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-208.4919
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X29.6469Y-184.9903
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-208.4919
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X31.6090Y-182.0538
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-208.4919
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X33.7955Y-179.2802
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-208.4919
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X36.1929Y-176.6868
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-208.4919
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X38.7863Y-174.2894
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-208.4919
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X41.5599Y-172.1030
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-208.4919
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X44.4964Y-170.1408
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-208.4919
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X47.5779Y-168.4151
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-208.4919
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X50.7852Y-166.9365
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-208.4919
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X54.0986Y-165.7141
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-208.4919
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X57.4978Y-164.7554
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-208.4919
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X60.9617Y-164.0664
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-208.4919
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X64.4690Y-163.6513
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-208.4919
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X67.9980Y-163.5127
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-253.4711
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X232.3939Y-208.6306
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-253.4711
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X235.9011Y-209.0457
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-253.4711
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X239.3650Y-209.7347
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-253.4711
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X242.7642Y-210.6933
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-253.4711
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X246.0776Y-211.9157
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-253.4711
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X249.2850Y-213.3943
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-253.4711
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X252.3664Y-215.1200
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-253.4711
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X255.3029Y-217.0821
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-253.4711
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X258.0765Y-219.2686
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-253.4711
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X260.6699Y-221.6660
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-253.4711
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X263.0673Y-224.2594
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-253.4711
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X265.2538Y-227.0330
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-253.4711
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X267.2159Y-229.9695
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-253.4711
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X268.9416Y-233.0510
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-253.4711
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X270.4202Y-236.2583
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-253.4711
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X271.6426Y-239.5718
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-253.4711
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X272.6013Y-242.9709
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-253.4711
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X273.2903Y-246.4348
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-253.4711
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X273.7054Y-249.9421
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-253.4711
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X273.8441Y-253.4711
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-253.4711
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X273.7054Y-257.0001
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-253.4711
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X273.2903Y-260.5074
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-253.4711
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X272.6013Y-263.9713
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-253.4711
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X271.6426Y-267.3704
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-253.4711
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X270.4202Y-270.6839
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-253.4711
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X268.9416Y-273.8913
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-253.4711
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X267.2159Y-276.9727
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-253.4711
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X265.2538Y-279.9092
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-253.4711
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X263.0673Y-282.6828
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-253.4711
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X260.6699Y-285.2762
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-253.4711
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X258.0765Y-287.6736
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-253.4711
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X255.3029Y-289.8601
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-253.4711
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X252.3664Y-291.8222
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-253.4711
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X249.2850Y-293.5479
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-253.4711
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X246.0776Y-295.0265
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-253.4711
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X242.7642Y-296.2489
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-253.4711
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X239.3650Y-297.2075
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-253.4711
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X235.9011Y-297.8965
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-253.4711
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X232.3939Y-298.3117
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-298.4503
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X64.4690Y-343.2909
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-298.4503
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X60.9617Y-342.8758
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-298.4503
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X57.4978Y-342.1868
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-298.4503
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X54.0986Y-341.2281
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-298.4503
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X50.7852Y-340.0057
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-298.4503
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X47.5779Y-338.5271
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-298.4503
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X44.4964Y-336.8014
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-298.4503
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X41.5599Y-334.8393
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-298.4503
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X38.7863Y-332.6528
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-298.4503
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X36.1929Y-330.2554
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-298.4503
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X33.7955Y-327.6620
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-298.4503
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X31.6090Y-324.8885
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-298.4503
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X29.6469Y-321.9519
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-298.4503
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X27.9212Y-318.8705
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-298.4503
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X26.4426Y-315.6631
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-298.4503
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X25.2202Y-312.3497
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-298.4503
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X24.2615Y-308.9505
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-298.4503
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X23.5725Y-305.4866
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-298.4503
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X23.1574Y-301.9793
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-298.4503
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X23.0188Y-298.4503
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-298.4503
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X23.1574Y-294.9213
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-298.4503
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X23.5725Y-291.4140
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-298.4503
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X24.2615Y-287.9501
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-298.4503
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X25.2202Y-284.5510
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-298.4503
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X26.4426Y-281.2375
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-298.4503
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X27.9212Y-278.0302
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-298.4503
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X29.6469Y-274.9487
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-298.4503
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X31.6090Y-272.0122
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-298.4503
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X33.7955Y-269.2386
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-298.4503
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X36.1929Y-266.6452
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-298.4503
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X38.7863Y-264.2479
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-298.4503
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X41.5599Y-262.0614
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-298.4503
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X44.4964Y-260.0992
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-298.4503
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X47.5779Y-258.3735
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-298.4503
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X50.7852Y-256.8949
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-298.4503
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X54.0986Y-255.6725
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-298.4503
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X57.4978Y-254.7139
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-298.4503
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X60.9617Y-254.0249
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-298.4503
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X64.4690Y-253.6098
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X228.8648Y-298.4503
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X67.9980Y-253.4711
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-343.4295
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X232.3939Y-298.5890
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-343.4295
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X235.9011Y-299.0041
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-343.4295
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X239.3650Y-299.6931
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-343.4295
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X242.7642Y-300.6518
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-343.4295
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X246.0776Y-301.8742
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-343.4295
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X249.2850Y-303.3528
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-343.4295
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X252.3664Y-305.0785
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-343.4295
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X255.3029Y-307.0406
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-343.4295
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X258.0765Y-309.2271
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-343.4295
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X260.6699Y-311.6244
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-343.4295
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X263.0673Y-314.2179
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-343.4295
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X265.2538Y-316.9914
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-343.4295
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X267.2159Y-319.9280
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-343.4295
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X268.9416Y-323.0094
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-343.4295
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X270.4202Y-326.2167
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-343.4295
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X271.6426Y-329.5302
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-343.4295
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X272.6013Y-332.9294
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-343.4295
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X273.2903Y-336.3932
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-343.4295
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X273.7054Y-339.9005
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-343.4295
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X273.8441Y-343.4295
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-343.4295
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X273.7054Y-346.9586
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-343.4295
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X273.2903Y-350.4658
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-343.4295
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X272.6013Y-353.9297
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-343.4295
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X271.6426Y-357.3289
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-343.4295
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X270.4202Y-360.6423
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-343.4295
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X268.9416Y-363.8497
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-343.4295
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X267.2159Y-366.9311
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-343.4295
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X265.2538Y-369.8677
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-343.4295
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X263.0673Y-372.6412
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-343.4295
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X260.6699Y-375.2347
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-343.4295
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X258.0765Y-377.6320
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-343.4295
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X255.3029Y-379.8185
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-343.4295
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X252.3664Y-381.7806
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-343.4295
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X249.2850Y-383.5063
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-343.4295
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X246.0776Y-384.9849
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-343.4295
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X242.7642Y-386.2073
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-343.4295
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X239.3650Y-387.1660
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-343.4295
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X235.9011Y-387.8550
+
+G1 Z0F20000
+
+(Start Block)
+
+
+G1X67.9980Y-343.4295
+G1Z5F20000
+(Plotting speed under)
+G1 F4000
+
+
+G1X232.3939Y-388.2701
+
+G1 Z0F20000
+
+
+G00 X0.0000 Y0.0000
+
+
