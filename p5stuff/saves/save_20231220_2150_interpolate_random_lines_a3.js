@@ -14,11 +14,11 @@ var pointNumber = 3;
 var pointNumberMin = 0;
 var pointNumberMax = 100;
 var pointNumberStep = 1;
-var lineDistance = 500;
+var lineDistance = 1000;
 var lineDistanceMin = 0;
 var lineDistanceMax = 1000;
 var lineDistanceStep = 1;
-var interpolationSteps = 25;
+var interpolationSteps = 200;
 var interpolationStepsMin = 1;
 var interpolationStepsMax = 500;
 var interpolationStepsStep = 1;
@@ -27,9 +27,9 @@ var gui;
 
 function setup() {
   if (typeof SVG === 'undefined') {
-    createCanvas(...a4Format4);
+    createCanvas(...a3Format);
   } else {
-    createCanvas(...a4Format4, SVG);
+    createCanvas(...a3Format, SVG);
   }
   pixelDensity(1);
   gui = createGui('My awesome GUI');
@@ -60,7 +60,7 @@ function draw() {
   randomSeed(seed);
   clear();
   noFill();
-  strokeWeight(15)
+  strokeWeight(2)
 
   let randomPoints1 = [];
 

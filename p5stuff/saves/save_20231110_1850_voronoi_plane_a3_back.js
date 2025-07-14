@@ -3,15 +3,15 @@ var seed = 332;
 var seedMin = 0;
 var seedMax = 1000;
 var seedStep = 1;
-var lineNumber = 200;
+var lineNumber = 80;
 var lineNumberMin = 1;
 var lineNumberMax = 500;
 var lineNumberStep = 1;
-var noiseScale = 250;
+var noiseScale = 100;
 var noiseScaleMin = 1;
 var noiseScaleMax = 1000;
 var noiseScaleStep = 1;
-var scaleFactor = 2;
+var scaleFactor = 4;
 var scaleFactorMin = 0.01;
 var scaleFactorMax = 10;
 var scaleFactorStep = 0.01;
@@ -43,9 +43,9 @@ var gui;
 
 function setup() {
   if (typeof SVG === 'undefined') {
-    createCanvas(...a3Format);
+    createCanvas(...a1Format);
   } else {
-    createCanvas(...a3Format, SVG);
+    createCanvas(...a1Format, SVG);
   }
   pixelDensity(1);
   gui = createGui('My awesome GUI');
@@ -84,10 +84,7 @@ function draw() {
 
   let noise = new SimplexNoise(seed);
 
-  strokeWeight(3);
-  stroke("blue")
-  rect(0,0,755.9, 1133.6)
-
+  strokeWeight(20);
   stroke("black");
   drawVoronoiCurve(noise, waveSize, 5);
   // stroke("red");

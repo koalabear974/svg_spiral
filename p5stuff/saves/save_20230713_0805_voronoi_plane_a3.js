@@ -3,7 +3,7 @@ var seed = 332;
 var seedMin = 0;
 var seedMax = 1000;
 var seedStep = 1;
-var lineNumber = 35;
+var lineNumber = 150;
 var lineNumberMin = 1;
 var lineNumberMax = 500;
 var lineNumberStep = 1;
@@ -34,24 +34,18 @@ var xDisplacement = 0;
 var xDisplacementMin = 0;
 var xDisplacementMax = 1;
 var xDisplacementStep = 0.01;
-
-var strokeWeight1 = 15;
-var strokeWeight1Min = 0;
-var strokeWeight1Max = 200;
-var strokeWeight1Step = 5;
 var gui;
 
 function setup() {
   if (typeof SVG === 'undefined') {
-    createCanvas(...a4Format4);
+    createCanvas(...a3Format);
   } else {
-    createCanvas(...a4Format4, SVG);
+    createCanvas(...a3Format, SVG);
   }
   pixelDensity(1);
   gui = createGui('My awesome GUI');
   let map = [
     'seed',
-    'strokeWeight1',
     'lineNumber',
     'noiseScale',
     'scaleFactor',
@@ -81,10 +75,7 @@ function draw() {
   noiseSeed(seed);
   // background("white");
 
-  strokeWeight(strokeWeight1);
-
-  stroke("blue")
-  rect(0,0,755.9, 1133.6)
+  strokeWeight(3);
   stroke("black");
   clear()
   noFill();

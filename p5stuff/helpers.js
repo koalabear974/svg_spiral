@@ -417,3 +417,7 @@ const a4Format4Vert = [1122, 793];
 const a3Format = [1122, 1587];
 const a6Format = [397, 559];
 const a1Format = [2245, 3178]
+
+// 20x30
+// 59.4 x 84.1
+// 755.9 x 1133,6

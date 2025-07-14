@@ -2,19 +2,19 @@ var seed = 0;
 var seedMin = 0;
 var seedMax = 1000;
 var seedStep = 1;
-var verticalPoints = 50;
+var verticalPoints = 30;
 var verticalPointsMin = 0;
 var verticalPointsMax = 20;
 var verticalPointsStep = 1;
-var verticalSpacing = 13;
+var verticalSpacing = 20;
 var verticalSpacingMin = 0;
 var verticalSpacingMax = 20;
 var verticalSpacingStep = 1;
-var horizontalPoints = 50;
+var horizontalPoints = 30;
 var horizontalPointsMin = 0;
 var horizontalPointsMax = 20;
 var horizontalPointsStep = 1;
-var horizontalSpacing = 13;
+var horizontalSpacing = 20;
 var horizontalSpacingMin = 0;
 var horizontalSpacingMax = 20;
 var horizontalSpacingStep = 1;
@@ -69,7 +69,7 @@ function draw() {
   randomSeed(seed);
   noiseSeed(seed);
   background("white");
-  strokeWeight(2)
+  strokeWeight(15)
 
   let pageCenter = [width/2, height/2];
   stroke("red")
@@ -98,7 +98,8 @@ function draw() {
   let gridCenter = midpoint(firstPoint, lastPoint);
   let centerDist = [pageCenter[0] - gridCenter[0], pageCenter[1] - gridCenter[1]];
 
-  noFill();
+  // noFill();
+  fill("black")
   stroke("blue")
   stroke("black")
   let noiseArray =  []
