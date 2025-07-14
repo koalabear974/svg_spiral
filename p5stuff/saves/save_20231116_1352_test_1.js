@@ -3,11 +3,11 @@ var seedMin = 0;
 var seedMax = 1000;
 var seedStep = 1;
 
-var circleWidth = 700;
+var circleWidth = 250;
 var circleWidthMin = 1;
 var circleWidthMax = 1000;
 var circleWidthStep = 1;
-var circleHeight = 700;
+var circleHeight = 100;
 var circleHeightMin = 1;
 var circleHeightMax = 1000;
 var circleHeightStep = 1;
@@ -21,13 +21,13 @@ var lineLengthMin = 0;
 var lineLengthMax = 1000;
 var lineLengthStep = 10;
 
-var targetDistanceSample = .5;
+var targetDistanceSample = .8;
 var targetDistanceSampleMin = 0.1;
 var targetDistanceSampleMax = 5;
 var targetDistanceSampleStep = 0.1;
 
 
-var noiseFactor = 0.001;
+var noiseFactor = 0.0001;
 var noiseFactorMin = 0;
 var noiseFactorMax = 0.01;
 var noiseFactorStep = 0.0001;
@@ -43,12 +43,10 @@ var angleIncrementStep = 0.01;
 var decreaseCircle = false;
 var gui;
 
+let socket;
+
 function setup() {
-  if (typeof SVG === 'undefined') {
-    createCanvas(...a3Format);
-  } else {
-    createCanvas(...a3Format, SVG);
-  }
+  createCanvas(window.innerWidth, window.innerHeight);
   pixelDensity(1);
   gui = createGui('My awesome GUI');
   gui.addGlobals(
@@ -64,26 +62,41 @@ function setup() {
     'decreaseCircle',
   );
   noLoop();
+
+  socket = io();
+
+  console.log(socket)
+
+  socket.on('fromTD', function(data) {
+    if (data.address === '/k1' && data.args.length > 0) {
+      console.log(data.args[0].value)
+      if (data.args[0].value === 1 ) {
+        seed+=1;
+        redraw();
+      }
+    }
+  });
 }
 
-function keyPressed() {
-  if (keyCode === 32) {
-    redraw();
-  }
-  if (keyCode === 83) {
-    const d = new Date();
-    let fileName = 'art_' + d.toISOString().split('.')[0].replaceAll(':', '-');
-    save(fileName+".svg");
-  }
-}
+// function keyPressed() {
+//   if (keyCode === 32) {
+//     redraw();
+//   }
+//   if (keyCode === 83) {
+//     const d = new Date();
+//     let fileName = 'art_' + d.toISOString().split('.')[0].replaceAll(':', '-');
+//     save(fileName+".svg");
+//   }
+// }
 
 function draw() {
   randomSeed(seed);
   clear();
   noFill();
+  background("black")
 
-  stroke("black");
-  strokeWeight(1);
+  stroke("white");
+  strokeWeight(2);
 
 
   let randomPointsAnchor = [];
