@@ -1,31 +1,35 @@
-var seed = 332;
+var seed = 416;
 // var seed = 540;
 var seedMin = 0;
 var seedMax = 1000;
 var seedStep = 1;
-var lineNumber = 200;
-var lineNumberMin = 1;
-var lineNumberMax = 500;
+var lineNumber = 170;
+var lineNumberMin = 100;
+var lineNumberMax = 400;
 var lineNumberStep = 1;
-var noiseScale = 250;
+var noiseScale = 500;
 var noiseScaleMin = 1;
 var noiseScaleMax = 1000;
 var noiseScaleStep = 1;
-var scaleFactor = 2;
+var scaleFactor = 15.7;
 var scaleFactorMin = 0.01;
-var scaleFactorMax = 10;
+var scaleFactorMax = 30;
 var scaleFactorStep = 0.01;
-var wrinkles = 10.3;
+var yScaleFactor = 1;
+var yScaleFactorMin = 0.01;
+var yScaleFactorMax = 10;
+var yScaleFactorStep = 0.01;
+var wrinkles = 6;
 var wrinklesMin = 0;
 var wrinklesMax = 20;
 var wrinklesStep = 0.1;
 
-var frequency = 0.74;
+var frequency = 2.95;
 var frequencyMin = 0.1;
 var frequencyMax = 10;
 var frequencyStep = 0.01;
 
-var waveSize = 90;
+var waveSize = 40;
 var waveSizeMin = 0;
 var waveSizeMax = 120;
 var waveSizeStep = 5;
@@ -34,30 +38,43 @@ var xDisplacement = 0;
 var xDisplacementMin = 0;
 var xDisplacementMax = 1;
 var xDisplacementStep = 0.01;
+var yOffset = 00;
+var yOffsetMin = -2000;
+var yOffsetMax = 2000;
+var yOffsetStep = 1;
 
-var vertPadding = 80;
-var vertPaddingMin = 0;
-var vertPaddingMax = 400;
+var vertPadding = -20;
+var vertPaddingMin = -100;
+var vertPaddingMax = 300;
 var vertPaddingStep = 1;
+var lineThickness = 40;
+var lineThicknessMin = 0;
+var lineThicknessMax = 40;
+var lineThicknessStep = 1;
 var gui;
 
 function setup() {
+  // [594, 840]
+  // [594, 840]
+  // const a1Format = [2245, 3178]
+  const a1Format = [2245, 3178*2.5]
   if (typeof SVG === 'undefined') {
-    createCanvas(...a3Format);
+    createCanvas(...a1Format);
   } else {
-    createCanvas(...a3Format, SVG);
+    createCanvas(...a1Format, SVG);
   }
   pixelDensity(1);
   gui = createGui('My awesome GUI');
   let map = [
     'seed',
     'lineNumber',
+    'lineThickness',
     'noiseScale',
     'scaleFactor',
     'wrinkles',
     'frequency',
     'waveSize',
-    'xDisplacement',
+    'yOffset',
     'vertPadding',
   ];
   gui.addGlobals(...map);
@@ -84,15 +101,12 @@ function draw() {
 
   let noise = new SimplexNoise(seed);
 
-  strokeWeight(3);
-  stroke("blue");
   drawVoronoiCurve(noise, waveSize, 5);
-  stroke("red");
-  drawVoronoiCurve(noise, waveSize+30);
+  // drawVoronoiCurve(noise, waveSize+20);
   // drawVoronoiCurve(noise, waveSize+40);
 }
 
-function drawVoronoiCurve(noise, waveSize, yOffset = 0) {
+function drawVoronoiCurve(noise, waveSize, yOffsetFunc = 0) {
   const gridX = noiseScale;
   const gridY = lineNumber; // min=10, max=400, step=1
   const fieldSize = 500; // min=100, max=200, step=1
@@ -118,7 +132,10 @@ function drawVoronoiCurve(noise, waveSize, yOffset = 0) {
     if (gy != (((i - 1) / gridX) | 0) || i < 2) {
     } else {
       if (typeof lines[gy] === "undefined") lines[gy] = [];
-      lines[gy][gx] = [((x + (h - y) * xDisplacement) * scaleFactor + (width / 2)), h * scaleFactor + (height / 2)+ yOffset];
+      lines[gy][gx] = [
+        ((x + (h - y) * xDisplacement) * scaleFactor + (width / 2)),
+        ((h * scaleFactor + (height / 2)+ yOffsetFunc)/yScaleFactor)
+      ];
     }
     walkContinue = i < gridX * gridY - 1;
     i++;
@@ -126,13 +143,15 @@ function drawVoronoiCurve(noise, waveSize, yOffset = 0) {
 
   lines.forEach((line, i) => {
     line.forEach((point, lineI) => {
+      lines[i][lineI] = [point[0], point[1] + yOffset]
       if (point[0] <= vertPadding || point[0] >= width - vertPadding ) delete line[lineI];
     })
   })
 
   // stroke(randomColorString(0.7));
+  strokeWeight(lineThickness)
   // stroke("rgba(255,0,0,0.7)");
-  // stroke("black");
+  stroke("black");
   lines.forEach((line, i) => {
     if (i === 0) return;
     drawCurve(line);

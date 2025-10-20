@@ -1,12 +1,12 @@
-var seed = 0;
+var seed = 198;
 var seedMin = 0;
 var seedMax = 1000;
 var seedStep = 1;
-var angleIncrement = 0.05;
+var angleIncrement = 4.5;
 var angleIncrementMin = 0;
-var angleIncrementMax = 1;
-var angleIncrementStep = 0.0001;
-var scaling = 0.65;
+var angleIncrementMax = 10;
+var angleIncrementStep = 0.001;
+var scaling = 1;
 var scalingMin = 0;
 var scalingMax = 5;
 var scalingStep = 0.001;
@@ -14,63 +14,70 @@ var noiseAmplitude = 200;
 var noiseAmplitudeMin = 0;
 var noiseAmplitudeMax = 300;
 var noiseAmplitudeStep = 1;
-var pointNumber = 10000;
-var pointNumberMin = 100;
-var pointNumberMax = 15000;
-var pointNumberStep = 100;
+var pointNumber = 200;
+var pointNumberMin = 10;
+var pointNumberMax = 1500;
+var pointNumberStep = 10;
 var showPoints = false;
-var size = 4000;
+var size = 5000;
 var sizeMin = 0;
 var sizeMax = 10000;
 var sizeStep = 10;
-var perlinSize = 30;
+var perlinSize = 10;
 var perlinSizeMin = 1;
 var perlinSizeMax = 100;
 var perlinSizeStep = 1;
 
+var startPoint = 10;
+var startPointMin = 1;
+var startPointMax = 10000;
+var startPointStep = 1;
 
-var point1x = 0;
-var point1xMin = -2000;
-var point1xMax = 2000;
-var point1xStep = 10;
+var noiseDiff = 0;
+var noiseDiffMin = 1;
+var noiseDiffMax = 100;
+var noiseDiffStep = 1;
 
-var point1y = 0;
-var point1yMin = -2000;
-var point1yMax = 2000;
-var point1yStep = 10;
-var point2x = 0;
-var point2xMin = -2000;
-var point2xMax = 2000;
-var point2xStep = 10;
+var startPointDiff = 0;
+var startPointDiffMin = 100;
+var startPointDiffMax = 10000;
+var startPointDiffStep = 100;
 
-var point2y = 0;
-var point2yMin = -2000;
-var point2yMax = 2000;
-var point2yStep = 10;
 
+var lineThickness = 10;
+var lineThicknessSetp = 1;
+var lineThicknessMin = 1;
+var lineThicknessMax = 100;
+var xOffset = 0;
+var xOffsetMin = 0;
+var xOffsetMax = 1000;
+var xOffsetStep = 1;
+var yOffset = 0;
+var yOffsetMin = 0;
+var yOffsetMax = 1000;
+var yOffsetStep = 1;
 var gui;
 
 function setup() {
+  const a1Format = [1889, 2648];
   if (typeof SVG === 'undefined') {
-    createCanvas(...a4Format4);
+    createCanvas(...a1Format);
   } else {
-    createCanvas(...a4Format4, SVG);
+    createCanvas(...a1Format, SVG);
   }
   pixelDensity(1);
   gui = createGui('My awesome GUI');
   gui.addGlobals(
     'seed',
     'scaling',
+    'lineThickness',
     'angleIncrement',
     'pointNumber',
     'showPoints',
     'size',
     'perlinSize',
     'noiseAmplitude',
-    'point1x',
-    'point1y',
-    'point2x',
-    'point2y',
+    'startPoint',
   );
   noLoop();
 }
@@ -89,10 +96,17 @@ function keyPressed() {
 function draw() {
   randomSeed(seed);
   clear();
-  strokeWeight(1);
-  background("white");
+  strokeWeight(lineThickness);
+  noFill();
 
   let perlin = new Perlin(size, perlinSize);
+
+  // background("black")
+  stroke("black")
+  drawDonutSpiral(perlin, noiseAmplitude, startPoint);
+}
+
+function drawDonutSpiral(perlin, nA, sP) {
   let spiralPoints = [];
 
   let angle = 0;
@@ -103,8 +117,8 @@ function draw() {
 
     let deviation = perlin.get(x1, y1);
 
-    x1 += cos(deviation * Math.PI) * noiseAmplitude;
-    y1 += sin(deviation * Math.PI) * noiseAmplitude;
+    x1 += cos(deviation * Math.PI) * nA;
+    y1 += sin(deviation * Math.PI) * nA;
     spiralPoints.push([x1, y1]);
     angle += angleIncrement;
   }
@@ -112,13 +126,10 @@ function draw() {
   let widthOffset = width/2 - center[0];
   let heightOffset = height/2 - center[1];
   spiralPoints.forEach((spiralPoint, i) => {
-    spiralPoints[i] = [spiralPoint[0] + widthOffset, spiralPoint[1] + heightOffset];
-    stroke("blue");
+    spiralPoints[i] = [spiralPoint[0] + widthOffset + xOffset, spiralPoint[1] + heightOffset + yOffset];
     showPoints && circle(...spiralPoints[i],1)
   })
-  stroke("black");
+  // stroke(randomColorString("0.7"));
 
-  !showPoints && drawCurve(spiralPoints);
-
-
+  !showPoints && drawCurve(spiralPoints.slice(sP));
 }
