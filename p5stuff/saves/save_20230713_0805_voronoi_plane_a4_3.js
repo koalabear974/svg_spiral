@@ -30,6 +30,16 @@ var waveSizeMin = 0;
 var waveSizeMax = 120;
 var waveSizeStep = 5;
 
+var strokeWeig = 20;
+var strokeWeigMin = 0;
+var strokeWeigMax = 120;
+var strokeWeigStep = 5;
+
+var waveDiff = 20;
+var waveDiffMin = 0;
+var waveDiffMax = 120;
+var waveDiffStep = 5;
+
 var xDisplacement = 0;
 var xDisplacementMin = 0;
 var xDisplacementMax = 1;
@@ -52,7 +62,8 @@ function setup() {
     'wrinkles',
     'frequency',
     'waveSize',
-    'xDisplacement',
+    'strokeWeig',
+    'waveDiff',
   ];
   gui.addGlobals(...map);
   loadMIDIMapping(map);
@@ -73,9 +84,8 @@ function keyPressed() {
 function draw() {
   randomSeed(seed);
   noiseSeed(seed);
-  background("black");
-  stroke("white");
-  strokeWeight(20)
+  stroke("black");
+  strokeWeight(strokeWeig)
   clear()
   noFill();
 
@@ -119,76 +129,6 @@ function draw() {
   });
   groupSVGNodes('path', 'g1');
 
-  // // noise = new SimplexNoise(seed +1 );
-  //  minHeights = [];
-  // for (let x = 0; x < gridX; x++) {
-  //   minHeights[x] = 200;
-  // }
-  // i = 0;
-  // walkContinue = true;
-  // lines = [];
-  // while (walkContinue) {
-  //   const gx = (i % gridX);
-  //   const gy = (i / gridX) | 0;
-  //
-  //   const x = gx * fieldSize / (gridX - 1) - fieldSize / 2;
-  //   const y = (gridY - gy) / gridY * fieldSize - fieldSize / 2;
-  //
-  //   let r = (waveSize + 20) * .2 * wrinkleNoise(noise, wrinkles, x * frequency / fieldSize, y * frequency / fieldSize);
-  //   const h = minHeights[gx] = Math.min(y + r, minHeights[gx]);
-  //
-  //   if (gy != (((i - 1) / gridX) | 0) || i < 2) {
-  //   } else {
-  //     if (typeof lines[gy] === "undefined") lines[gy] = [];
-  //     lines[gy][gx] = [((x + (h - y) * xDisplacement) * scaleFactor + (width / 2)), h * scaleFactor + (height / 2)];
-  //     // lines[gy][gx] = [x* scaleFactor + (width / 2), y * scaleFactor + (height / 2)];
-  //   }
-  //   walkContinue = i < gridX * gridY - 1;
-  //   i++;
-  // }
-  // stroke(randomColorString(0.7));
-  // stroke("rgba(0,255,0,0.7)");
-  // lines.forEach((line, i) => {
-  //   if (i === 0) return;
-  //   drawCurve(line);
-  // });
-  // groupSVGNodes('path', 'g2');
-
-  // noise = new SimplexNoise(seed +2);
-  //  minHeights = [];
-  // for (let x = 0; x < gridX; x++) {
-  //   minHeights[x] = 200;
-  // }
-  // i = 0;
-  // walkContinue = true;
-  // lines = [];
-  // while (walkContinue) {
-  //   const gx = (i % gridX);
-  //   const gy = (i / gridX) | 0;
-  //
-  //   const x = gx * fieldSize / (gridX - 1) - fieldSize / 2;
-  //   const y = (gridY - gy) / gridY * fieldSize - fieldSize / 2;
-  //
-  //   let r = (waveSize + 0) * .2 * wrinkleNoise(noise, wrinkles, x * frequency / fieldSize, y * frequency / fieldSize);
-  //   const h = minHeights[gx] = Math.min(y + r, minHeights[gx]);
-  //
-  //   if (gy != (((i - 1) / gridX) | 0) || i < 2) {
-  //   } else {
-  //     if (typeof lines[gy] === "undefined") lines[gy] = [];
-  //     lines[gy][gx] = [((x + (h - y) * xDisplacement) * scaleFactor + (width / 2)), h * scaleFactor + (height / 2)];
-  //     // lines[gy][gx] = [x* scaleFactor + (width / 2), y * scaleFactor + (height / 2)];
-  //   }
-  //   walkContinue = i < gridX * gridY - 1;
-  //   i++;
-  // }
-  // // stroke(randomColorString(0.7));
-  //
-  // stroke("rgba(0,0,255,0.7)");
-  // lines.forEach((line, i) => {
-  //   if (i === 0) return;
-  //   drawCurve(line);
-  // });
-  // groupSVGNodes('path', 'g3');
 
 }
 

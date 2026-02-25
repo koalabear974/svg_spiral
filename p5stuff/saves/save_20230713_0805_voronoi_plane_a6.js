@@ -11,7 +11,7 @@ var noiseScale = 250;
 var noiseScaleMin = 1;
 var noiseScaleMax = 1000;
 var noiseScaleStep = 1;
-var scaleFactor = 3.5;
+var scaleFactor = 1.6;
 var scaleFactorMin = 0.01;
 var scaleFactorMax = 10;
 var scaleFactorStep = 0.01;
@@ -30,6 +30,11 @@ var waveSizeMin = 0;
 var waveSizeMax = 120;
 var waveSizeStep = 5;
 
+var strokeWeig = 10;
+var strokeWeigMin = 0;
+var strokeWeigMax = 120;
+var strokeWeigStep = 5;
+
 var xDisplacement = 0;
 var xDisplacementMin = 0;
 var xDisplacementMax = 1;
@@ -40,7 +45,7 @@ function setup() {
   // if (typeof SVG === 'undefined') {
   //   createCanvas(...a4Format4);
   // } else {
-    createCanvas(...a4Format4, SVG);
+    createCanvas(...a6Format, SVG);
   // }
   pixelDensity(1);
   gui = createGui('My awesome GUI');
@@ -52,6 +57,7 @@ function setup() {
     'wrinkles',
     'frequency',
     'waveSize',
+    'strokeWeig',
     'xDisplacement',
   ];
   gui.addGlobals(...map);
@@ -73,9 +79,8 @@ function keyPressed() {
 function draw() {
   randomSeed(seed);
   noiseSeed(seed);
-  background("black");
-  stroke("white");
-  strokeWeight(20)
+  stroke("black");
+  strokeWeight(strokeWeig)
   clear()
   noFill();
 

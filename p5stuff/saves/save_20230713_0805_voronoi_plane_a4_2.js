@@ -30,6 +30,11 @@ var waveSizeMin = 0;
 var waveSizeMax = 120;
 var waveSizeStep = 5;
 
+var strokeWeig = 10;
+var strokeWeigMin = 0;
+var strokeWeigMax = 120;
+var strokeWeigStep = 5;
+
 var xDisplacement = 0;
 var xDisplacementMin = 0;
 var xDisplacementMax = 1;
@@ -52,6 +57,7 @@ function setup() {
     'wrinkles',
     'frequency',
     'waveSize',
+    'strokeWeig',
     'xDisplacement',
   ];
   gui.addGlobals(...map);
@@ -73,9 +79,8 @@ function keyPressed() {
 function draw() {
   randomSeed(seed);
   noiseSeed(seed);
-  background("black");
-  stroke("white");
-  strokeWeight(20)
+  stroke("black");
+  strokeWeight(strokeWeig)
   clear()
   noFill();
 
