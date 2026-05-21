@@ -58,6 +58,8 @@ header p { margin-top: 4px; opacity: 0.6; font-size: 0.85rem; }
 .t-bosnian    { background: #e8f0e8; color: #2d6a30; }
 .t-macedonian { background: #f0e8f8; color: #5a1e8b; }
 .t-pan-balkan { background: #efefef; color: #444; }
+.t-kilim      { background: #f0ece0; color: #6b4c00; }
+.t-generated  { background: #e8f4e8; color: #1a5c2a; }
 
 /* Modal */
 .modal-bg {
@@ -112,6 +114,8 @@ header p { margin-top: 4px; opacity: 0.6; font-size: 0.85rem; }
         <button class="pill" data-filter="bosnian">Bosnian</button>
         <button class="pill" data-filter="macedonian">Macedonian</button>
         <button class="pill" data-filter="pan-balkan">Pan-Balkan</button>
+        <button class="pill" data-filter="kilim">Kilim</button>
+        <button class="pill" data-filter="generated">Generated</button>
       </div>
     </div>
     <div class="ctrl-group">
@@ -151,6 +155,8 @@ header p { margin-top: 4px; opacity: 0.6; font-size: 0.85rem; }
   </div>
 </div>
 
+<script>window.IMPORTED_MOTIFS = [];</script>
+<script src="motifs/motifs.js" onerror="void 0"></script>
 <script>
 // ─── PALETTES ────────────────────────────────────────────────────────────────
 // Index 0=bg, 1=primary, 2=secondary, 3=accent
@@ -431,6 +437,100 @@ function mLoza(col, row, w, h) {
   return 0;
 }
 
+// ─── PIROT KILIM + ANATOLIAN KILIM MOTIFS ────────────────────────────────────
+
+function mRasiceva(col, row, w, h) {
+  // Rašićeva — 21×21. Pirot's most precise pattern: concentric diamond outlines.
+  const lc = col - 10, lr = row - 10;
+  const d = Math.abs(lc) + Math.abs(lr);
+  if (d === 9) return 1;
+  if (d === 7) return 2;
+  if (d === 5) return 1;
+  if (d === 3) return 2;
+  if (d <= 1) return 3;
+  return 0;
+}
+
+function mKornjaca(col, row, w, h) {
+  // Turtle (kornjača) — 19×17. Wide diamond shell + 4 corner legs + head + tail.
+  const lc = col - 9, lr = row - 8;
+  const d = Math.abs(lc) + Math.abs(lr);
+  if (d <= 5) return d <= 1 ? 3 : d <= 3 ? 2 : 1;
+  for (let s = 1; s <= 2; s++) {
+    if (lc === 5+s && Math.abs(lr) === s) return 1;
+    if (lc === -(5+s) && Math.abs(lr) === s) return 1;
+  }
+  if (Math.abs(lc) <= 1 && lr === -7) return 1;
+  if (lc === 0 && lr === -8) return 2;
+  if (lc === 0 && lr === 7) return 1;
+  return 0;
+}
+
+function mHobotnica(col, row, w, h) {
+  // Octopus (hobotnica) — 21×21. Body + 4 cardinal bent arms + 4 diagonal arms.
+  const lc = col - 10, lr = row - 10;
+  const d = Math.abs(lc) + Math.abs(lr);
+  if (d <= 3) return d <= 1 ? 3 : 2;
+  const al = 4;
+  if (lc === 0 && lr < -3 && lr >= -(3+al)) return 1;
+  if (lr === -(3+al) && lc >= 1 && lc <= 3) return 1;
+  if (lc === 0 && lr > 3 && lr <= 3+al) return 1;
+  if (lr === 3+al && lc <= -1 && lc >= -3) return 1;
+  if (lr === 0 && lc > 3 && lc <= 3+al) return 1;
+  if (lc === 3+al && lr >= 1 && lr <= 3) return 1;
+  if (lr === 0 && lc < -3 && lc >= -(3+al)) return 1;
+  if (lc === -(3+al) && lr <= -1 && lr >= -3) return 1;
+  for (let s = 4; s <= 7; s++) {
+    if (Math.abs(lc) === s && Math.abs(lr) === s) return 2;
+  }
+  return 0;
+}
+
+function mNaocari(col, row, w, h) {
+  // Eyeglasses (naočare) — 23×11. Two diamonds + nose bridge.
+  const lc = col - 11, lr = row - 5;
+  const half = 4;
+  const dl = Math.abs(lc + 6) + Math.abs(lr);
+  const dr = Math.abs(lc - 6) + Math.abs(lr);
+  if (dl <= half) return dl <= 1 ? 3 : dl <= 3 ? 2 : 1;
+  if (dr <= half) return dr <= 1 ? 3 : dr <= 3 ? 2 : 1;
+  if (Math.abs(lc) <= 2 && lr === 0) return 1;
+  return 0;
+}
+
+function mDjavKolena(col, row, w, h) {
+  // Devil's Knees (đavolja kolena) — 15×16. Interlocking V-chevrons.
+  const lc = col - 7;
+  const chevH = 4;
+  const block = row % (chevH * 2);
+  const depth = block < chevH ? block : chevH * 2 - 1 - block;
+  if (Math.abs(lc) <= depth) return block < chevH ? 1 : 2;
+  return 0;
+}
+
+function mElibelinde(col, row, w, h) {
+  // Elibelinde (hands on hips) — 15×23. Stylized goddess/fertility figure.
+  const lc = col - 7, lr = row - 11;
+  const hd = Math.abs(lc) + Math.abs(lr + 9);
+  if (hd <= 2) return hd === 0 ? 3 : 1;
+  if (Math.abs(lc) <= 1 && lr >= -7 && lr <= -3) return 2;
+  if (lr === -5 && Math.abs(lc) >= 2 && Math.abs(lc) <= 5) return 1;
+  if ((lr === -6 || lr === -7) && Math.abs(lc) === 5) return 1;
+  const sk = lr + 2;
+  if (sk >= 0 && sk <= 8 && Math.abs(lc) <= sk + 1) return sk % 2 === 0 ? 1 : 2;
+  return 0;
+}
+
+function mKocboynuzu(col, row, w, h) {
+  // Ram's Horn (koçboynuzu) — 13×13. Two opposing S-scroll diamonds.
+  const lc = col - 6, lr = row - 6;
+  const d1 = Math.abs(lc + 2) + Math.abs(lr + 2);
+  if (d1 <= 5 && lc <= 1 && lr <= 1) return d1 <= 1 ? 3 : d1 <= 3 ? 2 : 1;
+  const d2 = Math.abs(lc - 2) + Math.abs(lr - 2);
+  if (d2 <= 5 && lc >= -1 && lr >= -1) return d2 <= 1 ? 3 : d2 <= 3 ? 2 : 1;
+  return 0;
+}
+
 // ─── MOTIF CATALOG ───────────────────────────────────────────────────────────
 const MOTIFS = [
   {
@@ -523,6 +623,50 @@ const MOTIFS = [
     desc:'The vine (loza) is a universal Balkan running border motif — a continuous zigzag stem with alternating leaf diamonds at each inflection. Appears on Serbian wedding towels, Bulgarian chests, and Romanian sleeves. Represents fertility and continuity.',
     notes:'Stem: zigzag diagonal (|lc − ±lr| ≤ 1). Leaf diamonds: small L1 motifs at zigzag turns. Berry/tip: single accent cell at leaf center.',
   },
+  // ── Pirot Kilim ──
+  {
+    id:'rasiceva', name:'Rašićeva', nameEn:'Rašić Pattern (Concentric Diamonds)',
+    tradition:'kilim', gridW:21, gridH:21, fn:mRasiceva,
+    desc:'Named after the Rašić weaving family of Pirot, this pattern is famous for its obsessively precise proportions — five concentric diamond outlines at exact 2-cell intervals, each alternating between two tones. One of the most copied and counterfeited Pirot patterns.',
+    notes:'5 diamond outlines at d=1,3,5,7,9. Alternating colors 1↔2. Center dot = color 3. Pure outline (no fill between rings).',
+  },
+  {
+    id:'kornjaca', name:'Kornjača', nameEn:'Turtle (Pirot Kilim)',
+    tradition:'kilim', gridW:19, gridH:17, fn:mKornjaca,
+    desc:'The turtle (kornjača) is one of six named animal motifs in the Pirot kilim tradition. A wide diamond "shell" with three tonal rings, four short diagonal legs, a pointed head above, and a tail stitch below. Often appears in repeating rows across the kilim field.',
+    notes:'Shell: L1 diamond half=5, 3 zones. Legs: 2-cell diagonal stubs at d=6,7. Head: (0,−7) and (0,−8). Tail: (0,7).',
+  },
+  {
+    id:'hobotnica', name:'Hobotnica', nameEn:'Octopus (Pirot Kilim)',
+    tradition:'kilim', gridW:21, gridH:21, fn:mHobotnica,
+    desc:'The octopus (hobotnica) is a dynamic Pirot kilim motif with a central body and eight tentacle-like arms. Four cardinal arms each bend 90° after four cells, while four diagonal arms extend straight — creating the distinctive multi-directional "reaching" quality of the design.',
+    notes:'Body: L1 ≤3. Cardinal arms: 4 cells straight then 3-cell 90° bend. Diagonal arms: 4 cells at 45° (|lc|=|lr|=4..7).',
+  },
+  {
+    id:'naocari', name:'Naočare', nameEn:'Eyeglasses (Pirot Kilim)',
+    tradition:'kilim', gridW:23, gridH:11, fn:mNaocari,
+    desc:'The eyeglasses (naočare) motif is exactly what it sounds like — two connected diamond "lenses" joined at the bridge. A playful, recognizable motif from the Pirot region that shows the kilim tradition\'s habit of naming geometric shapes after everyday objects.',
+    notes:'Two L1 diamonds (half=4) centered at (−6,0) and (+6,0). Bridge: 5 horizontal cells connecting inner points. Three tonal rings per lens.',
+  },
+  {
+    id:'djavkolena', name:'Đavolja Kolena', nameEn:"Devil's Knees (Pirot Kilim)",
+    tradition:'kilim', gridW:15, gridH:16, fn:mDjavKolena,
+    desc:"Devil's Knees (Đavolja Kolena) is a dense interlocking chevron pattern from the Pirot tradition. Alternating rows of up-pointing and down-pointing V-shapes in two colors create a relentless angular rhythm across the kilim surface. The name refers to the sharp, pointed angles.",
+    notes:'Repeating 8-row period. Row r in [0,3]: fill |lc|≤r (color 1). Row r in [4,7]: fill |lc|≤(7−r) (color 2). Creates interlocking filled triangles.',
+  },
+  // ── Anatolian Kilim ──
+  {
+    id:'elibelinde', name:'Elibelinde', nameEn:'Hands on Hips (Goddess Figure)',
+    tradition:'kilim', gridW:15, gridH:23, fn:mElibelinde,
+    desc:'Elibelinde ("hands on hips") is the oldest and most universal Anatolian kilim motif — a highly stylized female figure representing the mother goddess, fertility, and abundance. Arms akimbo and legs spread as a downward triangle. Found from Turkey through the Balkans, it predates Islam.',
+    notes:'Head: L1 r=2 at (0,−9). Torso: 3-wide column rows −7..−3. Arms: horizontal at row −5, width ±2..5, then vertical tips up to row −7. Skirt: filled downward triangle, alternating rows.',
+  },
+  {
+    id:'kocboynuzu', name:'Koçboynuzu', nameEn:"Ram's Horn",
+    tradition:'kilim', gridW:13, gridH:13, fn:mKocboynuzu,
+    desc:"The ram's horn (koçboynuzu) is one of the most common Anatolian kilim motifs, representing power, masculinity, and heroism. Two opposing S-scrolls — upper-left and lower-right — mirror each other to create a symbol of duality and cosmic balance. Often paired with Elibelinde.",
+    notes:'Two L1 diamond clusters (r=5, 3 zones) centered at (−2,−2) and (+2,+2), constrained to their respective quadrants. Together they form a continuous S-scroll.',
+  },
 ];
 
 // ─── RENDERING ───────────────────────────────────────────────────────────────
@@ -539,11 +683,33 @@ function renderMotif(canvas, motif, cellPx) {
   }
 }
 
+function renderJsonMotif(canvas, motif, cellPx) {
+  canvas.width  = motif.stitchWidth  * cellPx;
+  canvas.height = motif.stitchHeight * cellPx;
+  const ctx = canvas.getContext('2d');
+  const colors = motif.colors.map(c => c.hexValue);
+  for (let row = 0; row < motif.stitchHeight; row++) {
+    for (let col = 0; col < motif.stitchWidth; col++) {
+      const v = motif.grid[row][col];
+      ctx.fillStyle = colors[Math.min(v, colors.length - 1)];
+      ctx.fillRect(col * cellPx, row * cellPx, cellPx, cellPx);
+    }
+  }
+}
+
 function cellPxForCard(m) {
   return Math.max(5, Math.floor(144 / Math.max(m.gridW, m.gridH)));
 }
 function cellPxForModal(m) {
   return Math.max(10, Math.floor(280 / Math.max(m.gridW, m.gridH)));
+}
+function cellPxForJsonCard(m) {
+  const maxDim = Math.max(m.stitchWidth, m.stitchHeight);
+  return Math.max(2, Math.floor(144 / maxDim));
+}
+function cellPxForJsonModal(m) {
+  const maxDim = Math.max(m.stitchWidth, m.stitchHeight);
+  return Math.max(4, Math.floor(320 / maxDim));
 }
 
 // ─── BUILD GRID ──────────────────────────────────────────────────────────────
@@ -551,10 +717,12 @@ const grid = document.getElementById('grid');
 
 function buildCards() {
   grid.innerHTML = '';
+
   for (const m of MOTIFS) {
     const card = document.createElement('div');
     card.className = 'card';
     card.dataset.tradition = m.tradition;
+    card._motif = m;
 
     const wrap = document.createElement('div');
     wrap.className = 'card-canvas-wrap';
@@ -573,6 +741,36 @@ function buildCards() {
     card.appendChild(wrap);
     card.appendChild(info);
     card.addEventListener('click', () => openModal(m));
+    grid.appendChild(card);
+  }
+
+  for (const m of (window.IMPORTED_MOTIFS || [])) {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.dataset.tradition = 'generated';
+    card._jsonMotif = m;
+
+    const wrap = document.createElement('div');
+    wrap.className = 'card-canvas-wrap';
+    const canvas = document.createElement('canvas');
+    renderJsonMotif(canvas, m, cellPxForJsonCard(m));
+    wrap.appendChild(canvas);
+
+    const info = document.createElement('div');
+    info.className = 'card-info';
+    const colorDots = m.colors.map(c =>
+      `<span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${c.hexValue};margin-right:2px;border:1px solid #ccc"></span>`
+    ).join('');
+    info.innerHTML = `
+      <div class="card-name">${m.name.replace(/_/g,' ')}</div>
+      <div class="card-name-en">${m.stitchWidth}×${m.stitchHeight} cells · ${m.colors.length} colors</div>
+      <span class="badge t-generated">generated</span>
+      <div style="margin-top:6px">${colorDots}</div>
+    `;
+
+    card.appendChild(wrap);
+    card.appendChild(info);
+    card.addEventListener('click', () => openJsonModal(m));
     grid.appendChild(card);
   }
 }
@@ -605,11 +803,11 @@ document.getElementById('palettes').addEventListener('click', e => {
 });
 
 function refreshCanvases() {
-  const cards = grid.querySelectorAll('.card');
-  MOTIFS.forEach((m, i) => {
-    const canvas = cards[i]?.querySelector('canvas');
-    if (canvas) renderMotif(canvas, m, cellPxForCard(m));
-  });
+  for (const card of grid.querySelectorAll('.card')) {
+    const canvas = card.querySelector('canvas');
+    if (!canvas) continue;
+    if (card._motif) renderMotif(canvas, card._motif, cellPxForCard(card._motif));
+  }
   if (activeMotif) renderMotif(document.getElementById('mCanvas'), activeMotif, cellPxForModal(activeMotif));
 }
 
@@ -619,6 +817,7 @@ const modalBg = document.getElementById('modalBg');
 
 function openModal(m) {
   activeMotif = m;
+  activeJsonMotif = null;
   document.getElementById('mTitle').textContent = m.name;
   document.getElementById('mTitleEn').textContent = m.nameEn;
   document.getElementById('mMeta').textContent = `${m.tradition.replace('-',' ')} · ${m.gridW}×${m.gridH} cells · ${m.tradition === 'bosnian' ? '1 color' : '3 colors'}`;
@@ -629,16 +828,33 @@ function openModal(m) {
   modalBg.classList.add('open');
 }
 
-document.getElementById('modalClose').addEventListener('click', () => {
+let activeJsonMotif = null;
+
+function openJsonModal(m) {
+  activeJsonMotif = m;
+  activeMotif = null;
+  document.getElementById('mTitle').textContent = m.name.replace(/_/g, ' ');
+  document.getElementById('mTitleEn').textContent = `${m.stitchWidth}×${m.stitchHeight} cells · cell ${m.cellSizePx}px · ${m.colors.length} colors`;
+  document.getElementById('mMeta').textContent = 'generated · image_to_motif.py';
+  document.getElementById('mDesc').textContent = `Source: ${m.source}`;
+  const colorSwatches = m.colors.map((c, i) =>
+    `#${i} ${c.hexValue}`
+  ).join('  ·  ');
+  document.getElementById('mConstruct').textContent = colorSwatches;
+  const mc = document.getElementById('mCanvas');
+  renderJsonMotif(mc, m, cellPxForJsonModal(m));
+  modalBg.classList.add('open');
+}
+
+function closeModal() {
   modalBg.classList.remove('open');
   activeMotif = null;
-});
-modalBg.addEventListener('click', e => {
-  if (e.target === modalBg) { modalBg.classList.remove('open'); activeMotif = null; }
-});
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') { modalBg.classList.remove('open'); activeMotif = null; }
-});
+  activeJsonMotif = null;
+}
+
+document.getElementById('modalClose').addEventListener('click', closeModal);
+modalBg.addEventListener('click', e => { if (e.target === modalBg) closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
 // ─── INIT ────────────────────────────────────────────────────────────────────
 buildCards();

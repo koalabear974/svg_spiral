@@ -12,3 +12,7 @@ video/
 
 TouchDesigner/raw_videos/
 TouchDesigner/converted_videos/
+
+p5stuff/.playwright-mcp/
+
+p5stuff/__pycache__/

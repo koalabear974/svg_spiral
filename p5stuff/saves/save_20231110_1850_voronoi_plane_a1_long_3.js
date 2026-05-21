@@ -1,9 +1,9 @@
-var seed = 416;
+var seed = 715;
 // var seed = 540;
 var seedMin = 0;
 var seedMax = 1000;
 var seedStep = 1;
-var lineNumber = 25;
+var lineNumber = 55;
 var lineNumberMin = 10;
 var lineNumberMax = 400;
 var lineNumberStep = 1;
@@ -24,12 +24,12 @@ var wrinklesMin = 0;
 var wrinklesMax = 20;
 var wrinklesStep = 0.1;
 
-var frequency = 0.95;
+var frequency = 1.24;
 var frequencyMin = 0.1;
 var frequencyMax = 10;
 var frequencyStep = 0.01;
 
-var waveSize = 40;
+var waveSize = 75;
 var waveSizeMin = 0;
 var waveSizeMax = 300;
 var waveSizeStep = 5;
@@ -47,7 +47,7 @@ var vertPadding = 40;
 var vertPaddingMin = -100;
 var vertPaddingMax = 300;
 var vertPaddingStep = 1;
-var lineThickness = 70;
+var lineThickness = 30;
 var lineThicknessMin = 0;
 var lineThicknessMax = 100;
 var lineThicknessStep = 1;
