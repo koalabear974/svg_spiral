@@ -20,7 +20,7 @@ function scheduleReload() {
 }
 [
   path.join(ROOT, 'sketch.js'),
-  path.join(ROOT, 'index.html'),
+  path.join(ROOT, 'sketch.html'),
 ].forEach(f => {
   try { fs.watch(f, scheduleReload); } catch { /* file may not exist yet */ }
 });

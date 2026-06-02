@@ -4,7 +4,7 @@
 
   const PAGES = [
     { id: 'dashboard', label: 'Dashboard',     href: '/',                   icon: 'home'   },
-    { id: 'sketch',    label: 'Sketch',         href: '/index.html',         icon: 'canvas' },
+    { id: 'sketch',    label: 'Sketch',         href: '/sketch.html',         icon: 'canvas' },
     { id: 'browser',   label: 'Motif Browser',  href: '/motif_browser.html', icon: 'grid'   },
     { id: 'studio',    label: 'Motif Studio',   href: '/motif_studio.html',  icon: 'studio' },
   ];
@@ -146,7 +146,7 @@
     if (p === '/' || p.endsWith('/dashboard.html')) return 'dashboard';
     if (p.includes('motif_studio'))   return 'studio';
     if (p.includes('motif_browser'))  return 'browser';
-    if (p.includes('index.html'))     return 'sketch';
+    if (p.includes('sketch.html'))     return 'sketch';
     return '';
   }
 
@@ -214,7 +214,7 @@
         return;
       }
       list.innerHTML = sketches.map(s => `
-        <a class="_sb-mitem" href="/index.html?s=saves/${encodeURIComponent(s.file)}" title="${s.file}">
+        <a class="_sb-mitem" href="/sketch.html?s=saves/${encodeURIComponent(s.file)}" title="${s.file}">
           <span class="_sb-mname">${s.label}</span>
         </a>`).join('');
     } catch {

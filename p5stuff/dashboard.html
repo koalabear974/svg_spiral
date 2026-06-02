@@ -172,7 +172,7 @@ body {
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
     Motif Browser
   </a>
-  <a class="act-btn" href="/index.html">
+  <a class="act-btn" href="/sketch.html">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="3"/><circle cx="12" cy="12" r="3.5"/><line x1="12" y1="2" x2="12" y2="7"/><line x1="12" y1="17" x2="12" y2="22"/><line x1="2" y1="12" x2="7" y2="12"/><line x1="17" y1="12" x2="22" y2="12"/></svg>
     Open Sketch
   </a>
@@ -181,7 +181,7 @@ body {
 <!-- Sketches table -->
 <div class="sec">
   <span class="sec-title">Saved Sketches</span>
-  <a class="sec-link" href="/index.html">Open sketch →</a>
+  <a class="sec-link" href="/sketch.html">Open sketch →</a>
 </div>
 <div class="stbl-wrap">
   <input class="tbl-search" id="sketch-search" type="search" placeholder="Filter sketches…">
@@ -256,7 +256,7 @@ function renderSketchTable() {
     return;
   }
   tbody.innerHTML = rows.map(s => `
-    <tr style="cursor:pointer" onclick="location.href='/index.html?s=saves/${encodeURIComponent(s.file)}'">
+    <tr style="cursor:pointer" onclick="location.href='/sketch.html?s=saves/${encodeURIComponent(s.file)}'">
       <td class="sketch-name">${s.name}</td>
       <td class="sketch-date">${s.date}</td>
       <td class="sketch-open"><span>Open ↗</span></td>
