@@ -1,7 +1,6 @@
 node_modules
 exports
 __pycache__
-saves/*/
 .playwright-mcp
 *.py
 *.sh
@@ -9,3 +8,10 @@ watcher.js
 osc_test.js
 package.json
 package-lock.json
+app.js
+server.js
+saves/**/*.svg
+saves/**/*.png
+saves/**/*.jpg
+motif_books
+motif_wikimedia
