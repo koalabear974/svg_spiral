@@ -277,10 +277,10 @@ main {
   <div class="param-row">
     <span class="param-label" title="Size of one cross-stitch square in pixels">Cell size</span>
     <label class="toggle-label" title="Auto-detect cell size from image periodicity"><input type="checkbox" id="cellAuto">Auto</label>
-    <input class="num-inline" type="number" id="cellInput" value="16" min="4" max="128" step="0.1" title="Base cell size (coarse)">
-    <span class="muted">+</span>
-    <input class="num-inline" type="number" id="cellNudge" value="0" step="1" title="Integer nudge — effective cell = base + nudge×0.01" style="width:72px;color:#c49a20;border-color:rgba(196,154,32,0.35)">
-    <span class="muted">nudge</span>
+    <input class="num-inline" type="number" id="cellInt" value="16" min="4" max="128" step="1" title="Cell size (integer px)">
+    <span class="muted">.</span>
+    <input class="num-inline" type="number" id="cellTenth" value="0" min="0" max="9" step="1" title="Tenths (0.1px)" style="width:40px;color:#c49a20;border-color:rgba(196,154,32,0.35)">
+    <input class="num-inline" type="number" id="cellHundredth" value="0" min="0" max="9" step="1" title="Hundredths (0.01px)" style="width:40px;color:#c49a20;border-color:rgba(196,154,32,0.35)">
     <span class="muted" id="cellHint">–</span>
   </div>
 
@@ -344,10 +344,11 @@ const alignModeBtn= document.getElementById('alignModeBtn');
 const clearToolBtn= document.getElementById('clearToolBtn');
 const colorsSlider= document.getElementById('colorsSlider');
 const colorsVal   = document.getElementById('colorsVal');
-const cellAuto    = document.getElementById('cellAuto');
-const cellInput   = document.getElementById('cellInput');
-const cellNudge   = document.getElementById('cellNudge');
-const cellHint    = document.getElementById('cellHint');
+const cellAuto      = document.getElementById('cellAuto');
+const cellInt       = document.getElementById('cellInt');
+const cellTenth     = document.getElementById('cellTenth');
+const cellHundredth = document.getElementById('cellHundredth');
+const cellHint      = document.getElementById('cellHint');
 const offsetVal   = document.getElementById('offsetVal');
 const resultCanvas= document.getElementById('resultCanvas');
 const resultEmpty = document.getElementById('resultEmpty');
@@ -421,8 +422,7 @@ async function ingest(dataUrl) {
       rawPixels=c.getContext('2d').getImageData(0,0,img.width,img.height).data;
       rawW=img.width; rawH=img.height; sourceBitmap=c;
       if(!cellAuto.checked){
-        cellInput.value=detectCellSize(rawPixels,rawW,rawH,12);
-        cellNudge.value=0;
+        setCellValue(detectCellSize(rawPixels,rawW,rawH,12));
       }
       resetFit(); drawSource(); scheduleExtract(0); r();
     };
@@ -691,13 +691,11 @@ function runExtract() {
   let cell;
   if(cellAuto.checked){
     cell=detectCellSize(pixels,w,h,lo);
-    cellInput.value=cell; cellNudge.value=0;
+    setCellValue(cell);
   } else {
-    cell=parseFloat(cellInput.value)||16;
+    cell=getCellValue();
   }
-  const nudge=(parseInt(cellNudge.value)||0)*0.01;
-  cell=Math.round((cell+nudge)*100)/100;  // keep to 2 decimal places
-  cellHint.textContent=nudge!==0?`${cell}px (${nudge>0?'+':''}${nudge.toFixed(2)})`:`${cell}px`;
+  cellHint.textContent=`${cell}px`;
 
   const {colors:gridColors,rows,cols}=sampleGrid(pixels,w,h,cell,ox,oy);
   const {centers,labels}=kmeans(gridColors,k);
@@ -830,13 +828,21 @@ function renderResult(){
 // ═══════════════════════════════════════════════════════════════════════════════
 colorsSlider.addEventListener('input',()=>{colorsVal.textContent=colorsSlider.value;scheduleExtract(200);});
 colorsVal.textContent=colorsSlider.value;
+function getCellValue(){
+  return Math.round(((parseInt(cellInt.value)||16)+(parseInt(cellTenth.value)||0)*0.1+(parseInt(cellHundredth.value)||0)*0.01)*100)/100;
+}
+function setCellValue(v){
+  const iv=Math.floor(v), frac=Math.round((v-iv)*100);
+  cellInt.value=iv; cellTenth.value=Math.floor(frac/10); cellHundredth.value=frac%10;
+}
 cellAuto.addEventListener('change',()=>{
-  cellInput.disabled=cellAuto.checked;
-  if(cellAuto.checked && rawPixels){ cellInput.value=detectCellSize(rawPixels,rawW,rawH,12); cellNudge.value=0; }
+  [cellInt,cellTenth,cellHundredth].forEach(el=>el.disabled=cellAuto.checked);
+  if(cellAuto.checked && rawPixels){ setCellValue(detectCellSize(rawPixels,rawW,rawH,12)); }
   scheduleExtract(200);
 });
-cellInput.addEventListener('input',()=>scheduleExtract(400));
-cellNudge.addEventListener('input',()=>scheduleExtract(200));
+cellInt        .addEventListener('input',()=>scheduleExtract(400));
+cellTenth      .addEventListener('input',()=>scheduleExtract(200));
+cellHundredth  .addEventListener('input',()=>scheduleExtract(200));
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // Save / Copy
