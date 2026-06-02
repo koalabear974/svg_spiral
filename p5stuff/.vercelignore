@@ -1,0 +1,9 @@
+node_modules
+exports
+saves
+__pycache__
+.playwright-mcp
+*.py
+*.sh
+watcher.js
+osc_test.js
