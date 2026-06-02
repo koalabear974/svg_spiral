@@ -7,3 +7,5 @@ saves/*/
 *.sh
 watcher.js
 osc_test.js
+package.json
+package-lock.json
