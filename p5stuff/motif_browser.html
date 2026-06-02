@@ -224,6 +224,7 @@ body.viewer-open nav { display: none !important; }
           <h4>Construction Notes</h4>
           <div id="mConstruct"></div>
         </div>
+        <button id="mOpenViewer">Open in cross-stitch viewer</button>
       </div>
     </div>
   </div>
@@ -933,6 +934,25 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal()
 // ─── INIT ────────────────────────────────────────────────────────────────────
 buildCards();
 </script>
+
+<!-- ─── Cross-Stitch Viewer ──────────────────────────────────── -->
+<div id="xsViewer">
+  <div id="xsToolbar">
+    <span id="xsMotifName"></span>
+    <span id="xsZoomPct">100%</span>
+    <button class="xs-btn" id="xsModeBtn">Select</button>
+    <button class="xs-btn" id="xsFitBtn">Fit</button>
+    <button class="xs-btn" id="xsCloseBtn">✕ Close</button>
+  </div>
+  <div id="xsMain">
+    <canvas id="xsCanvas"></canvas>
+    <div id="xsRulerCorner"></div>
+    <div id="xsRulerH"></div>
+    <div id="xsRulerV"></div>
+    <div id="xsInfoBar"></div>
+  </div>
+</div>
+
 <script src="/sidebar.js"></script>
 </body>
 </html>
