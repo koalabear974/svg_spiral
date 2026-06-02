@@ -170,6 +170,21 @@ header p { margin-top: 4px; opacity: 0.6; font-size: 0.85rem; }
 body.viewer-open #sidebar,
 body.viewer-open .sidebar,
 body.viewer-open nav { display: none !important; }
+
+/* ─── Mobile / touch improvements ──────────────────────────── */
+@media (max-width: 600px) {
+  #xsToolbar { height: 56px; gap: 6px; padding: 0 10px; }
+  .xs-btn { padding: 10px 12px; font-size: 0.82rem; }
+  #mOpenViewer { display: none; width: 100%; text-align: center; }
+  #mOpenViewer.visible { display: block; }
+  .xs-btn-zoom { display: inline-block; }
+}
+@media (min-width: 601px) {
+  .xs-btn-zoom { display: none; }
+}
+@media (max-width: 400px) {
+  #xsZoomPct { display: none; }
+}
 </style>
 </head>
 <body>
