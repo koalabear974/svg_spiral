@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@vercel/blob": "^2.4.0",
     "canvas-sketch-util": "^1.10.0",
     "convex-hull": "^1.0.3",
     "d3": "^7.8.0",
