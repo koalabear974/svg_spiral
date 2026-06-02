@@ -1345,6 +1345,18 @@ buildCards();
 
     document.getElementById('xsCloseBtn').addEventListener('click', closeXsViewer);
 
+    document.getElementById('xsZoomIn').addEventListener('click', () => {
+      if (!xm) return;
+      const canvas = document.getElementById('xsCanvas');
+      zoomAt(1.5, canvas.width / 2, canvas.height / 2);
+    });
+
+    document.getElementById('xsZoomOut').addEventListener('click', () => {
+      if (!xm) return;
+      const canvas = document.getElementById('xsCanvas');
+      zoomAt(1 / 1.5, canvas.width / 2, canvas.height / 2);
+    });
+
     document.getElementById('xsFitBtn').addEventListener('click', () => {
       if (!xm) return;
       sizeCanvas();
@@ -1401,6 +1413,8 @@ buildCards();
   <div id="xsToolbar">
     <span id="xsMotifName"></span>
     <span id="xsZoomPct">100%</span>
+    <button class="xs-btn xs-btn-zoom" id="xsZoomOut">−</button>
+    <button class="xs-btn xs-btn-zoom" id="xsZoomIn">+</button>
     <button class="xs-btn" id="xsModeBtn">Select</button>
     <button class="xs-btn" id="xsFitBtn">Fit</button>
     <button class="xs-btn" id="xsCloseBtn">✕ Close</button>
