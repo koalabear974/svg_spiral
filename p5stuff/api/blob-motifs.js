@@ -24,7 +24,8 @@ module.exports = async (req, res) => {
       const { blobs = [] } = await r.json();
       for (const blob of blobs.filter(b => b.pathname.endsWith('.json'))) {
         try {
-          const d = await fetch(blob.downloadUrl, {
+          const fetchUrl = blob.url;
+          const d = await fetch(fetchUrl, {
             headers: { authorization: `Bearer ${token}` },
           }).then(r => r.json());
           motifs.push({ ...d, _file: blob.pathname.split('/').pop(), _source: 'blob', _blobUrl: blob.url });
