@@ -158,10 +158,11 @@ header p { margin-top: 4px; opacity: 0.6; font-size: 0.85rem; }
 #xsRulerH .xs-rlbl { top: 5px; transform: translateX(-50%); }
 #xsRulerV .xs-rlbl { left: 2px; transform: translateY(-50%); }
 #xsInfoBar {
-  position: absolute; bottom: 0; left: 0; right: 0;
+  position: absolute;
   background: rgba(44,24,16,0.88); color: #f5f0e8;
-  padding: 7px 16px; font-size: 0.78rem;
-  display: none; align-items: center; gap: 14px; flex-wrap: wrap; z-index: 5;
+  padding: 4px 10px; font-size: 0.75rem; border-radius: 4px;
+  display: none; align-items: center; gap: 10px; z-index: 10;
+  pointer-events: none; white-space: nowrap;
 }
 #xsInfoBar.active { display: flex; }
 .xs-chip { display: inline-flex; align-items: center; gap: 5px; }
@@ -1197,6 +1198,7 @@ async function loadBlobMotifs() {
       ctx.strokeStyle = 'rgba(180,40,40,0.75)';
       ctx.lineWidth = 1.5;
       ctx.strokeRect(panX + sc * cp, panY + sr * cp, (ec - sc + 1) * cp, (er - sr + 1) * cp);
+      positionTooltip();
     }
 
     // Ruler background overdraw (hides cells that bleed under rulers)
@@ -1246,7 +1248,22 @@ async function loadBlobMotifs() {
     }
   }
 
-  // ── Info bar ─────────────────────────────────────────────────────────────────
+  // ── Info bar / tooltip ───────────────────────────────────────────────────────
+  function positionTooltip() {
+    const bar = document.getElementById('xsInfoBar');
+    if (!bar.classList.contains('active') || !sel) return;
+    const sc = Math.min(sel.c1, sel.c2), ec = Math.max(sel.c1, sel.c2);
+    const sr = Math.min(sel.r1, sel.r2), er = Math.max(sel.r1, sel.r2);
+    const canvas = document.getElementById('xsCanvas');
+    const cx = panX + (sc + (ec - sc + 1) / 2) * scale;
+    const topY = panY + sr * scale - 8;
+    const botY = panY + (er + 1) * scale + 8;
+    const useBelow = topY < RULER_H + 32;
+    bar.style.left = Math.max(4, Math.min(canvas.width - 4, cx)) + 'px';
+    bar.style.top = (useBelow ? botY : topY) + 'px';
+    bar.style.transform = useBelow ? 'translate(-50%, 0)' : 'translate(-50%, -100%)';
+  }
+
   function updateInfoBar() {
     if (!sel) return;
     const sc = Math.min(sel.c1, sel.c2), ec = Math.max(sel.c1, sel.c2);
@@ -1267,6 +1284,7 @@ async function loadBlobMotifs() {
     }
     bar.innerHTML = html;
     bar.classList.add('active');
+    positionTooltip();
   }
 
   // ── Coord helpers ─────────────────────────────────────────────────────────────
