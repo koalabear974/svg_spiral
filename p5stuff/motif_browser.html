@@ -46,6 +46,18 @@ header p { margin-top: 4px; opacity: 0.6; font-size: 0.85rem; }
 }
 .card-canvas-wrap canvas { display: block; image-rendering: pixelated; image-rendering: crisp-edges; }
 .card-info { padding: 10px 12px 12px; border-top: 1px solid #f0ebe3; }
+.card { position: relative; }
+.card-delete-btn {
+  position: absolute; top: 6px; right: 6px;
+  width: 22px; height: 22px; border-radius: 50%;
+  background: rgba(255,255,255,0.85); border: 1px solid #e0d8d0;
+  color: #8b2020; font-size: 13px; line-height: 20px; text-align: center;
+  cursor: pointer; opacity: 0; transition: opacity 0.15s;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 10;
+}
+.card:hover .card-delete-btn { opacity: 1; }
+.card-delete-btn:hover { background: #8b2020; color: #fff; border-color: #8b2020; }
 .card-name { font-family: Georgia, serif; font-size: 0.85rem; font-weight: bold; }
 .card-name-en { font-size: 0.75rem; color: #7a6a5e; margin-top: 2px; }
 .badge {
@@ -954,6 +966,64 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal()
 
 // ─── INIT ────────────────────────────────────────────────────────────────────
 buildCards();
+loadBlobMotifs();
+
+async function loadBlobMotifs() {
+  let data;
+  try {
+    const r = await fetch('/api/blob-motifs');
+    data = await r.json();
+  } catch { return; }
+
+  const blobMotifs = (data.motifs || []).filter(m => m._source === 'blob');
+  if (!blobMotifs.length) return;
+
+  // Prepend blob motif cards (newest first) before the existing grid content
+  const frag = document.createDocumentFragment();
+  for (const m of [...blobMotifs].reverse()) {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.dataset.tradition = 'generated';
+    card._jsonMotif = m;
+
+    const delBtn = document.createElement('button');
+    delBtn.className = 'card-delete-btn';
+    delBtn.title = 'Delete this design';
+    delBtn.innerHTML = '&#x2715;';
+    delBtn.addEventListener('click', async e => {
+      e.stopPropagation();
+      const filename = m._file.replace(/\.json$/, '');
+      const ok = await fetch(`/api/motifs/${encodeURIComponent(filename)}`, { method: 'DELETE' })
+        .then(r => r.ok).catch(() => false);
+      if (ok) card.remove();
+    });
+
+    const wrap = document.createElement('div');
+    wrap.className = 'card-canvas-wrap';
+    const canvas = document.createElement('canvas');
+    renderJsonMotif(canvas, m, cellPxForJsonCard(m));
+    wrap.appendChild(canvas);
+
+    const info = document.createElement('div');
+    info.className = 'card-info';
+    const colorDots = m.colors.map(c =>
+      `<span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${c.hexValue};margin-right:2px;border:1px solid #ccc"></span>`
+    ).join('');
+    info.innerHTML = `
+      <div class="card-name">${(m.name || '').replace(/_/g,' ')}</div>
+      <div class="card-name-en">${m.stitchWidth}×${m.stitchHeight} cells · ${(m.colors||[]).length} colors</div>
+      <span class="badge t-generated">generated</span>
+      <div style="margin-top:6px">${colorDots}</div>
+    `;
+
+    card.appendChild(delBtn);
+    card.appendChild(wrap);
+    card.appendChild(info);
+    card.addEventListener('click', () => openJsonModal(m));
+    frag.appendChild(card);
+  }
+  grid.insertBefore(frag, grid.firstChild);
+}
 </script>
 
 <script>

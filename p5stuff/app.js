@@ -50,27 +50,46 @@ app.get('/api/sketches', (_req, res) => {
   res.json({ sketches });
 });
 
-app.get('/api/motifs', (_req, res) => {
-  if (!fs.existsSync(MOTIFS)) return res.json({ motifs: [] });
-  const motifs = fs.readdirSync(MOTIFS)
-    .filter(f => f.endsWith('.json'))
-    .sort()
-    .map(f => {
+app.get('/api/motifs', async (_req, res) => {
+  const localMotifs = [];
+  if (fs.existsSync(MOTIFS)) {
+    for (const f of fs.readdirSync(MOTIFS).filter(f => f.endsWith('.json')).sort()) {
       try {
         const d = JSON.parse(fs.readFileSync(path.join(MOTIFS, f)));
-        return {
-          file: f,
-          name:        d.name        || f.replace('.json', ''),
-          stitchWidth:  d.stitchWidth  || 0,
-          stitchHeight: d.stitchHeight || 0,
-          cellSizePx:   d.cellSizePx   || 0,
-          colorCount:   (d.colors || []).length,
-          colors:       (d.colors || []).map(c => c.hexValue).filter(Boolean),
-          source:       d.source || '',
-        };
-      } catch { return null; }
-    })
-    .filter(Boolean);
+        localMotifs.push({ ...d, _file: f, _source: 'local' });
+      } catch {}
+    }
+  }
+
+  const blobMotifs = [];
+  try {
+    const { list } = require('@vercel/blob');
+    const { blobs } = await list({ prefix: 'motifs/' });
+    for (const blob of blobs.filter(b => b.pathname.endsWith('.json'))) {
+      try {
+        const r = await fetch(blob.url);
+        const d = await r.json();
+        blobMotifs.push({ ...d, _file: blob.pathname.split('/').pop(), _source: 'blob', _blobUrl: blob.url });
+      } catch {}
+    }
+  } catch {}
+
+  res.json({ motifs: [...localMotifs, ...blobMotifs] });
+});
+
+app.get('/api/blob-motifs', async (_req, res) => {
+  const motifs = [];
+  try {
+    const { list } = require('@vercel/blob');
+    const { blobs } = await list({ prefix: 'motifs/' });
+    for (const blob of blobs.filter(b => b.pathname.endsWith('.json'))) {
+      try {
+        const r = await fetch(blob.url);
+        const d = await r.json();
+        motifs.push({ ...d, _file: blob.pathname.split('/').pop(), _source: 'blob', _blobUrl: blob.url });
+      } catch {}
+    }
+  } catch {}
   res.json({ motifs });
 });
 
@@ -103,15 +122,58 @@ app.post('/proxy', async (req, res) => {
   }
 });
 
-app.post('/save', (req, res) => {
+app.post('/save', async (req, res) => {
   const { name, motif } = req.body || {};
   if (!motif) return res.status(400).json({ error: 'motif required' });
-  fs.mkdirSync(MOTIFS, { recursive: true });
   const safe = (name || 'motif').replace(/[^a-z0-9_-]/gi, '_');
-  fs.writeFileSync(path.join(MOTIFS, `${safe}.json`), JSON.stringify(motif, null, 2));
-  _rebuildManifest();
-  const count = fs.readdirSync(MOTIFS).filter(f => f.endsWith('.json')).length;
-  res.json({ saved: `motifs/${safe}.json`, count });
+
+  // Try local filesystem first (works in dev; fails on Vercel read-only FS)
+  try {
+    fs.mkdirSync(MOTIFS, { recursive: true });
+    fs.writeFileSync(path.join(MOTIFS, `${safe}.json`), JSON.stringify(motif, null, 2));
+    try { _rebuildManifest(); } catch {}
+    const count = fs.readdirSync(MOTIFS).filter(f => f.endsWith('.json')).length;
+    return res.json({ saved: `motifs/${safe}.json`, count, _source: 'local' });
+  } catch {}
+
+  // Fallback: Vercel Blob
+  try {
+    const { put } = require('@vercel/blob');
+    const blob = await put(`motifs/${safe}.json`, JSON.stringify(motif, null, 2), {
+      access: 'public',
+      contentType: 'application/json',
+    });
+    return res.json({ saved: `motifs/${safe}.json`, count: 0, _source: 'blob', _blobUrl: blob.url });
+  } catch (e) {
+    return res.status(500).json({ error: `Save failed: ${e.message}` });
+  }
+});
+
+app.delete('/api/motifs/:name', async (req, res) => {
+  const safe = req.params.name.replace(/[^a-z0-9_-]/gi, '_');
+
+  // Try local filesystem first
+  const localPath = path.join(MOTIFS, `${safe}.json`);
+  if (fs.existsSync(localPath)) {
+    try {
+      fs.unlinkSync(localPath);
+      try { _rebuildManifest(); } catch {}
+      return res.json({ deleted: true, _source: 'local' });
+    } catch {}
+  }
+
+  // Try Vercel Blob
+  try {
+    const { list, del } = require('@vercel/blob');
+    const { blobs } = await list({ prefix: `motifs/${safe}.json` });
+    const match = blobs.find(b => b.pathname === `motifs/${safe}.json`);
+    if (match) {
+      await del(match.url);
+      return res.json({ deleted: true, _source: 'blob' });
+    }
+  } catch {}
+
+  res.status(404).json({ error: 'not found' });
 });
 
 function _rebuildManifest() {

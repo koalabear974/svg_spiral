@@ -2,7 +2,13 @@
   "framework": null,
   "buildCommand": null,
   "outputDirectory": ".",
+  "functions": {
+    "api/**/*.js": {
+      "excludeFiles": "{node_modules,saves,motif_books,motif_wikimedia,motif_images,exports,blender,Finished,GCODE,libs}/**"
+    }
+  },
   "rewrites": [
+    { "source": "/save", "destination": "/api/save" },
     { "source": "/", "destination": "/dashboard.html" }
   ]
 }

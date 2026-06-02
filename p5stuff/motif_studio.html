@@ -827,7 +827,8 @@ saveBtn.addEventListener('click',async()=>{
     const res=await fetch('/save',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,motif:buildJson(name)})});
     let data; try{ data=await res.json(); }catch{ throw new Error(`HTTP ${res.status} — empty response (is server running?)`); }
     if(data.error) throw new Error(data.error);
-    saveStatus.textContent=`✓ ${data.saved} (${data.count} total)`;
+    const where = data._source === 'blob' ? ' ☁' : '';
+    saveStatus.textContent=`✓ ${data.saved}${where} (${data.count} total)`;
   }catch(e){saveStatus.textContent='⚠ '+e.message;}
 });
 function buildJson(name){
