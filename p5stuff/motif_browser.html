@@ -808,33 +808,7 @@ const grid = document.getElementById('grid');
 function buildCards() {
   grid.innerHTML = '';
 
-  for (const m of MOTIFS) {
-    const card = document.createElement('div');
-    card.className = 'card';
-    card.dataset.tradition = m.tradition;
-    card._motif = m;
-
-    const wrap = document.createElement('div');
-    wrap.className = 'card-canvas-wrap';
-    const canvas = document.createElement('canvas');
-    renderMotif(canvas, m, cellPxForCard(m));
-    wrap.appendChild(canvas);
-
-    const info = document.createElement('div');
-    info.className = 'card-info';
-    info.innerHTML = `
-      <div class="card-name">${m.name}</div>
-      <div class="card-name-en">${m.nameEn}</div>
-      <span class="badge t-${m.tradition}">${m.tradition.replace('-',' ')}</span>
-    `;
-
-    card.appendChild(wrap);
-    card.appendChild(info);
-    card.addEventListener('click', () => openModal(m));
-    grid.appendChild(card);
-  }
-
-  for (const m of (window.IMPORTED_MOTIFS || [])) {
+  for (const m of [...(window.IMPORTED_MOTIFS || [])].reverse()) {
     const card = document.createElement('div');
     card.className = 'card';
     card.dataset.tradition = 'generated';
@@ -861,6 +835,32 @@ function buildCards() {
     card.appendChild(wrap);
     card.appendChild(info);
     card.addEventListener('click', () => openJsonModal(m));
+    grid.appendChild(card);
+  }
+
+  for (const m of MOTIFS) {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.dataset.tradition = m.tradition;
+    card._motif = m;
+
+    const wrap = document.createElement('div');
+    wrap.className = 'card-canvas-wrap';
+    const canvas = document.createElement('canvas');
+    renderMotif(canvas, m, cellPxForCard(m));
+    wrap.appendChild(canvas);
+
+    const info = document.createElement('div');
+    info.className = 'card-info';
+    info.innerHTML = `
+      <div class="card-name">${m.name}</div>
+      <div class="card-name-en">${m.nameEn}</div>
+      <span class="badge t-${m.tradition}">${m.tradition.replace('-',' ')}</span>
+    `;
+
+    card.appendChild(wrap);
+    card.appendChild(info);
+    card.addEventListener('click', () => openModal(m));
     grid.appendChild(card);
   }
 }
