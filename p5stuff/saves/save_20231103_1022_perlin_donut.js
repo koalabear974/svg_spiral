@@ -80,10 +80,10 @@ function draw() {
 
   stroke("black")
   drawDonutSpiral(perlin, noiseAmplitude);
-  stroke("grey")
-  drawDonutSpiral(perlin, noiseAmplitude+20);
-  stroke("lightgrey")
-  drawDonutSpiral(perlin, noiseAmplitude+40);
+  // stroke("grey")
+  // drawDonutSpiral(perlin, noiseAmplitude+20);
+  // stroke("lightgrey")
+  // drawDonutSpiral(perlin, noiseAmplitude+40);
 
 }
 

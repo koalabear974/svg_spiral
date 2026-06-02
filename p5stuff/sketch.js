@@ -1,603 +1,299 @@
+// Balkan Motif Stamps
+// Places Balkan motifs on a kaleidoscope cross-stitch grid.
+// Motif source: built-in algorithmic shapes or motifs saved from Motif Studio.
+
 var seed = 0;
-var seedMin = 0;
-var seedMax = 1000;
-var seedStep = 1;
+var seedMin = 0; var seedMax = 1000; var seedStep = 1;
 
-var numPoints = 15;
-var numPointsMin = 10;
-var numPointsMax = 200;
-var numPointsStep = 1;
+var cellSize = 12;
+var cellSizeMin = 4; var cellSizeMax = 40; var cellSizeStep = 1;
 
-var showPoints = false;
-var showStroke = true;
-var fillCells = true;
+var motifSelector = 'diamond'; // updated by dropdown
 
-var strokeWeightVar = 1;
-var strokeWeightVarMin = 0.1;
-var strokeWeightVarMax = 5;
-var strokeWeightVarStep = 0.1;
+var motifSize = 22;
+var motifSizeMin = 8; var motifSizeMax = 150; var motifSizeStep = 2;
 
-var roundingRadius = 100;
-var roundingRadiusMin = 0;
-var roundingRadiusMax = 100;
-var roundingRadiusStep = 1;
+var motifGap = 4;
+var motifGapMin = 0; var motifGapMax = 20; var motifGapStep = 1;
 
-var pagePadding = 50;
-var pagePaddingMin = 0;
-var pagePaddingMax = 200;
-var pagePaddingStep = 5;
+var stampOffX = 0;
+var stampOffXMin = -600; var stampOffXMax = 600; var stampOffXStep = 1;
 
-var shrinkAmount = 0.2;
-var shrinkAmountMin = 0;
-var shrinkAmountMax = 1;
-var shrinkAmountStep = 0.01;
+var stampOffY = 0;
+var stampOffYMin = -600; var stampOffYMax = 600; var stampOffYStep = 1;
 
-var minAngle = 30;
-var minAngleMin = 0;
-var minAngleMax = 180;
-var minAngleStep = 5;
+var rotateStamps = true;
+var flipH = false;
+var flipV = false;
 
-var minVertexDistance = 10;
-var minVertexDistanceMin = 0;
-var minVertexDistanceMax = 50;
-var minVertexDistanceStep = 2;
+var noiseBackground = true;
+var noiseScale = 0.02;
+var noiseScaleMin = 0.001; var noiseScaleMax = 0.12; var noiseScaleStep = 0.001;
 
-var gui;
-var points = [];
-var cells = [];
+var noiseOctaves = 4;
+var noiseOctavesMin = 1; var noiseOctavesMax = 8; var noiseOctavesStep = 1;
+
+var noiseFalloff = 0.5;
+var noiseFalloffMin = 0.1; var noiseFalloffMax = 0.9; var noiseFalloffStep = 0.05;
+
+var threshold = 0.48;
+var thresholdMin = 0; var thresholdMax = 1; var thresholdStep = 0.01;
+
+var colorNoiseScale = 0.5;
+var colorNoiseScaleMin = 0.05; var colorNoiseScaleMax = 3; var colorNoiseScaleStep = 0.05;
+
+var colorSeed = 0;
+var colorSeedMin = 0; var colorSeedMax = 100; var colorSeedStep = 1;
+
+var mirror = 4;
+var mirrorMin = 0; var mirrorMax = 10; var mirrorStep = 1;
+
+var usePixel = true;
+
+var crossStrokeWeight = 1.5;
+var crossStrokeWeightMin = 0.3; var crossStrokeWeightMax = 6; var crossStrokeWeightStep = 0.1;
+
+var paddingX = 70;
+var paddingXMin = 0; var paddingXMax = 300; var paddingXStep = 5;
+
+var paddingY = 100;
+var paddingYMin = 0; var paddingYMax = 300; var paddingYStep = 5;
+
+var blackAndWhite = false;
+var showGrid = false;
+
+var stampGui, canvasGui;
+var _allMotifs = []; // internal list, not GUI-bound
+
+function buildMotifList() {
+  _allMotifs = [
+    {name: 'diamond', isBuiltin: true, builtinType: 0},
+    {name: 'tree',    isBuiltin: true, builtinType: 1},
+    {name: 'star',    isBuiltin: true, builtinType: 2},
+  ];
+  var imported = window.IMPORTED_MOTIFS || [];
+  for (var i = 0; i < imported.length; i++) {
+    _allMotifs.push({name: imported[i].name, isBuiltin: false, data: imported[i]});
+  }
+}
 
 function setup() {
   if (typeof SVG === 'undefined') {
-    createCanvas(...a4Format4);
+    createCanvas(...a3Format);
   } else {
-    createCanvas(...a4Format4, SVG);
+    createCanvas(...a3Format, SVG);
   }
   pixelDensity(1);
-  gui = createGui('Voronoi Pattern');
-  let globals = [
-    'seed',
-    'numPoints',
-    'showPoints',
-    'showStroke',
-    'fillCells',
-    'roundingRadius',
-    'pagePadding',
-    'shrinkAmount',
-    'minVertexDistance',
-    'minAngle',
-  ]
-  gui.addGlobals(...globals);
+
+  buildMotifList();
+
+  stampGui = createGui('Stamp');
+  // addDropDown via underlying quicksettings instance (gui.prototype)
+  stampGui.prototype.addDropDown('motif', _allMotifs.map(m => m.name), function(v) {
+    motifSelector = v.value;
+    var entry = _allMotifs.find(m => m.name === v.value);
+    if (entry && !entry.isBuiltin) {
+      motifSize = max(entry.data.stitchWidth, entry.data.stitchHeight);
+      stampGui.prototype.setValue('motifSize', motifSize);
+    }
+    redraw();
+  });
+  stampGui.addGlobals('motifSize', 'motifGap', 'stampOffX', 'stampOffY', 'rotateStamps', 'flipH', 'flipV');
+  stampGui.setPosition(10, 10);
+
+  canvasGui = createGui('Canvas');
+  canvasGui.addGlobals(
+    'seed', 'cellSize',
+    'noiseBackground', 'noiseScale', 'noiseOctaves', 'noiseFalloff', 'threshold',
+    'colorNoiseScale', 'colorSeed',
+    'mirror', 'paddingX', 'paddingY',
+    'usePixel', 'blackAndWhite', 'crossStrokeWeight', 'showGrid'
+  );
+  canvasGui.setPosition(240, 10);
+
   noLoop();
 }
 
 function keyPressed() {
-  if (keyCode === 32) {
-    redraw();
-  }
+  if (keyCode === 32) redraw();
   if (keyCode === 83) {
     const d = new Date();
-    let fileName = 'art_' + d.toISOString().split('.')[0].replaceAll(':', '-');
-    save(fileName+".svg");
+    save('art_' + d.toISOString().split('.')[0].replaceAll(':', '-') + '.svg');
   }
 }
 
 function draw() {
-  randomSeed(seed);
-  noiseSeed(seed);
-  clear();
-  background(255);
+  colorMode(HSB, 360, 100, 100);
+  randomSeed(colorSeed);
+  let pal = Array.from({length: 8}, () => color(random(360), random(50, 90), random(40, 85)));
+  colorMode(RGB, 255);
 
-  // Generate random voronoi points within the padded area
-  points = [];
-  for (let i = 0; i < numPoints; i++) {
-    points.push({
-      x: random(pagePadding, width - pagePadding),
-      y: random(pagePadding, height - pagePadding),
-      color: color(random(100, 255), random(100, 255), random(100, 255))
-    });
-  }
+  let motifEntry = _allMotifs.find(m => m.name === motifSelector) || _allMotifs[0];
 
-  // Calculate voronoi cell vertices
-  calculateVoronoiCells();
-
-  // Draw rounded polygons for each cell
-  drawRoundedCells();
-
-  // Optionally draw the voronoi points
-  if (showPoints) {
-    fill(0);
-    noStroke();
-    for (let pt of points) {
-      circle(pt.x, pt.y, 8);
+  // Pre-build studio palette (colorId → p5 color)
+  let studioPalette = {};
+  if (!motifEntry.isBuiltin) {
+    for (let cd of motifEntry.data.colors) {
+      if (cd.colorId > 0) studioPalette[cd.colorId] = color(cd.hexValue);
     }
   }
-}
 
-function calculateVoronoiCells() {
-  cells = [];
+  randomSeed(seed);
+  noiseSeed(seed);
+  noiseDetail(noiseOctaves, noiseFalloff);
+  clear();
+  background(243, 238, 225);
 
-  // Use page padding as the boundary for voronoi calculation
-  let bounds = {
-    left: pagePadding,
-    right: width - pagePadding,
-    top: pagePadding,
-    bottom: height - pagePadding
-  };
+  let cols = floor((width - paddingX * 2) / cellSize);
+  let rows = floor((height - paddingY * 2) / cellSize);
+  let offX = floor((width - cols * cellSize) / 2);
+  let offY = floor((height - rows * cellSize) / 2);
 
-  for (let i = 0; i < points.length; i++) {
-    let vertices = [];
+  if (showGrid) {
+    stroke(210, 200, 185); strokeWeight(0.5);
+    for (let c = 0; c <= cols; c++) line(offX + c * cellSize, offY, offX + c * cellSize, offY + rows * cellSize);
+    for (let r = 0; r <= rows; r++) line(offX, offY + r * cellSize, offX + cols * cellSize, offY + r * cellSize);
+  }
 
-    // For each point, find vertices of its voronoi cell
-    // by checking intersections of perpendicular bisectors
-    for (let j = 0; j < points.length; j++) {
-      if (i === j) continue;
+  let spacing = (motifSize + motifGap) * cellSize;
 
-      for (let k = j + 1; k < points.length; k++) {
-        if (i === k) continue;
+  for (let col = 0; col < cols; col++) {
+    for (let row = 0; row < rows; row++) {
+      let cx = offX + col * cellSize + cellSize * 0.5;
+      let cy = offY + row * cellSize + cellSize * 0.5;
 
-        // Find the circumcenter of the triangle formed by points i, j, k
-        let vertex = getCircumcenter(points[i], points[j], points[k]);
+      let sx = cx, sy = cy;
+      if (mirror > 0) {
+        let dx = cx - width * 0.5, dy = cy - height * 0.5;
+        let r = sqrt(dx * dx + dy * dy);
+        let angle = atan2(dy, dx);
+        if (angle < 0) angle += TWO_PI;
+        let sectorSize = PI / mirror;
+        let folded = angle % (sectorSize * 2);
+        if (folded > sectorSize) folded = sectorSize * 2 - folded;
+        sx = width * 0.5 + r * cos(folded);
+        sy = height * 0.5 + r * sin(folded);
+      }
 
-        if (vertex && isClosestPoint(vertex, i) && isInsideBounds(vertex, bounds)) {
-          vertices.push(vertex);
+      let osx = sx + stampOffX;
+      let osy = sy + stampOffY;
+      let sCol = floor(osx / spacing);
+      let sRow = floor(osy / spacing);
+      let localX = osx - (sCol + 0.5) * spacing;
+      let localY = osy - (sRow + 0.5) * spacing;
+      let lc = round(localX / cellSize);
+      let lr = round(localY / cellSize);
+
+      if (rotateStamps) {
+        let turns = (sCol * 3 + sRow * 7) % 4;
+        let tmp = lc;
+        for (let t = 0; t < turns; t++) { tmp = lc; lc = -lr; lr = tmp; }
+      }
+
+      let colorId = 0;
+
+      if (motifEntry.isBuiltin) {
+        colorId = getMotifColor(flipH ? -lc : lc, flipV ? -lr : lr, motifEntry.builtinType, motifSize);
+      } else {
+        colorId = getStudioMotifColor(lc, lr, motifEntry.data);
+      }
+
+      if (colorId > 0) {
+        let c;
+        if (motifEntry.isBuiltin) {
+          c = blackAndWhite ? color(0) : pal[(colorId - 1) % pal.length];
+        } else {
+          c = blackAndWhite ? color(0) : (studioPalette[colorId] || color(0));
+        }
+        drawCell(col, row, offX, offY, c);
+      } else if (noiseBackground) {
+        let n = noise(sx * noiseScale, sy * noiseScale);
+        if (n > threshold) {
+          let cn = noise(sx * noiseScale * colorNoiseScale + 999, sy * noiseScale * colorNoiseScale + 999);
+          let c = blackAndWhite ? color(0) : pal[constrain(floor(cn * pal.length), 0, pal.length - 1)];
+          drawCell(col, row, offX, offY, c);
         }
       }
     }
-
-    // Add edge intersections with inset boundaries
-    vertices = vertices.concat(getEdgeIntersections(i, bounds));
-
-    // Add inset corners if they belong to this cell
-    let corners = [
-      {x: bounds.left, y: bounds.top},
-      {x: bounds.right, y: bounds.top},
-      {x: bounds.right, y: bounds.bottom},
-      {x: bounds.left, y: bounds.bottom}
-    ];
-
-    for (let corner of corners) {
-      if (isClosestPoint(corner, i)) {
-        vertices.push(corner);
-      }
-    }
-
-    // Sort vertices by angle from center point
-    vertices = sortVerticesByAngle(vertices, points[i]);
-
-    // Remove duplicates
-    vertices = removeDuplicates(vertices);
-
-    // For edge cells, add interpolated vertices along the boundary
-    vertices = addBoundaryVertices(vertices, points[i], bounds);
-
-    // First pass: merge vertices that are too close together
-    vertices = simplifyByDistance(vertices);
-
-    // Second pass: adjust vertices that create sharp angles
-    vertices = smoothSharpAngles(vertices, points[i]);
-
-    cells.push({
-      center: points[i],
-      vertices: vertices,
-      color: points[i].color
-    });
   }
 }
 
-function isInsideBounds(v, bounds) {
-  return v.x >= bounds.left && v.x <= bounds.right &&
-         v.y >= bounds.top && v.y <= bounds.bottom;
+// Returns colorId for a studio motif at local grid coords (lc, lr)
+function getStudioMotifColor(lc, lr, motif) {
+  let halfW = floor(motif.stitchWidth / 2);
+  let halfH = floor(motif.stitchHeight / 2);
+  let gc = lc + halfW;
+  let gr = lr + halfH;
+  if (flipH) gc = motif.stitchWidth - 1 - gc;
+  if (flipV) gr = motif.stitchHeight - 1 - gr;
+  if (gc < 0 || gc >= motif.stitchWidth || gr < 0 || gr >= motif.stitchHeight) return 0;
+  return motif.grid[gr][gc];
 }
 
-function simplifyByDistance(vertices) {
-  if (minVertexDistance === 0 || vertices.length < 3) {
-    return vertices;
-  }
-
-  let simplified = [];
-  let i = 0;
-
-  while (i < vertices.length) {
-    let curr = vertices[i];
-    let next = vertices[(i + 1) % vertices.length];
-    let d = dist(curr.x, curr.y, next.x, next.y);
-
-    // If points are too close, merge them by averaging
-    if (d < minVertexDistance && simplified.length < vertices.length - 2) {
-      // Average the two points
-      let merged = {
-        x: (curr.x + next.x) / 2,
-        y: (curr.y + next.y) / 2
-      };
-      simplified.push(merged);
-      i += 2; // Skip both points
-    } else {
-      simplified.push(curr);
-      i++;
-    }
-  }
-
-  // Ensure we have at least 3 vertices
-  if (simplified.length < 3) {
-    return vertices;
-  }
-
-  return simplified;
+// Returns color index 0=background, 1..3=palette layers
+function getMotifColor(lc, lr, type, size) {
+  let half = floor(size / 2);
+  if (abs(lc) > half || abs(lr) > half) return 0;
+  if (type === 0) return getDiamondMotif(lc, lr, half);
+  if (type === 1) return getTreeMotif(lc, lr, half, size);
+  if (type === 2) return getStarMotif(lc, lr, half);
+  return 0;
 }
 
-function smoothSharpAngles(vertices, center) {
-  if (minAngle === 0 || vertices.length < 3) {
-    return vertices;
-  }
-
-  let smoothed = [];
-  let minAngleRad = radians(minAngle);
-
-  for (let i = 0; i < vertices.length; i++) {
-    let prev = vertices[(i - 1 + vertices.length) % vertices.length];
-    let curr = vertices[i];
-    let next = vertices[(i + 1) % vertices.length];
-
-    // Calculate vectors from current point to neighbors
-    let v1x = prev.x - curr.x;
-    let v1y = prev.y - curr.y;
-    let v2x = next.x - curr.x;
-    let v2y = next.y - curr.y;
-
-    // Normalize vectors
-    let len1 = sqrt(v1x * v1x + v1y * v1y);
-    let len2 = sqrt(v2x * v2x + v2y * v2y);
-
-    if (len1 > 0.001 && len2 > 0.001) {
-      v1x /= len1;
-      v1y /= len1;
-      v2x /= len2;
-      v2y /= len2;
-
-      // Calculate angle using dot product
-      let dotProduct = v1x * v2x + v1y * v2y;
-      dotProduct = constrain(dotProduct, -1, 1);
-      let angle = acos(dotProduct);
-
-      // If angle is too sharp, move the vertex inward toward the center
-      if (angle < minAngleRad) {
-        // Calculate how much to pull inward based on how sharp the angle is
-        let sharpness = 1 - (angle / minAngleRad);
-        let pullFactor = sharpness * 0.5; // Pull up to 50% toward center
-
-        smoothed.push({
-          x: curr.x + (center.x - curr.x) * pullFactor,
-          y: curr.y + (center.y - curr.y) * pullFactor
-        });
-      } else {
-        // Angle is fine, keep the vertex as-is
-        smoothed.push(curr);
-      }
-    } else {
-      // Keep very close points (edge case)
-      smoothed.push(curr);
-    }
-  }
-
-  return smoothed;
+// Nested diamond: 3 concentric L1-norm rings
+function getDiamondMotif(lc, lr, half) {
+  let d = abs(lc) + abs(lr);
+  if (d > half) return 0;
+  if (d > half * 0.65) return 1;
+  if (d > half * 0.3) return 2;
+  return 3;
 }
 
-function addBoundaryVertices(vertices, center, bounds) {
-  if (vertices.length < 2) return vertices;
-
-  let newVertices = [];
-
-  for (let i = 0; i < vertices.length; i++) {
-    let v1 = vertices[i];
-    let v2 = vertices[(i + 1) % vertices.length];
-
-    newVertices.push(v1);
-
-    // Check if both vertices are on edges
-    let v1OnEdge = isOnBoundary(v1, bounds);
-    let v2OnEdge = isOnBoundary(v2, bounds);
-
-    if (v1OnEdge && v2OnEdge) {
-      // Get the path along the boundary from v1 to v2
-      let boundaryPath = getBoundaryPath(v1, v2, bounds);
-
-      for (let p of boundaryPath) {
-        newVertices.push(p);
-      }
+// Tree of life: crown diamond + vertical stem + 3 branch pairs
+function getTreeMotif(lc, lr, half, size) {
+  let row = lr + half;
+  let crownR = max(2, floor(half * 0.28));
+  let crownDist = abs(lc) + abs(row - crownR);
+  if (crownDist <= crownR) return crownDist < crownR ? 3 : 1;
+  let stemStart = crownR * 2 + 1;
+  if (row < stemStart) return 0;
+  if (lc === 0) return 2;
+  let stemLen = size - stemStart;
+  for (let b = 1; b <= 3; b++) {
+    let branchRow = stemStart + floor(stemLen * b / 4);
+    let s = abs(lc);
+    let bLen = floor(half * (0.22 + b * 0.07));
+    if (s >= 1 && s <= bLen && row === branchRow - s) return 3;
+    if (s === bLen + 1 && abs(row - (branchRow - bLen)) <= 1 && abs(lc) <= bLen + 1) {
+      let tipDist = abs(lc - (bLen + 1) * sign(lc)) + abs(row - (branchRow - bLen));
+      if (tipDist <= 1) return 1;
     }
   }
-
-  return newVertices;
+  return 0;
 }
 
-function isOnBoundary(v, bounds) {
-  let tolerance = 1;
-  return abs(v.x - bounds.left) < tolerance ||
-         abs(v.x - bounds.right) < tolerance ||
-         abs(v.y - bounds.top) < tolerance ||
-         abs(v.y - bounds.bottom) < tolerance;
+function sign(x) { return x > 0 ? 1 : x < 0 ? -1 : 0; }
+
+// 8-pointed star: union of L1 diamond (cardinal) + Chebyshev square (ordinal)
+function getStarMotif(lc, lr, half) {
+  let d1 = abs(lc) + abs(lr);
+  let d2 = max(abs(lc), abs(lr));
+  let h2 = floor(half * 0.72);
+  if (d1 > half && d2 > h2) return 0;
+  if (d1 <= floor(half * 0.35) && d2 <= floor(h2 * 0.5)) return 3;
+  if (d1 <= floor(half * 0.6) || d2 <= floor(h2 * 0.65)) return 2;
+  return 1;
 }
 
-function getBoundaryPath(v1, v2, bounds) {
-  let path = [];
-
-  // Check if they're on the same straight edge
-  let v1Edges = getEdges(v1, bounds);
-  let v2Edges = getEdges(v2, bounds);
-
-  // Find common edge
-  let commonEdge = null;
-  for (let e1 of v1Edges) {
-    for (let e2 of v2Edges) {
-      if (e1 === e2) {
-        commonEdge = e1;
-        break;
-      }
-    }
-    if (commonEdge) break;
-  }
-
-  if (commonEdge) {
-    // Same edge - interpolate directly
-    let d = dist(v1.x, v1.y, v2.x, v2.y);
-    let numInterpolations = max(2, floor(d / 20));
-
-    for (let j = 1; j < numInterpolations; j++) {
-      let t = j / numInterpolations;
-      path.push({
-        x: v1.x + (v2.x - v1.x) * t,
-        y: v1.y + (v2.y - v1.y) * t
-      });
-    }
+function drawCell(col, row, offX, offY, c) {
+  if (usePixel) {
+    noStroke(); fill(c);
+    rect(offX + col * cellSize, offY + row * cellSize, cellSize, cellSize);
   } else {
-    // Different edges - need to go around corners
-    path = path.concat(getCornerPath(v1, v2, v1Edges, v2Edges, bounds));
+    noFill(); stroke(c); strokeWeight(crossStrokeWeight);
+    let m = cellSize * 0.18;
+    let x1 = offX + col * cellSize + m, y1 = offY + row * cellSize + m;
+    let x2 = offX + (col + 1) * cellSize - m, y2 = offY + (row + 1) * cellSize - m;
+    line(x1, y1, x2, y2); line(x2, y1, x1, y2);
   }
-
-  return path;
-}
-
-function getEdges(v, bounds) {
-  let tolerance = 1;
-  let edges = [];
-
-  if (abs(v.x - bounds.left) < tolerance) edges.push('left');
-  if (abs(v.x - bounds.right) < tolerance) edges.push('right');
-  if (abs(v.y - bounds.top) < tolerance) edges.push('top');
-  if (abs(v.y - bounds.bottom) < tolerance) edges.push('bottom');
-
-  return edges;
-}
-
-function getCornerPath(v1, v2, v1Edges, v2Edges, bounds) {
-  let path = [];
-
-  // Determine which corner(s) to traverse using inset bounds
-  let corners = [
-    {x: bounds.left, y: bounds.top, edges: ['left', 'top']},
-    {x: bounds.right, y: bounds.top, edges: ['right', 'top']},
-    {x: bounds.right, y: bounds.bottom, edges: ['right', 'bottom']},
-    {x: bounds.left, y: bounds.bottom, edges: ['left', 'bottom']}
-  ];
-
-  // Find which corner connects v1's edge to v2's edge
-  for (let corner of corners) {
-    let hasV1Edge = v1Edges.some(e => corner.edges.includes(e));
-    let hasV2Edge = v2Edges.some(e => corner.edges.includes(e));
-
-    if (hasV1Edge && hasV2Edge) {
-      // Add interpolated points from v1 to corner
-      let d1 = dist(v1.x, v1.y, corner.x, corner.y);
-      let steps1 = max(2, floor(d1 / 20));
-      for (let j = 1; j < steps1; j++) {
-        let t = j / steps1;
-        path.push({
-          x: v1.x + (corner.x - v1.x) * t,
-          y: v1.y + (corner.y - v1.y) * t
-        });
-      }
-
-      // Add the corner itself
-      path.push({x: corner.x, y: corner.y});
-
-      // Add interpolated points from corner to v2
-      let d2 = dist(corner.x, corner.y, v2.x, v2.y);
-      let steps2 = max(2, floor(d2 / 20));
-      for (let j = 1; j < steps2; j++) {
-        let t = j / steps2;
-        path.push({
-          x: corner.x + (v2.x - corner.x) * t,
-          y: corner.y + (v2.y - corner.y) * t
-        });
-      }
-
-      break;
-    }
-  }
-
-  return path;
-}
-
-function drawRoundedCells() {
-  for (let cell of cells) {
-    if (cell.vertices.length < 3) continue;
-
-    if (fillCells) {
-      fill(cell.color);
-    } else {
-      noFill();
-    }
-
-    if (showStroke) {
-      stroke(0);
-      strokeWeight(strokeWeightVar);
-    } else {
-      noStroke();
-    }
-
-    // Apply shrinking to create gaps between shapes
-    let adjustedVertices = [];
-    for (let v of cell.vertices) {
-      let dx = v.x - cell.center.x;
-      let dy = v.y - cell.center.y;
-
-      // Shrink vertices toward center to create gaps
-      let factor = 1 - shrinkAmount;
-
-      adjustedVertices.push({
-        x: cell.center.x + dx * factor,
-        y: cell.center.y + dy * factor
-      });
-    }
-
-    // Draw rounded polygon
-    beginShape();
-    for (let i = 0; i < adjustedVertices.length; i++) {
-      let v1 = adjustedVertices[i];
-      let v2 = adjustedVertices[(i + 1) % adjustedVertices.length];
-      let v0 = adjustedVertices[(i - 1 + adjustedVertices.length) % adjustedVertices.length];
-
-      // Calculate the rounding
-      let d1 = dist(v1.x, v1.y, v0.x, v0.y);
-      let d2 = dist(v1.x, v1.y, v2.x, v2.y);
-      let radius = min(roundingRadius, d1 / 2, d2 / 2);
-
-      if (radius > 0 && i === 0) {
-        // Start with the rounded corner
-        let angle1 = atan2(v0.y - v1.y, v0.x - v1.x);
-        let px = v1.x + cos(angle1) * radius;
-        let py = v1.y + sin(angle1) * radius;
-        vertex(px, py);
-      }
-
-      if (radius > 0) {
-        // Point before corner
-        let angle1 = atan2(v0.y - v1.y, v0.x - v1.x);
-        let px1 = v1.x + cos(angle1) * radius;
-        let py1 = v1.y + sin(angle1) * radius;
-
-        // Point after corner
-        let angle2 = atan2(v2.y - v1.y, v2.x - v1.x);
-        let px2 = v1.x + cos(angle2) * radius;
-        let py2 = v1.y + sin(angle2) * radius;
-
-        vertex(px1, py1);
-        quadraticVertex(v1.x, v1.y, px2, py2);
-      } else {
-        vertex(v1.x, v1.y);
-      }
-    }
-    endShape(CLOSE);
-  }
-}
-
-function getCircumcenter(p1, p2, p3) {
-  let d = 2 * (p1.x * (p2.y - p3.y) + p2.x * (p3.y - p1.y) + p3.x * (p1.y - p2.y));
-  if (abs(d) < 0.0001) return null;
-
-  let x = ((p1.x * p1.x + p1.y * p1.y) * (p2.y - p3.y) +
-           (p2.x * p2.x + p2.y * p2.y) * (p3.y - p1.y) +
-           (p3.x * p3.x + p3.y * p3.y) * (p1.y - p2.y)) / d;
-
-  let y = ((p1.x * p1.x + p1.y * p1.y) * (p3.x - p2.x) +
-           (p2.x * p2.x + p2.y * p2.y) * (p1.x - p3.x) +
-           (p3.x * p3.x + p3.y * p3.y) * (p2.x - p1.x)) / d;
-
-  return {x: x, y: y};
-}
-
-function isClosestPoint(vertex, pointIndex) {
-  let minDist = dist(vertex.x, vertex.y, points[pointIndex].x, points[pointIndex].y);
-
-  for (let i = 0; i < points.length; i++) {
-    if (i === pointIndex) continue;
-    let d = dist(vertex.x, vertex.y, points[i].x, points[i].y);
-    if (d < minDist - 0.01) return false;
-  }
-
-  return true;
-}
-
-function getEdgeIntersections(pointIndex, bounds) {
-  let intersections = [];
-  let p = points[pointIndex];
-
-  for (let i = 0; i < points.length; i++) {
-    if (i === pointIndex) continue;
-
-    // Find intersections of perpendicular bisector with inset boundary edges
-    let other = points[i];
-    let mx = (p.x + other.x) / 2;
-    let my = (p.y + other.y) / 2;
-
-    let dx = other.x - p.x;
-    let dy = other.y - p.y;
-
-    // Perpendicular direction
-    let px = -dy;
-    let py = dx;
-
-    // Check intersection with each inset edge
-    let edges = [
-      [{x: bounds.left, y: bounds.top}, {x: bounds.right, y: bounds.top}],
-      [{x: bounds.right, y: bounds.top}, {x: bounds.right, y: bounds.bottom}],
-      [{x: bounds.right, y: bounds.bottom}, {x: bounds.left, y: bounds.bottom}],
-      [{x: bounds.left, y: bounds.bottom}, {x: bounds.left, y: bounds.top}]
-    ];
-
-    for (let edge of edges) {
-      let intersection = lineIntersection(
-        mx, my, mx + px, my + py,
-        edge[0].x, edge[0].y, edge[1].x, edge[1].y
-      );
-
-      if (intersection && isClosestPoint(intersection, pointIndex)) {
-        intersections.push(intersection);
-      }
-    }
-  }
-
-  return intersections;
-}
-
-function lineIntersection(x1, y1, x2, y2, x3, y3, x4, y4) {
-  let denom = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
-  if (abs(denom) < 0.0001) return null;
-
-  let t = ((x1 - x3) * (y3 - y4) - (y1 - y3) * (x3 - x4)) / denom;
-  let u = -((x1 - x2) * (y1 - y3) - (y1 - y2) * (x1 - x3)) / denom;
-
-  if (u >= 0 && u <= 1) {
-    return {
-      x: x1 + t * (x2 - x1),
-      y: y1 + t * (y2 - y1)
-    };
-  }
-
-  return null;
-}
-
-function sortVerticesByAngle(vertices, center) {
-  return vertices.sort((a, b) => {
-    let angleA = atan2(a.y - center.y, a.x - center.x);
-    let angleB = atan2(b.y - center.y, b.x - center.x);
-    return angleA - angleB;
-  });
-}
-
-function removeDuplicates(vertices) {
-  let unique = [];
-  for (let v of vertices) {
-    let isDuplicate = false;
-    for (let u of unique) {
-      if (dist(v.x, v.y, u.x, u.y) < 1) {
-        isDuplicate = true;
-        break;
-      }
-    }
-    if (!isDuplicate) {
-      unique.push(v);
-    }
-  }
-  return unique;
 }

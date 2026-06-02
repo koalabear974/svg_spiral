@@ -18,7 +18,7 @@ var lineDistance = 500;
 var lineDistanceMin = 0;
 var lineDistanceMax = 1000;
 var lineDistanceStep = 1;
-var interpolationSteps = 25;
+var interpolationSteps = 100;
 var interpolationStepsMin = 1;
 var interpolationStepsMax = 500;
 var interpolationStepsStep = 1;
@@ -60,7 +60,7 @@ function draw() {
   randomSeed(seed);
   clear();
   noFill();
-  strokeWeight(15)
+  strokeWeight(1)
 
   let randomPoints1 = [];
 

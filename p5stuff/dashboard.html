@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dashboard — Motif Studio</title>
+<script src="/sidebar.js"></script>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  background: #0e0d18;
+  color: #d4c8a8;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Top bar ──────────────────────────────────────────────────────────── */
+.topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 22px 32px 0;
+}
+.topbar h1 { font-size: 1.25rem; font-weight: 600; color: #e8dfc8; }
+.topbar-sub { font-size: 0.72rem; color: #3a2e20; margin-top: 2px; }
+
+/* ── Stats ────────────────────────────────────────────────────────────── */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+  padding: 20px 32px;
+}
+.stat {
+  background: #18172a;
+  border: 1px solid rgba(196,154,32,0.12);
+  border-radius: 10px;
+  padding: 18px 20px 16px;
+}
+.stat-label {
+  font-size: 0.62rem; text-transform: uppercase;
+  letter-spacing: 0.1em; color: #4a3c28; margin-bottom: 8px;
+}
+.stat-value { font-size: 2rem; font-weight: 700; color: #c49a20; line-height: 1; }
+.stat-sub { font-size: 0.68rem; color: #3a2e20; margin-top: 3px; }
+
+/* ── Section header ───────────────────────────────────────────────────── */
+.sec {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 6px 32px 10px;
+}
+.sec-title {
+  font-size: 0.62rem; text-transform: uppercase;
+  letter-spacing: 0.1em; color: #3e3020;
+}
+.sec-link { font-size: 0.72rem; color: #5a4832; text-decoration: none; }
+.sec-link:hover { color: #c49a20; }
+
+/* ── Quick actions ────────────────────────────────────────────────────── */
+.actions { display: flex; gap: 10px; padding: 0 32px 24px; flex-wrap: wrap; }
+.act-btn {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 18px;
+  background: #18172a; border: 1px solid rgba(196,154,32,0.18);
+  border-radius: 8px; color: #b8a888; font-size: 0.8rem; font-weight: 500;
+  text-decoration: none; transition: border-color 0.15s, background 0.15s, color 0.15s;
+}
+.act-btn:hover { border-color: #c49a20; background: rgba(196,154,32,0.07); color: #e8dfc8; }
+.act-btn svg { width: 15px; height: 15px; flex-shrink: 0; }
+
+/* ── Motif grid ───────────────────────────────────────────────────────── */
+.mgrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px; padding: 0 32px 40px;
+}
+.mcard {
+  background: #18172a; border: 1px solid rgba(196,154,32,0.1);
+  border-radius: 9px; overflow: hidden; cursor: pointer;
+  transition: border-color 0.15s, transform 0.15s;
+}
+.mcard:hover { border-color: rgba(196,154,32,0.4); transform: translateY(-2px); }
+.mcard-thumb {
+  background: #0a0916;
+  display: flex; align-items: center; justify-content: center;
+  padding: 16px; min-height: 130px;
+}
+.mcard-thumb canvas { image-rendering: pixelated; }
+.mcard-info { padding: 10px 12px 12px; border-top: 1px solid rgba(196,154,32,0.07); }
+.mcard-name {
+  font-size: 0.77rem; font-weight: 600; color: #c8b898;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.mcard-dims { font-size: 0.67rem; color: #3e3020; margin-top: 2px; }
+.mcard-swatches { display: flex; gap: 3px; margin-top: 7px; }
+.mcard-swatches span { width: 13px; height: 13px; border-radius: 2px; }
+
+/* ── Empty state ──────────────────────────────────────────────────────── */
+.empty {
+  grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: #2e2418;
+}
+.empty h3 { font-size: 1rem; color: #4a3828; margin-bottom: 8px; }
+.empty p { font-size: 0.8rem; }
+.empty a { color: #c49a20; text-decoration: none; }
+
+/* ── Sketches table ───────────────────────────────────────────────────── */
+.stbl-wrap { padding: 0 32px 48px; }
+.stbl {
+  width: 100%; border-collapse: collapse;
+  font-size: 0.78rem;
+}
+.stbl th {
+  text-align: left; padding: 7px 12px;
+  font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.1em;
+  color: #3e3020; border-bottom: 1px solid rgba(196,154,32,0.1);
+  cursor: pointer; user-select: none; white-space: nowrap;
+}
+.stbl th:hover { color: #c49a20; }
+.stbl th .sort-arrow { margin-left: 4px; opacity: 0.4; }
+.stbl th.sorted .sort-arrow { opacity: 1; color: #c49a20; }
+.stbl td {
+  padding: 7px 12px;
+  border-bottom: 1px solid rgba(196,154,32,0.05);
+  color: #8a7a62;
+}
+.stbl tr:hover td { background: rgba(196,154,32,0.04); color: #d4c8a8; }
+.stbl td.sketch-name { color: #c8b898; font-weight: 500; }
+.stbl td.sketch-date { font-variant-numeric: tabular-nums; font-size: 0.72rem; color: #4a3c28; }
+.stbl td.sketch-open { text-align: right; }
+.stbl td.sketch-open span {
+  color: #5a4a32; font-size: 0.72rem;
+  padding: 3px 8px; border: 1px solid rgba(196,154,32,0.15);
+  border-radius: 4px; transition: color 0.12s, border-color 0.12s;
+}
+.stbl tr:hover td.sketch-open span { color: #c49a20; border-color: rgba(196,154,32,0.4); }
+
+.tbl-search {
+  width: 100%; max-width: 320px;
+  padding: 7px 12px; margin-bottom: 10px;
+  background: #18172a; border: 1px solid rgba(196,154,32,0.15);
+  border-radius: 6px; color: #d4c8a8; font-size: 0.8rem; outline: none;
+}
+.tbl-search::placeholder { color: #3a2e20; }
+.tbl-search:focus { border-color: rgba(196,154,32,0.4); }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div>
+    <h1>Dashboard</h1>
+    <div class="topbar-sub" id="ts"></div>
+  </div>
+</div>
+
+<!-- Stats -->
+<div class="stats">
+  <div class="stat"><div class="stat-label">Saved Sketches</div><div class="stat-value" id="s-sketches">—</div></div>
+  <div class="stat"><div class="stat-label">Saved Motifs</div><div class="stat-value" id="s-count">—</div></div>
+  <div class="stat"><div class="stat-label">Total Stitches</div><div class="stat-value" id="s-stitches">—</div></div>
+  <div class="stat"><div class="stat-label">Avg Colors</div><div class="stat-value" id="s-colors">—</div></div>
+  <div class="stat"><div class="stat-label">Avg Grid</div><div class="stat-value" id="s-size">—</div><div class="stat-sub">stitches per motif</div></div>
+</div>
+
+<!-- Quick actions -->
+<div class="sec"><span class="sec-title">Quick Actions</span></div>
+<div class="actions">
+  <a class="act-btn" href="/motif_studio.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+    Motif Studio
+  </a>
+  <a class="act-btn" href="/motif_browser.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+    Motif Browser
+  </a>
+  <a class="act-btn" href="/index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="3"/><circle cx="12" cy="12" r="3.5"/><line x1="12" y1="2" x2="12" y2="7"/><line x1="12" y1="17" x2="12" y2="22"/><line x1="2" y1="12" x2="7" y2="12"/><line x1="17" y1="12" x2="22" y2="12"/></svg>
+    Open Sketch
+  </a>
+</div>
+
+<!-- Sketches table -->
+<div class="sec">
+  <span class="sec-title">Saved Sketches</span>
+  <a class="sec-link" href="/index.html">Open sketch →</a>
+</div>
+<div class="stbl-wrap">
+  <input class="tbl-search" id="sketch-search" type="search" placeholder="Filter sketches…">
+  <table class="stbl" id="sketch-tbl">
+    <thead>
+      <tr>
+        <th data-col="name">Name <span class="sort-arrow">↕</span></th>
+        <th data-col="date">Date <span class="sort-arrow">↕</span></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody id="sketch-tbody"><tr><td colspan="3" style="color:#3e3020;padding:16px 12px">Loading…</td></tr></tbody>
+  </table>
+</div>
+
+<!-- Motif grid -->
+<div class="sec">
+  <span class="sec-title">Saved Motifs</span>
+  <a class="sec-link" href="/motif_browser.html">View all →</a>
+</div>
+<div class="mgrid" id="mgrid">
+  <div class="empty"><h3>Loading…</h3></div>
+</div>
+
+<script>
+// ── Sketches table ───────────────────────────────────────────────────────────
+let allSketches = [];
+let sortCol = 'date', sortAsc = false;
+
+async function loadSketches() {
+  const { sketches } = await fetch('/api/sketches').then(r => r.json());
+  document.getElementById('s-sketches').textContent = sketches.length;
+  allSketches = sketches.map(s => {
+    const parts = s.label.split(' · ');
+    return { file: s.file, name: parts[0] || s.file, date: parts[1] || '' };
+  });
+  renderSketchTable();
+
+  // Sort on header click
+  document.querySelectorAll('#sketch-tbl th[data-col]').forEach(th => {
+    th.addEventListener('click', () => {
+      const col = th.dataset.col;
+      if (sortCol === col) sortAsc = !sortAsc;
+      else { sortCol = col; sortAsc = col === 'name'; }
+      renderSketchTable();
+    });
+  });
+
+  // Filter
+  document.getElementById('sketch-search').addEventListener('input', renderSketchTable);
+}
+
+function renderSketchTable() {
+  const q = document.getElementById('sketch-search').value.trim().toLowerCase();
+  let rows = allSketches.filter(s => !q || s.name.toLowerCase().includes(q) || s.date.includes(q));
+  rows.sort((a, b) => {
+    const av = a[sortCol] || '', bv = b[sortCol] || '';
+    return sortAsc ? av.localeCompare(bv) : bv.localeCompare(av);
+  });
+
+  // Update header arrows
+  document.querySelectorAll('#sketch-tbl th[data-col]').forEach(th => {
+    const arrow = th.querySelector('.sort-arrow');
+    th.classList.toggle('sorted', th.dataset.col === sortCol);
+    if (th.dataset.col === sortCol) arrow.textContent = sortAsc ? '↑' : '↓';
+    else arrow.textContent = '↕';
+  });
+
+  const tbody = document.getElementById('sketch-tbody');
+  if (!rows.length) {
+    tbody.innerHTML = `<tr><td colspan="3" style="color:#3e3020;padding:12px">No sketches match.</td></tr>`;
+    return;
+  }
+  tbody.innerHTML = rows.map(s => `
+    <tr style="cursor:pointer" onclick="location.href='/index.html?s=saves/${encodeURIComponent(s.file)}'">
+      <td class="sketch-name">${s.name}</td>
+      <td class="sketch-date">${s.date}</td>
+      <td class="sketch-open"><span>Open ↗</span></td>
+    </tr>`).join('');
+}
+
+// ── Motifs + stats ───────────────────────────────────────────────────────────
+async function load() {
+  try {
+    const { motifs } = await fetch('/api/motifs').then(r => r.json());
+
+    // Stats
+    const n = motifs.length;
+    const totalS = motifs.reduce((a, m) => a + m.stitchWidth * m.stitchHeight, 0);
+    const avgC   = n ? Math.round(motifs.reduce((a, m) => a + m.colorCount, 0) / n) : 0;
+    const avgW   = n ? Math.round(motifs.reduce((a, m) => a + m.stitchWidth,  0) / n) : 0;
+    const avgH   = n ? Math.round(motifs.reduce((a, m) => a + m.stitchHeight, 0) / n) : 0;
+
+    document.getElementById('s-count').textContent    = n;
+    document.getElementById('s-stitches').textContent = totalS.toLocaleString();
+    document.getElementById('s-colors').textContent   = avgC || '—';
+    document.getElementById('s-size').textContent     = n ? `${avgW}×${avgH}` : '—';
+    document.getElementById('ts').textContent         = `Last updated ${new Date().toLocaleTimeString()}`;
+
+    const grid = document.getElementById('mgrid');
+    if (!n) {
+      grid.innerHTML = `<div class="empty">
+        <h3>No motifs saved yet</h3>
+        <p>Open <a href="/motif_studio.html">Motif Studio</a> to create your first motif.</p>
+      </div>`;
+      return;
+    }
+
+    grid.innerHTML = '';
+    for (const m of motifs) {
+      const card = document.createElement('div');
+      card.className = 'mcard';
+      card.innerHTML = `
+        <div class="mcard-thumb"><canvas id="_mc_${m.file.replace('.json','').replace(/\W/g,'_')}"></canvas></div>
+        <div class="mcard-info">
+          <div class="mcard-name">${m.name}</div>
+          <div class="mcard-dims">${m.stitchWidth} × ${m.stitchHeight} stitches · ${m.colorCount} colors</div>
+          <div class="mcard-swatches">
+            ${(m.colors || []).slice(0, 8).map(c => `<span style="background:${c}" title="${c}"></span>`).join('')}
+          </div>
+        </div>`;
+      card.addEventListener('click', () => { window.location.href = '/motif_browser.html'; });
+      grid.appendChild(card);
+      drawCard(card.querySelector('canvas'), m.file);
+    }
+  } catch(e) {
+    document.getElementById('mgrid').innerHTML = `<div class="empty"><h3>Could not load motifs</h3><p>${e.message}</p></div>`;
+  }
+}
+
+async function drawCard(canvas, file) {
+  try {
+    const motif = await fetch(`/motifs/${file}`).then(r => r.json());
+    const { grid, colors, stitchWidth: cols, stitchHeight: rows } = motif;
+    if (!grid || !colors || !cols || !rows) return;
+    const MAX = 148;
+    const cell = Math.max(1, Math.min(Math.floor(MAX / cols), Math.floor(MAX / rows)));
+    canvas.width  = cols * cell;
+    canvas.height = rows * cell;
+    const ctx = canvas.getContext('2d');
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        const ci = grid[r]?.[c] ?? 0;
+        ctx.fillStyle = colors[ci]?.hexValue || '#333';
+        ctx.fillRect(c * cell, r * cell, cell, cell);
+      }
+    }
+  } catch { /* ignore if motif file not ready */ }
+}
+
+load();
+loadSketches();
+</script>
+</body>
+</html>
