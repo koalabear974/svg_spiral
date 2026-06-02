@@ -971,6 +971,8 @@ buildCards();
   let dirty = false;
   let dragState = null;
   let pinchState = null;
+  let longPressTimer = null;
+  let longPressOrigin = null;
 
   // ── Normalize ───────────────────────────────────────────────────────────────
   function normalize(motif, isJson) {
@@ -1271,6 +1273,7 @@ buildCards();
     const rect = e.currentTarget.getBoundingClientRect();
     if (e.touches.length === 1) {
       pinchState = null;
+      if (longPressTimer) { clearTimeout(longPressTimer); longPressTimer = null; }
       const sx = e.touches[0].clientX - rect.left;
       const sy = e.touches[0].clientY - rect.top;
       if (mode === 'select') {
@@ -1280,8 +1283,22 @@ buildCards();
         document.getElementById('xsInfoBar').classList.remove('active');
       } else {
         dragState = { type: 'pan', startX: sx, startY: sy, px0: panX, py0: panY };
+        longPressOrigin = { sx, sy };
+        longPressTimer = setTimeout(() => {
+          longPressTimer = null;
+          const { c, r } = screenToStitch(longPressOrigin.sx, longPressOrigin.sy);
+          dragState = { type: 'select', startC: c, startR: r };
+          sel = { c1: c, r1: r, c2: c, r2: r };
+          document.getElementById('xsInfoBar').classList.remove('active');
+          const canvas = document.getElementById('xsCanvas');
+          canvas.style.outline = '3px solid rgba(180,40,40,0.5)';
+          setTimeout(() => { canvas.style.outline = ''; }, 200);
+          if (navigator.vibrate) navigator.vibrate(30);
+          markDirty();
+        }, 400);
       }
     } else if (e.touches.length === 2) {
+      if (longPressTimer) { clearTimeout(longPressTimer); longPressTimer = null; }
       dragState = null;
       const mx = ((e.touches[0].clientX + e.touches[1].clientX) / 2) - rect.left;
       const my = ((e.touches[0].clientY + e.touches[1].clientY) / 2) - rect.top;
@@ -1309,6 +1326,13 @@ buildCards();
     } else if (e.touches.length === 1 && dragState) {
       const sx = e.touches[0].clientX - rect.left;
       const sy = e.touches[0].clientY - rect.top;
+      if (longPressTimer && longPressOrigin) {
+        const dx = sx - longPressOrigin.sx, dy = sy - longPressOrigin.sy;
+        if (Math.hypot(dx, dy) > 8) {
+          clearTimeout(longPressTimer);
+          longPressTimer = null;
+        }
+      }
       if (dragState.type === 'pan') {
         panX = dragState.px0 + (sx - dragState.startX);
         panY = dragState.py0 + (sy - dragState.startY);
@@ -1322,11 +1346,21 @@ buildCards();
 
   function onTouchEnd(e) {
     e.preventDefault();
+    if (longPressTimer) { clearTimeout(longPressTimer); longPressTimer = null; }
     if (e.touches.length < 2) pinchState = null;
     if (e.touches.length === 0) {
       const wasSel = dragState && dragState.type === 'select';
+      const wasTap = dragState && dragState.type === 'pan' &&
+        panX === dragState.px0 && panY === dragState.py0;
       dragState = null;
-      if (wasSel && sel) updateInfoBar();
+      longPressOrigin = null;
+      if (wasSel && sel) {
+        updateInfoBar();
+      } else if (wasTap && sel && mode !== 'select') {
+        sel = null;
+        document.getElementById('xsInfoBar').classList.remove('active');
+        markDirty();
+      }
     }
   }
 
