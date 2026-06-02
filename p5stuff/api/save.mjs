@@ -1,7 +1,6 @@
-'use strict';
-const { put } = require('@vercel/blob');
+import { put } from '@vercel/blob';
 
-module.exports = async (req, res) => {
+export default async (req, res) => {
   if (req.method !== 'POST') return res.status(405).end();
   const { name, motif } = req.body || {};
   if (!motif) return res.status(400).json({ error: 'motif required' });
@@ -17,4 +16,3 @@ module.exports = async (req, res) => {
     return res.status(500).json({ error: `Save failed: ${e.message}` });
   }
 };
-

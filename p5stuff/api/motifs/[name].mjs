@@ -1,7 +1,6 @@
-'use strict';
-const { list, del } = require('@vercel/blob');
+import { list, del } from '@vercel/blob';
 
-module.exports = async (req, res) => {
+export default async (req, res) => {
   if (req.method !== 'DELETE') return res.status(405).end();
   const safe = (req.query.name || '').replace(/[^a-z0-9_-]/gi, '_');
   if (!safe) return res.status(400).json({ error: 'name required' });

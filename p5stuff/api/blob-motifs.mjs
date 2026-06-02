@@ -1,7 +1,6 @@
-'use strict';
-const { list } = require('@vercel/blob');
+import { list } from '@vercel/blob';
 
-module.exports = async (req, res) => {
+export default async (req, res) => {
   if (req.method !== 'GET') return res.status(405).end();
 
   const motifs = [];
