@@ -16,6 +16,7 @@ module.exports = async (req, res) => {
         authorization: `Bearer ${token}`,
         'x-content-type': 'application/json',
         'x-add-random-suffix': '0',
+        'x-access': 'private',
       },
       body: JSON.stringify(motif, null, 2),
     });
