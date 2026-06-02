@@ -1,4 +1,5 @@
 'use strict';
+const { put } = require('@vercel/blob');
 
 module.exports = async (req, res) => {
   if (req.method !== 'POST') return res.status(405).end();
@@ -7,7 +8,6 @@ module.exports = async (req, res) => {
   const safe = (name || 'motif').replace(/[^a-z0-9_-]/gi, '_');
 
   try {
-    const { put } = require('@vercel/blob');
     const blob = await put(`motifs/${safe}.json`, JSON.stringify(motif, null, 2), {
       access: 'public',
       contentType: 'application/json',
@@ -17,3 +17,4 @@ module.exports = async (req, res) => {
     return res.status(500).json({ error: `Save failed: ${e.message}` });
   }
 };
+

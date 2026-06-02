@@ -1,11 +1,11 @@
 'use strict';
+const { list } = require('@vercel/blob');
 
 module.exports = async (req, res) => {
   if (req.method !== 'GET') return res.status(405).end();
 
   const motifs = [];
   try {
-    const { list } = require('@vercel/blob');
     const { blobs } = await list({ prefix: 'motifs/' });
     for (const blob of blobs.filter(b => b.pathname.endsWith('.json'))) {
       try {
