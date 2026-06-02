@@ -3,6 +3,8 @@
   "buildCommand": null,
   "outputDirectory": ".",
   "rewrites": [
-    { "source": "/", "destination": "/index.html" }
+    { "source": "/proxy", "destination": "/api/proxy" },
+    { "source": "/save", "destination": "/api/save" },
+    { "source": "/", "destination": "/dashboard.html" }
   ]
 }
