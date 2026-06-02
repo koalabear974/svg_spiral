@@ -2,7 +2,7 @@
 
 .DS_Store
 
-p5stuff/node_modules/
+app/node_modules/
 
 .idea/
 
@@ -10,10 +10,11 @@ Art list/
 
 video/
 
-TouchDesigner/raw_videos/
-TouchDesigner/converted_videos/
+app/.playwright-mcp/
 
-p5stuff/.playwright-mcp/
+app/__pycache__/
 
-p5stuff/__pycache__/
+app/exports/
+app/motif_books/
+app/motif_wikimedia/
 .vercel
