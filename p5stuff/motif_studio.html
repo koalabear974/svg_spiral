@@ -176,6 +176,11 @@ main {
 @keyframes spin { to { transform: rotate(360deg); } }
 .empty-state { color: #4a3e32; font-size: 0.82rem; text-align: center; padding: 16px; }
 .divider { height: 1px; background: rgba(255,255,255,0.05); flex-shrink: 0; }
+
+/* ── Grid offset D-pad ── */
+.offset-pad { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.offset-mid { display: flex; align-items: center; gap: 2px; }
+.offset-val { font-size: 0.65rem; color: #7a6a5a; text-align: center; margin-top: 2px; }
 </style>
 </head>
 <body>
@@ -240,11 +245,18 @@ main {
 
       <div class="sb-section">
         <div class="sb-title">Grid offset</div>
-        <div class="field-2">
-          <label><span class="field-label">X</span><input class="num-sm" type="number" id="ox" value="0"></label>
-          <label><span class="field-label">Y</span><input class="num-sm" type="number" id="oy" value="0"></label>
+        <div class="offset-pad">
+          <button class="btn-icon" id="oyUp" title="Shift up">↑</button>
+          <div class="offset-mid">
+            <button class="btn-icon" id="oxLeft" title="Shift left">←</button>
+            <button class="btn-icon" id="oReset" title="Reset offset">⊕</button>
+            <button class="btn-icon" id="oxRight" title="Shift right">→</button>
+          </div>
+          <button class="btn-icon" id="oyDown" title="Shift down">↓</button>
         </div>
-        <div class="sb-info">⊕ click to align on grid line</div>
+        <div class="offset-val" id="offsetVal">x: 0  y: 0</div>
+        <input type="hidden" id="ox" value="0">
+        <input type="hidden" id="oy" value="0">
       </div>
     </div>
   </div>
@@ -258,24 +270,18 @@ main {
 
   <div class="param-row">
     <span class="param-label">Colors</span>
-    <input type="range" id="colorsSlider" min="2" max="8" value="4">
-    <span class="param-val" id="colorsVal">4</span>
+    <input type="range" id="colorsSlider" min="2" max="8" value="3">
+    <span class="param-val" id="colorsVal">3</span>
   </div>
 
   <div class="param-row">
     <span class="param-label" title="Size of one cross-stitch square in pixels">Cell size</span>
-    <label class="toggle-label" title="Auto-detect cell size from image periodicity"><input type="checkbox" id="cellAuto" checked>Auto</label>
-    <input class="num-inline" type="number" id="cellInput" value="16" min="4" max="128" step="0.1" disabled title="Base cell size (coarse)">
+    <label class="toggle-label" title="Auto-detect cell size from image periodicity"><input type="checkbox" id="cellAuto">Auto</label>
+    <input class="num-inline" type="number" id="cellInput" value="16" min="4" max="128" step="0.1" title="Base cell size (coarse)">
     <span class="muted">+</span>
     <input class="num-inline" type="number" id="cellNudge" value="0" step="1" title="Integer nudge — effective cell = base + nudge×0.01" style="width:72px;color:#c49a20;border-color:rgba(196,154,32,0.35)">
     <span class="muted">nudge</span>
     <span class="muted" id="cellHint">–</span>
-  </div>
-
-  <div class="param-row" id="minCellRow">
-    <span class="param-label" title="Auto-detect ignores cell sizes below this value. Raise if JPEG artifacts (4 or 8px) are being detected instead of the real grid.">Min cell</span>
-    <input class="num-inline" type="number" id="minCell" value="12" min="4" max="64">
-    <span class="muted">px (auto floor)</span>
   </div>
 
   <div class="divider"></div>
@@ -342,7 +348,7 @@ const cellAuto    = document.getElementById('cellAuto');
 const cellInput   = document.getElementById('cellInput');
 const cellNudge   = document.getElementById('cellNudge');
 const cellHint    = document.getElementById('cellHint');
-const minCell     = document.getElementById('minCell');
+const offsetVal   = document.getElementById('offsetVal');
 const resultCanvas= document.getElementById('resultCanvas');
 const resultEmpty = document.getElementById('resultEmpty');
 const resultInfo  = document.getElementById('resultInfo');
@@ -414,6 +420,10 @@ async function ingest(dataUrl) {
       c.getContext('2d').drawImage(img,0,0);
       rawPixels=c.getContext('2d').getImageData(0,0,img.width,img.height).data;
       rawW=img.width; rawH=img.height; sourceBitmap=c;
+      if(!cellAuto.checked){
+        cellInput.value=detectCellSize(rawPixels,rawW,rawH,12);
+        cellNudge.value=0;
+      }
       resetFit(); drawSource(); scheduleExtract(0); r();
     };
     img.src=dataUrl;
@@ -565,7 +575,7 @@ cropModeBtn .addEventListener('click',()=>setMode(mode==='crop' ?'pan':'crop'));
 alignModeBtn.addEventListener('click',()=>setMode(mode==='align'?'pan':'align'));
 clearToolBtn.addEventListener('click',()=>{
   cx_.value=cy_.value=cw_.value=ch_.value=0;
-  ox_.value=oy_.value=0;
+  ox_.value=oy_.value=0; updateOffsetDisplay();
   tempCrop=null; drawSource(); scheduleExtract(200);
 });
 
@@ -627,6 +637,7 @@ sourceCanvas.addEventListener('mouseup', e=>{
     const localX=rx-baseX, localY=ry-baseY;
     ox_.value=Math.round(((localX%cell)+cell)%cell);
     oy_.value=Math.round(((localY%cell)+cell)%cell);
+    updateOffsetDisplay();
     setMode('pan'); _alignCursor=null; drawSource(); scheduleExtract(200); return;
   }
 
@@ -647,7 +658,22 @@ sourceCanvas.addEventListener('mouseleave',()=>{
 });
 
 [cx_,cy_,cw_,ch_].forEach(el=>el.addEventListener('input',()=>{ drawSource(); scheduleExtract(400); }));
-[ox_,oy_]        .forEach(el=>el.addEventListener('input',()=>{ drawSource(); scheduleExtract(200); }));
+
+function updateOffsetDisplay(){
+  offsetVal.textContent=`x: ${ox_.value||0}  y: ${oy_.value||0}`;
+}
+function nudgeOffset(dx,dy){
+  ox_.value=(parseInt(ox_.value)||0)+dx;
+  oy_.value=(parseInt(oy_.value)||0)+dy;
+  updateOffsetDisplay(); drawSource(); scheduleExtract(200);
+}
+document.getElementById('oxLeft') .addEventListener('click',()=>nudgeOffset(-1, 0));
+document.getElementById('oxRight').addEventListener('click',()=>nudgeOffset( 1, 0));
+document.getElementById('oyUp')   .addEventListener('click',()=>nudgeOffset( 0,-1));
+document.getElementById('oyDown') .addEventListener('click',()=>nudgeOffset( 0, 1));
+document.getElementById('oReset') .addEventListener('click',()=>{
+  ox_.value=0; oy_.value=0; updateOffsetDisplay(); drawSource(); scheduleExtract(200);
+});
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // Extraction
@@ -657,7 +683,7 @@ function scheduleExtract(d=200) { clearTimeout(extractTimer); extractTimer=setTi
 function runExtract() {
   if(!rawPixels) return;
   const k=parseInt(colorsSlider.value);
-  const lo=parseInt(minCell.value)||12;
+  const lo=12;
   const ox=parseInt(ox_.value)||0, oy=parseInt(oy_.value)||0;
   const crop=getActiveCrop();
   let [pixels,w,h]=crop?applyCrop(rawPixels,rawW,rawH,crop):[rawPixels,rawW,rawH];
@@ -805,11 +831,12 @@ function renderResult(){
 colorsSlider.addEventListener('input',()=>{colorsVal.textContent=colorsSlider.value;scheduleExtract(200);});
 colorsVal.textContent=colorsSlider.value;
 cellAuto.addEventListener('change',()=>{
-  cellInput.disabled=cellAuto.checked; scheduleExtract(200);
+  cellInput.disabled=cellAuto.checked;
+  if(cellAuto.checked && rawPixels){ cellInput.value=detectCellSize(rawPixels,rawW,rawH,12); cellNudge.value=0; }
+  scheduleExtract(200);
 });
 cellInput.addEventListener('input',()=>scheduleExtract(400));
 cellNudge.addEventListener('input',()=>scheduleExtract(200));
-minCell  .addEventListener('input',()=>scheduleExtract(400));
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // Save / Copy
