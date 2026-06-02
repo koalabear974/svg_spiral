@@ -6,12 +6,10 @@ __pycache__
 *.sh
 watcher.js
 osc_test.js
-package.json
-package-lock.json
 app.js
 server.js
-saves/**/*.svg
-saves/**/*.png
-saves/**/*.jpg
+package.json
+package-lock.json
 motif_books
 motif_wikimedia
+saves/save_*/

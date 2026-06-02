@@ -2,15 +2,7 @@
   "framework": null,
   "buildCommand": null,
   "outputDirectory": ".",
-  "functions": {
-    "api/motifs.js":   { "includeFiles": "motifs/**" },
-    "api/sketches.js": { "includeFiles": "saves/*.js" },
-    "api/proxy.js":    { "includeFiles": "" },
-    "api/save.js":     { "includeFiles": "" }
-  },
   "rewrites": [
-    { "source": "/proxy", "destination": "/api/proxy" },
-    { "source": "/save",  "destination": "/api/save" },
-    { "source": "/",      "destination": "/dashboard.html" }
+    { "source": "/", "destination": "/dashboard.html" }
   ]
 }

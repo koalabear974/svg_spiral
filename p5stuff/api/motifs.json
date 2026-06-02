@@ -1,0 +1,85 @@
+{
+  "motifs": [
+    {
+      "file": "border_flower_1.json",
+      "name": "border_flower_1",
+      "stitchWidth": 100,
+      "stitchHeight": 23,
+      "cellSizePx": 10.56,
+      "colorCount": 3,
+      "colors": [
+        "#fdfdfd",
+        "#ed1c25",
+        "#020202"
+      ],
+      "source": ""
+    },
+    {
+      "file": "page_032.json",
+      "name": "page_032",
+      "stitchWidth": 100,
+      "stitchHeight": 26,
+      "cellSizePx": 10.56,
+      "colorCount": 3,
+      "colors": [
+        "#fdfdfd",
+        "#ed1c25",
+        "#020202"
+      ],
+      "source": ""
+    },
+    {
+      "file": "page_053.json",
+      "name": "page_053",
+      "stitchWidth": 98,
+      "stitchHeight": 45,
+      "cellSizePx": 10.58,
+      "colorCount": 3,
+      "colors": [
+        "#fcfdfc",
+        "#ed1c24",
+        "#3f48ce"
+      ],
+      "source": ""
+    },
+    {
+      "file": "small_partern_1.json",
+      "name": "small_partern_1",
+      "stitchWidth": 79,
+      "stitchHeight": 80,
+      "cellSizePx": 18.66,
+      "colorCount": 2,
+      "colors": [
+        "#fefefe",
+        "#3c5f82"
+      ],
+      "source": ""
+    },
+    {
+      "file": "zmijanje_folk_art_embroidery_s.json",
+      "name": "zmijanje_folk_art_embroidery_s",
+      "stitchWidth": 91,
+      "stitchHeight": 91,
+      "cellSizePx": 8.44,
+      "colorCount": 2,
+      "colors": [
+        "#fefefe",
+        "#093768"
+      ],
+      "source": ""
+    },
+    {
+      "file": "zmijanje_vez.json",
+      "name": "zmijanje_vez",
+      "stitchWidth": 48,
+      "stitchHeight": 48,
+      "cellSizePx": 16,
+      "colorCount": 2,
+      "colors": [
+        "#f5f7f8",
+        "#6784a2"
+      ],
+      "source": "https://thumbs.dreamstime.com/b/zmijanje-folk-art-embroidery-style-vector-design-traditional-cross-stitch-bosnia-herzegovina-called-zmijanski-vez-balkan-227720757.jpg?w=768"
+    }
+  ]
+}
