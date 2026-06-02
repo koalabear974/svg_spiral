@@ -32,6 +32,7 @@ class Handler(BaseHTTPRequestHandler):
         self.send_response(status)
         self.send_header("Content-Type", ct)
         self.send_header("Content-Length", len(body))
+        self.send_header("Cache-Control", "no-store")
         self.end_headers()
         self.wfile.write(body)
 
@@ -69,6 +70,7 @@ class Handler(BaseHTTPRequestHandler):
             self.send_response(404); self.end_headers()
 
     def do_POST(self):
+        path = self.path.split("?")[0]
         body = self.read_body()
         try:
             data = json.loads(body) if body else {}
@@ -77,12 +79,12 @@ class Handler(BaseHTTPRequestHandler):
             return
 
         try:
-            if self.path == "/proxy":
+            if path == "/proxy":
                 self._proxy(data)
-            elif self.path == "/save":
+            elif path == "/save":
                 self._save(data)
             else:
-                self.send_response(404); self.end_headers()
+                self.reply_json({"error": f"unknown path: {path}"}, 404)
         except Exception as e:
             self.reply_json({"error": str(e)}, 500)
 

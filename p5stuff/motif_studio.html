@@ -6,13 +6,13 @@
 <title>Motif Studio</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: system-ui, sans-serif; background: #1a1610; color: #f0ead8; min-height: 100vh; }
+body { font-family: system-ui, sans-serif; background: #1a1610; color: #f0ead8; }
 
 header {
   background: #2c2416; border-bottom: 1px solid rgba(255,255,255,0.08);
-  padding: 14px 24px; display: flex; align-items: center; gap: 16px;
+  padding: 12px 24px; display: flex; align-items: center; gap: 16px; height: 50px;
 }
-header h1 { font-family: Georgia, serif; font-size: 1.25rem; letter-spacing: 0.02em; }
+header h1 { font-family: Georgia, serif; font-size: 1.2rem; letter-spacing: 0.02em; }
 header p  { font-size: 0.78rem; opacity: 0.5; }
 header a  {
   margin-left: auto; font-size: 0.78rem; color: #c49a20; text-decoration: none;
@@ -20,134 +20,162 @@ header a  {
 }
 header a:hover { background: rgba(196,154,32,0.1); }
 
+/* ── Two-column workspace ── */
 main {
   display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
-  background: rgba(255,255,255,0.06); height: calc(100vh - 54px); overflow: hidden;
+  background: rgba(255,255,255,0.06);
+  height: calc(100vh - 50px);
 }
-@media (max-width: 700px) { main { grid-template-columns: 1fr; height: auto; overflow: auto; } }
+@media (max-width: 700px) { main { grid-template-columns: 1fr; height: auto; } }
 
-.panel { background: #1a1610; padding: 20px; overflow-y: auto; }
+.panel {
+  background: #1a1610; display: flex; flex-direction: column;
+  padding: 14px 16px 14px; gap: 8px; overflow: hidden;
+}
+.panel-right { overflow-y: auto; }
+
 .panel-title {
-  font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.12em;
-  color: #7a6a5a; margin-bottom: 12px;
+  font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.12em;
+  color: #6a5a4a; flex-shrink: 0;
 }
 
-/* ── Inputs ── */
-.url-row { display: flex; gap: 8px; margin-bottom: 10px; }
+/* ── URL / file ── */
+.url-row { display: flex; gap: 8px; flex-shrink: 0; }
 .url-row input {
-  flex: 1; padding: 7px 11px; background: #2c2416;
+  flex: 1; padding: 6px 10px; background: #2c2416;
   border: 1px solid rgba(255,255,255,0.12); border-radius: 6px;
-  color: #f0ead8; font-size: 0.83rem; outline: none;
+  color: #f0ead8; font-size: 0.82rem; outline: none;
 }
 .url-row input:focus { border-color: rgba(196,154,32,0.5); }
 
 .btn {
-  padding: 7px 16px; background: #8b2020; border: none; border-radius: 6px;
-  color: #fff; cursor: pointer; font-size: 0.83rem; white-space: nowrap;
+  padding: 6px 14px; background: #8b2020; border: none; border-radius: 6px;
+  color: #fff; cursor: pointer; font-size: 0.82rem; white-space: nowrap;
   transition: background 0.12s;
 }
 .btn:hover { background: #a02828; }
 .btn:disabled { background: #4a3030; cursor: default; }
 
 .file-drop {
-  display: flex; align-items: center; justify-content: center;
-  border: 1px dashed rgba(255,255,255,0.2); border-radius: 6px;
-  padding: 10px; font-size: 0.78rem; color: #7a6a5a; cursor: pointer;
-  margin-bottom: 12px; transition: border-color 0.12s, background 0.12s;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  border: 1px dashed rgba(255,255,255,0.15); border-radius: 6px;
+  padding: 7px; font-size: 0.75rem; color: #6a5a4a; cursor: pointer;
+  transition: border-color 0.12s, background 0.12s;
 }
 .file-drop:hover, .file-drop.drag-over {
-  border-color: #c49a20; background: rgba(196,154,32,0.05); color: #c49a20;
+  border-color: #c49a20; background: rgba(196,154,32,0.06); color: #c49a20;
 }
 .file-drop input { display: none; }
 
-.num-row { display: flex; gap: 8px; flex-wrap: wrap; }
-.num-row label { display: flex; align-items: center; gap: 4px; font-size: 0.75rem; color: #a09080; }
-.num-input {
-  width: 72px; padding: 5px 8px; background: #2c2416;
-  border: 1px solid rgba(255,255,255,0.12); border-radius: 5px;
-  color: #f0ead8; font-size: 0.82rem; outline: none;
-}
-.num-input:focus { border-color: rgba(196,154,32,0.5); }
+/* ── Source area: canvas + sidebar ── */
+.source-area { flex: 1; min-height: 0; display: flex; gap: 8px; }
 
-/* ── Source canvas area ── */
+.canvas-col { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+
 .canvas-toolbar {
-  display: flex; align-items: center; gap: 4px;
-  background: #231e14; padding: 5px 8px;
+  display: flex; align-items: center; gap: 3px; flex-shrink: 0;
+  background: #231e14; padding: 4px 7px;
   border-radius: 6px 6px 0 0; border: 1px solid rgba(255,255,255,0.07);
   border-bottom: none;
 }
-.zoom-level {
-  font-size: 0.7rem; color: #7a6a5a; min-width: 38px; text-align: center;
-}
-.toolbar-sep { width: 1px; height: 16px; background: rgba(255,255,255,0.1); margin: 0 4px; }
-.btn-icon {
-  width: 26px; height: 26px; display: flex; align-items: center; justify-content: center;
-  background: none; border: none; color: #a09080; cursor: pointer; border-radius: 4px;
-  font-size: 0.85rem; transition: background 0.1s, color 0.1s;
-}
-.btn-icon:hover { background: rgba(255,255,255,0.1); color: #f0ead8; }
-.btn-icon.active { background: rgba(196,154,32,0.2); color: #c49a20; }
+.zoom-label { font-size: 0.68rem; color: #7a6a5a; min-width: 36px; text-align: center; }
+.sep { width: 1px; height: 14px; background: rgba(255,255,255,0.1); margin: 0 3px; }
 
-.source-canvas-area {
-  background: #0e0b07; border-radius: 0 0 6px 6px;
-  border: 1px solid rgba(255,255,255,0.07); overflow: hidden;
+.btn-icon {
+  width: 24px; height: 24px; display: flex; align-items: center; justify-content: center;
+  background: none; border: none; color: #8a7a6a; cursor: pointer; border-radius: 4px;
+  font-size: 0.82rem; line-height: 1; transition: background 0.1s, color 0.1s;
+}
+.btn-icon:hover  { background: rgba(255,255,255,0.1); color: #f0ead8; }
+.btn-icon.active { background: rgba(196,154,32,0.2);  color: #c49a20; }
+
+.canvas-area {
+  flex: 1; min-height: 0; background: #0e0b07;
+  border-radius: 0 0 6px 6px; border: 1px solid rgba(255,255,255,0.07);
+  overflow: hidden;
 }
 #sourceCanvas {
-  display: block; width: 100%; height: 260px;
+  display: block; width: 100%; height: 100%;
   cursor: grab; touch-action: none;
 }
 #sourceCanvas.crosshair { cursor: crosshair; }
 #sourceCanvas.grabbing  { cursor: grabbing; }
 
-.info-line { font-size: 0.72rem; color: #7a6a5a; margin: 6px 0 12px; min-height: 1em; }
+/* ── Right sidebar (crop + grid align) ── */
+.sidebar { width: 128px; flex-shrink: 0; display: flex; flex-direction: column; gap: 12px; overflow-y: auto; }
 
-/* ── Params ── */
-.param-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
-.param-label { font-size: 0.75rem; color: #a09080; width: 72px; flex-shrink: 0; }
-.param-row input[type=range] { flex: 1; accent-color: #8b2020; min-width: 80px; }
-.param-val { font-size: 0.82rem; color: #f0ead8; min-width: 24px; text-align: right; }
-.muted { font-size: 0.72rem; color: #7a6a5a; }
-.toggle-label {
-  display: flex; align-items: center; gap: 5px;
-  cursor: pointer; font-size: 0.78rem; color: #a09080;
+.sb-section { display: flex; flex-direction: column; gap: 5px; }
+.sb-title {
+  font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.1em;
+  color: #6a5a4a; padding-bottom: 3px; border-bottom: 1px solid rgba(255,255,255,0.05);
 }
-.toggle-label input[type=checkbox] { accent-color: #c49a20; width: 14px; height: 14px; }
+.sb-info { font-size: 0.7rem; color: #7a6a5a; line-height: 1.5; }
+.sb-info.warn { color: #c49a20; }
+
+.field-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
+.field-label {
+  font-size: 0.65rem; color: #7a6a5a; display: block; margin-bottom: 2px;
+}
+.num-sm {
+  width: 100%; padding: 4px 6px; background: #2c2416;
+  border: 1px solid rgba(255,255,255,0.12); border-radius: 4px;
+  color: #f0ead8; font-size: 0.8rem; outline: none;
+}
+.num-sm:focus { border-color: rgba(196,154,32,0.5); }
+
+.btn-sm {
+  padding: 4px 8px; background: #2c2416; border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 4px; color: #a09080; cursor: pointer; font-size: 0.72rem;
+  transition: background 0.1s; white-space: nowrap;
+}
+.btn-sm:hover { background: #3a3020; color: #f0ead8; }
+.btn-sm.active { background: rgba(196,154,32,0.2); border-color: rgba(196,154,32,0.5); color: #c49a20; }
+.btn-sm.danger  { border-color: rgba(139,32,32,0.4); color: #c07070; }
+.btn-sm.danger:hover { background: rgba(139,32,32,0.2); color: #f09090; }
+
+/* ── Params (right panel) ── */
+.param-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; flex-shrink: 0; }
+.param-label { font-size: 0.74rem; color: #9a8a7a; width: 68px; flex-shrink: 0; }
+.param-row input[type=range] { flex: 1; accent-color: #8b2020; min-width: 60px; }
+.param-val { font-size: 0.82rem; min-width: 20px; text-align: right; }
+.muted { font-size: 0.7rem; color: #6a5a4a; }
+.toggle-label { display: flex; align-items: center; gap: 4px; cursor: pointer; font-size: 0.76rem; color: #9a8a7a; }
+.toggle-label input[type=checkbox] { accent-color: #c49a20; width: 13px; height: 13px; }
+.num-inline { width: 56px; padding: 4px 6px; background: #2c2416; border: 1px solid rgba(255,255,255,0.12); border-radius: 4px; color: #f0ead8; font-size: 0.8rem; outline: none; }
+.num-inline:focus { border-color: rgba(196,154,32,0.5); }
 
 /* ── Result canvas ── */
-.result-wrap {
-  background: #0e0b07; border-radius: 6px; overflow: hidden;
+.result-box {
+  background: #0e0b07; border-radius: 6px;
   display: flex; align-items: center; justify-content: center;
-  min-height: 80px; margin-bottom: 8px;
+  min-height: 80px; flex-shrink: 0;
 }
-.result-wrap canvas { display: block; image-rendering: pixelated; image-rendering: crisp-edges; max-width: 100%; }
+.result-box canvas { display: block; image-rendering: pixelated; image-rendering: crisp-edges; max-width: 100%; }
+.info-line { font-size: 0.7rem; color: #6a5a4a; min-height: 1em; flex-shrink: 0; }
 
-/* ── Color swatches ── */
-.swatches { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+/* ── Swatches ── */
+.swatches { display: flex; flex-wrap: wrap; gap: 6px; flex-shrink: 0; }
 .swatch {
-  display: flex; align-items: center; gap: 5px; font-size: 0.72rem;
-  color: #a09080; background: #2c2416; padding: 4px 8px; border-radius: 4px;
+  display: flex; align-items: center; gap: 4px; font-size: 0.7rem;
+  color: #9a8a7a; background: #2c2416; padding: 3px 7px; border-radius: 4px;
 }
-.swatch-dot { width: 14px; height: 14px; border-radius: 3px; border: 1px solid rgba(255,255,255,0.15); }
+.swatch-dot { width: 12px; height: 12px; border-radius: 2px; border: 1px solid rgba(255,255,255,0.12); flex-shrink: 0; }
 
-/* ── Save row ── */
-.save-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-top: 16px; }
+/* ── Save ── */
+.save-row { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; flex-shrink: 0; }
 .save-row input[type=text] {
-  flex: 1; min-width: 120px; padding: 7px 11px; background: #2c2416;
+  flex: 1; min-width: 100px; padding: 6px 10px; background: #2c2416;
   border: 1px solid rgba(255,255,255,0.12); border-radius: 6px;
-  color: #f0ead8; font-size: 0.83rem; outline: none;
+  color: #f0ead8; font-size: 0.82rem; outline: none;
 }
 .save-row input[type=text]:focus { border-color: rgba(196,154,32,0.5); }
-#saveStatus { font-size: 0.75rem; color: #5a9a5a; }
+#saveStatus { font-size: 0.72rem; color: #5a9a5a; }
 
 /* ── Misc ── */
-.spinner {
-  display: inline-block; width: 14px; height: 14px;
-  border: 2px solid rgba(255,255,255,0.1); border-top-color: #c49a20;
-  border-radius: 50%; animation: spin 0.6s linear infinite;
-}
+.spinner { display: inline-block; width: 13px; height: 13px; border: 2px solid rgba(255,255,255,0.1); border-top-color: #c49a20; border-radius: 50%; animation: spin 0.6s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
-.empty-state { color: #4a3e32; font-size: 0.85rem; text-align: center; padding: 20px; }
-.divider { height: 1px; background: rgba(255,255,255,0.06); margin: 18px 0; }
+.empty-state { color: #4a3e32; font-size: 0.82rem; text-align: center; padding: 16px; }
+.divider { height: 1px; background: rgba(255,255,255,0.05); flex-shrink: 0; }
 </style>
 </head>
 <body>
@@ -159,731 +187,657 @@ main {
 </header>
 
 <main>
-  <!-- ── LEFT: Source ──────────────────────────────────── -->
-  <div class="panel">
-    <div class="panel-title">Source Image</div>
-
-    <div class="url-row">
-      <input type="text" id="urlInput" placeholder="Paste image URL…">
-      <button class="btn" id="loadBtn">Load</button>
-    </div>
-
-    <label class="file-drop" id="fileDrop">
-      <input type="file" id="fileInput" accept="image/*">
-      <span>or drop / select a file</span>
-    </label>
-
-    <!-- Canvas toolbar: zoom controls + crop mode -->
-    <div class="canvas-toolbar">
-      <button class="btn-icon" id="zoomOutBtn" title="Zoom out">−</button>
-      <span class="zoom-level" id="zoomLevel">fit</span>
-      <button class="btn-icon" id="zoomInBtn" title="Zoom in">+</button>
-      <button class="btn-icon" id="fitBtn" title="Reset zoom">⊡</button>
-      <div class="toolbar-sep"></div>
-      <button class="btn-icon" id="cropModeBtn" title="Draw crop rectangle">✂</button>
-      <button class="btn-icon" id="clearCropBtn" title="Clear crop">✕</button>
-      <span class="muted" style="margin-left:4px" id="modeHint"></span>
-    </div>
-    <div class="source-canvas-area">
-      <canvas id="sourceCanvas"></canvas>
-    </div>
-    <div class="info-line" id="sourceInfo">No image loaded — paste a URL or drop a file above</div>
-
-    <div class="divider"></div>
-
-    <div class="panel-title">Crop (pixels in source image)</div>
-    <div class="num-row" style="margin-bottom:6px">
-      <label>X <input class="num-input" type="number" id="cx" value="0" min="0"></label>
-      <label>Y <input class="num-input" type="number" id="cy" value="0" min="0"></label>
-      <label>W <input class="num-input" type="number" id="cw" value="0" min="0"></label>
-      <label>H <input class="num-input" type="number" id="ch" value="0" min="0"></label>
-    </div>
-    <div class="info-line" id="cropInfo"></div>
+<!-- ════════════════════════════════════════════════════
+     LEFT PANEL — source image
+════════════════════════════════════════════════════ -->
+<div class="panel">
+  <div class="url-row">
+    <input type="text" id="urlInput" placeholder="Paste image URL…">
+    <button class="btn" id="loadBtn">Load</button>
   </div>
 
-  <!-- ── RIGHT: Parameters + Result ───────────────────── -->
-  <div class="panel">
-    <div class="panel-title">Parameters</div>
+  <label class="file-drop" id="fileDrop">
+    <input type="file" id="fileInput" accept="image/*">
+    <span>or drop / select a file</span>
+  </label>
 
-    <div class="param-row">
-      <span class="param-label">Colors</span>
-      <input type="range" id="colorsSlider" min="2" max="8" value="4">
-      <span class="param-val" id="colorsVal">4</span>
+  <div class="source-area">
+    <!-- Canvas column -->
+    <div class="canvas-col">
+      <div class="canvas-toolbar">
+        <button class="btn-icon" id="zoomOutBtn" title="Zoom out">−</button>
+        <span  class="zoom-label" id="zoomLabel">fit</span>
+        <button class="btn-icon" id="zoomInBtn"  title="Zoom in">+</button>
+        <button class="btn-icon" id="fitBtn"      title="Fit">⊡</button>
+        <div class="sep"></div>
+        <button class="btn-icon" id="cropModeBtn"  title="Draw crop (drag)">✂</button>
+        <button class="btn-icon" id="alignModeBtn" title="Click to set grid origin">⊕</button>
+        <button class="btn-icon" id="clearToolBtn" title="Clear crop &amp; offset">✕</button>
+      </div>
+      <div class="canvas-area">
+        <canvas id="sourceCanvas"></canvas>
+      </div>
     </div>
 
-    <div class="param-row">
-      <span class="param-label">Cell size</span>
-      <label class="toggle-label">
-        <input type="checkbox" id="cellAuto" checked>Auto
-      </label>
-      <input class="num-input" type="number" id="cellInput" value="16" min="4" max="128" disabled style="width:60px">
-      <span class="muted" id="cellHint">–</span>
-    </div>
+    <!-- Sidebar: crop + grid align -->
+    <div class="sidebar">
+      <div class="sb-section">
+        <div class="sb-title">Image</div>
+        <div class="sb-info" id="sourceInfo">no image</div>
+        <div class="sb-info" id="modeInfo" style="color:#c49a20"></div>
+      </div>
 
-    <div class="param-row" id="minCellRow">
-      <span class="param-label">Min cell</span>
-      <input class="num-input" type="number" id="minCell" value="12" min="4" max="64" style="width:60px">
-      <span class="muted">px  (auto lower bound)</span>
-    </div>
+      <div class="sb-section">
+        <div class="sb-title">Crop</div>
+        <div class="field-2">
+          <label><span class="field-label">X</span><input class="num-sm" type="number" id="cx" value="0" min="0"></label>
+          <label><span class="field-label">Y</span><input class="num-sm" type="number" id="cy" value="0" min="0"></label>
+          <label><span class="field-label">W</span><input class="num-sm" type="number" id="cw" value="0" min="0"></label>
+          <label><span class="field-label">H</span><input class="num-sm" type="number" id="ch" value="0" min="0"></label>
+        </div>
+        <div class="sb-info" id="cropInfo"></div>
+      </div>
 
-    <div class="divider"></div>
-
-    <div class="panel-title">Result</div>
-
-    <div class="result-wrap" id="resultWrap">
-      <div class="empty-state" id="resultEmpty">Load an image to begin</div>
-      <canvas id="resultCanvas" style="display:none"></canvas>
-    </div>
-
-    <div class="info-line" id="resultInfo"></div>
-    <div class="swatches" id="swatches"></div>
-
-    <div class="save-row">
-      <input type="text" id="nameInput" placeholder="motif_name">
-      <button class="btn" id="copyBtn" style="display:none">Copy JSON</button>
-      <button class="btn" id="saveBtn" style="display:none">Save to motifs/</button>
-      <span id="saveStatus"></span>
+      <div class="sb-section">
+        <div class="sb-title">Grid offset</div>
+        <div class="field-2">
+          <label><span class="field-label">X</span><input class="num-sm" type="number" id="ox" value="0"></label>
+          <label><span class="field-label">Y</span><input class="num-sm" type="number" id="oy" value="0"></label>
+        </div>
+        <div class="sb-info">⊕ click to align on grid line</div>
+      </div>
     </div>
   </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════
+     RIGHT PANEL — parameters + result
+════════════════════════════════════════════════════ -->
+<div class="panel panel-right">
+  <div class="panel-title">Parameters</div>
+
+  <div class="param-row">
+    <span class="param-label">Colors</span>
+    <input type="range" id="colorsSlider" min="2" max="8" value="4">
+    <span class="param-val" id="colorsVal">4</span>
+  </div>
+
+  <div class="param-row">
+    <span class="param-label" title="Size of one cross-stitch square in pixels">Cell size</span>
+    <label class="toggle-label" title="Auto-detect cell size from image periodicity"><input type="checkbox" id="cellAuto" checked>Auto</label>
+    <input class="num-inline" type="number" id="cellInput" value="16" min="4" max="128" step="0.1" disabled title="Base cell size (coarse)">
+    <span class="muted">+</span>
+    <input class="num-inline" type="number" id="cellNudge" value="0" step="1" title="Integer nudge — effective cell = base + nudge×0.01" style="width:72px;color:#c49a20;border-color:rgba(196,154,32,0.35)">
+    <span class="muted">nudge</span>
+    <span class="muted" id="cellHint">–</span>
+  </div>
+
+  <div class="param-row" id="minCellRow">
+    <span class="param-label" title="Auto-detect ignores cell sizes below this value. Raise if JPEG artifacts (4 or 8px) are being detected instead of the real grid.">Min cell</span>
+    <input class="num-inline" type="number" id="minCell" value="12" min="4" max="64">
+    <span class="muted">px (auto floor)</span>
+  </div>
+
+  <div class="divider"></div>
+  <div class="panel-title">Result</div>
+
+  <div class="result-box" id="resultBox">
+    <div class="empty-state" id="resultEmpty">Load an image to begin</div>
+    <canvas id="resultCanvas" style="display:none"></canvas>
+  </div>
+
+  <div class="info-line" id="resultInfo"></div>
+  <div class="swatches" id="swatches"></div>
+
+  <div class="save-row">
+    <input type="text" id="nameInput" placeholder="motif_name">
+    <button class="btn" id="copyBtn" style="display:none">Copy JSON</button>
+    <button class="btn" id="saveBtn" style="display:none">Save</button>
+    <span id="saveStatus"></span>
+  </div>
+</div>
 </main>
 
 <script>
 // ═══════════════════════════════════════════════════════════════════════════════
 // State
 // ═══════════════════════════════════════════════════════════════════════════════
-
 let rawPixels = null, rawW = 0, rawH = 0;
-let sourceBitmap = null;   // OffscreenCanvas with raw image, cached for fast drawing
-let lastResult  = null;    // { grid, hexColors, rows, cols, cell }
+let sourceBitmap = null;   // canvas element with raw image for fast drawImage
+let lastResult   = null;   // { grid, hexColors, rows, cols, cell }
 let extractTimer = null;
 
-// Viewport (what region of the raw image is visible on the source canvas)
-const SRC_H = 260;                   // canvas drawing height in CSS pixels
-let CANVAS_W = 400, CANVAS_H = SRC_H;
-let viewX = 0, viewY = 0;           // top-left corner in raw image coords
-let viewScale = 1;                  // raw pixels per canvas pixel (>1 = zoomed out)
-let fitScale  = 1;                  // viewScale that fits the whole image
+// Viewport
+let CANVAS_W = 400, CANVAS_H = 400;
+let viewX = 0, viewY = 0, viewScale = 1, fitScale = 1;
 
-// Interaction state
-let cropMode  = false;
+// Interaction
+let mode = 'pan';   // 'pan' | 'crop' | 'align'
 let isDragging = false;
-let dragStartRaw = null;            // { x, y } in raw image coords, for both pan and crop
-let tempCrop  = null;               // { x, y, w, h } while drawing crop rectangle
+let dragStart  = null;   // { rawX, rawY } at drag start (used for pan anchor)
+let tempCrop   = null;   // { x,y,w,h } while drawing crop
 
-// DOM refs
-const urlInput     = document.getElementById('urlInput');
-const loadBtn      = document.getElementById('loadBtn');
-const fileInput    = document.getElementById('fileInput');
-const fileDrop     = document.getElementById('fileDrop');
-const sourceCanvas = document.getElementById('sourceCanvas');
-const sourceInfo   = document.getElementById('sourceInfo');
-const cropInfo     = document.getElementById('cropInfo');
-const cx = document.getElementById('cx'), cy = document.getElementById('cy');
-const cw = document.getElementById('cw'), ch = document.getElementById('ch');
-const zoomLevel    = document.getElementById('zoomLevel');
-const zoomOutBtn   = document.getElementById('zoomOutBtn');
-const zoomInBtn    = document.getElementById('zoomInBtn');
-const fitBtn       = document.getElementById('fitBtn');
-const cropModeBtn  = document.getElementById('cropModeBtn');
-const clearCropBtn = document.getElementById('clearCropBtn');
-const modeHint     = document.getElementById('modeHint');
-
-const colorsSlider = document.getElementById('colorsSlider');
-const colorsVal    = document.getElementById('colorsVal');
-const cellAuto     = document.getElementById('cellAuto');
-const cellInput    = document.getElementById('cellInput');
-const cellHint     = document.getElementById('cellHint');
-const minCell      = document.getElementById('minCell');
-
-const resultCanvas = document.getElementById('resultCanvas');
-const resultEmpty  = document.getElementById('resultEmpty');
-const resultInfo   = document.getElementById('resultInfo');
-const swatches     = document.getElementById('swatches');
-const nameInput    = document.getElementById('nameInput');
-const copyBtn      = document.getElementById('copyBtn');
-const saveBtn      = document.getElementById('saveBtn');
-const saveStatus   = document.getElementById('saveStatus');
+// DOM
+const urlInput    = document.getElementById('urlInput');
+const loadBtn     = document.getElementById('loadBtn');
+const fileInput   = document.getElementById('fileInput');
+const fileDrop    = document.getElementById('fileDrop');
+const sourceCanvas= document.getElementById('sourceCanvas');
+const sourceInfo  = document.getElementById('sourceInfo');
+const modeInfo    = document.getElementById('modeInfo');
+const cropInfo    = document.getElementById('cropInfo');
+const cx_=document.getElementById('cx'), cy_=document.getElementById('cy');
+const cw_=document.getElementById('cw'), ch_=document.getElementById('ch');
+const ox_=document.getElementById('ox'), oy_=document.getElementById('oy');
+const zoomLabel   = document.getElementById('zoomLabel');
+const zoomOutBtn  = document.getElementById('zoomOutBtn');
+const zoomInBtn   = document.getElementById('zoomInBtn');
+const fitBtn      = document.getElementById('fitBtn');
+const cropModeBtn = document.getElementById('cropModeBtn');
+const alignModeBtn= document.getElementById('alignModeBtn');
+const clearToolBtn= document.getElementById('clearToolBtn');
+const colorsSlider= document.getElementById('colorsSlider');
+const colorsVal   = document.getElementById('colorsVal');
+const cellAuto    = document.getElementById('cellAuto');
+const cellInput   = document.getElementById('cellInput');
+const cellNudge   = document.getElementById('cellNudge');
+const cellHint    = document.getElementById('cellHint');
+const minCell     = document.getElementById('minCell');
+const resultCanvas= document.getElementById('resultCanvas');
+const resultEmpty = document.getElementById('resultEmpty');
+const resultInfo  = document.getElementById('resultInfo');
+const swatches    = document.getElementById('swatches');
+const nameInput   = document.getElementById('nameInput');
+const copyBtn     = document.getElementById('copyBtn');
+const saveBtn     = document.getElementById('saveBtn');
+const saveStatus  = document.getElementById('saveStatus');
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// Canvas setup
+// Canvas init
 // ═══════════════════════════════════════════════════════════════════════════════
-
 function initCanvas() {
-  CANVAS_W = sourceCanvas.clientWidth || 400;
-  CANVAS_H = SRC_H;
+  CANVAS_W = sourceCanvas.clientWidth  || 400;
+  CANVAS_H = sourceCanvas.clientHeight || 400;
   sourceCanvas.width  = CANVAS_W;
   sourceCanvas.height = CANVAS_H;
 }
-initCanvas();
-window.addEventListener('resize', () => {
+
+const ro = new ResizeObserver(() => {
   initCanvas();
   if (rawPixels) { resetFit(); drawSource(); }
 });
+ro.observe(sourceCanvas);
+initCanvas();
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // Image loading
 // ═══════════════════════════════════════════════════════════════════════════════
-
-loadBtn.addEventListener('click', () => {
-  const url = urlInput.value.trim();
-  if (url) loadFromUrl(url);
-});
-urlInput.addEventListener('keydown', e => { if (e.key === 'Enter') loadBtn.click(); });
-fileInput.addEventListener('change', () => { if (fileInput.files[0]) loadFromFile(fileInput.files[0]); });
-fileDrop.addEventListener('dragover', e => { e.preventDefault(); fileDrop.classList.add('drag-over'); });
-fileDrop.addEventListener('dragleave', () => fileDrop.classList.remove('drag-over'));
-fileDrop.addEventListener('drop', e => {
+loadBtn.addEventListener('click', () => { const u=urlInput.value.trim(); if(u) loadFromUrl(u); });
+urlInput.addEventListener('keydown', e => { if(e.key==='Enter') loadBtn.click(); });
+fileInput.addEventListener('change', () => { if(fileInput.files[0]) loadFromFile(fileInput.files[0]); });
+fileDrop.addEventListener('dragover', e=>{e.preventDefault();fileDrop.classList.add('drag-over');});
+fileDrop.addEventListener('dragleave', ()=>fileDrop.classList.remove('drag-over'));
+fileDrop.addEventListener('drop', e=>{
   e.preventDefault(); fileDrop.classList.remove('drag-over');
-  const file = e.dataTransfer.files[0];
-  if (file && file.type.startsWith('image/')) loadFromFile(file);
+  const f=e.dataTransfer.files[0]; if(f&&f.type.startsWith('image/')) loadFromFile(f);
 });
 
 async function loadFromUrl(url) {
   setLoading(true);
   try {
-    const res = await fetch('/proxy', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ url }),
-    });
+    const res = await fetch('/proxy',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({url})});
     const data = await res.json();
-    if (data.error) throw new Error(data.error);
-    await ingestDataUrl(data.dataUrl);
-    const stem = url.split('/').pop().split('?')[0].replace(/\.[^.]+$/, '').replace(/[-\s]/g, '_').slice(0, 30);
-    if (stem && !nameInput.value) nameInput.value = stem;
-  } catch (e) { sourceInfo.textContent = '⚠ ' + e.message; }
+    if(data.error) throw new Error(data.error);
+    await ingest(data.dataUrl);
+    const stem = url.split('/').pop().split('?')[0].replace(/\.[^.]+$/,'').replace(/[-\s]/g,'_').slice(0,30);
+    if(stem && !nameInput.value) nameInput.value = stem;
+  } catch(e) { sourceInfo.textContent='⚠ '+e.message; }
   setLoading(false);
 }
-
 function loadFromFile(file) {
-  return new Promise(resolve => {
-    const reader = new FileReader();
-    reader.onload = async e => {
-      setLoading(true);
-      await ingestDataUrl(e.target.result);
-      const stem = file.name.replace(/\.[^.]+$/, '').replace(/[-\s]/g, '_').slice(0, 30);
-      if (stem && !nameInput.value) nameInput.value = stem;
-      setLoading(false); resolve();
+  return new Promise(r=>{
+    const reader=new FileReader();
+    reader.onload=async e=>{
+      setLoading(true); await ingest(e.target.result);
+      const stem=file.name.replace(/\.[^.]+$/,'').replace(/[-\s]/g,'_').slice(0,30);
+      if(stem&&!nameInput.value) nameInput.value=stem;
+      setLoading(false); r();
     };
     reader.readAsDataURL(file);
   });
 }
-
-async function ingestDataUrl(dataUrl) {
-  return new Promise(resolve => {
-    const img = new Image();
-    img.onload = () => {
-      // Store raw pixels
-      const tmp = document.createElement('canvas');
-      tmp.width = img.width; tmp.height = img.height;
-      tmp.getContext('2d').drawImage(img, 0, 0);
-      rawPixels = tmp.getContext('2d').getImageData(0, 0, img.width, img.height).data;
-      rawW = img.width; rawH = img.height;
-
-      // Cache bitmap for fast drawing
-      sourceBitmap = tmp;
-
-      // Reset viewport
-      resetFit();
-      drawSource();
-      scheduleExtract(0);
-      resolve();
+async function ingest(dataUrl) {
+  return new Promise(r=>{
+    const img=new Image();
+    img.onload=()=>{
+      const c=document.createElement('canvas'); c.width=img.width; c.height=img.height;
+      c.getContext('2d').drawImage(img,0,0);
+      rawPixels=c.getContext('2d').getImageData(0,0,img.width,img.height).data;
+      rawW=img.width; rawH=img.height; sourceBitmap=c;
+      resetFit(); drawSource(); scheduleExtract(0); r();
     };
-    img.src = dataUrl;
+    img.src=dataUrl;
   });
 }
-
 function setLoading(on) {
-  loadBtn.disabled = on;
-  loadBtn.innerHTML = on ? '<span class="spinner"></span>' : 'Load';
+  loadBtn.disabled=on; loadBtn.innerHTML=on?'<span class="spinner"></span>':'Load';
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// Viewport helpers
+// Viewport
 // ═══════════════════════════════════════════════════════════════════════════════
-
 function resetFit() {
-  fitScale  = Math.max(rawW / CANVAS_W, rawH / CANVAS_H);
+  fitScale  = Math.max(rawW/CANVAS_W, rawH/CANVAS_H);
   viewScale = fitScale;
-  viewX = (rawW - CANVAS_W * viewScale) / 2;
-  viewY = (rawH - CANVAS_H * viewScale) / 2;
-  clampView();
-  updateZoomLabel();
+  viewX = (rawW - CANVAS_W*viewScale)/2;
+  viewY = (rawH - CANVAS_H*viewScale)/2;
+  clampView(); updateZoomLabel();
 }
-
 function clampView() {
-  const maxX = rawW - CANVAS_W * viewScale;
-  const maxY = rawH - CANVAS_H * viewScale;
-  viewX = Math.max(Math.min(maxX, 0), Math.min(viewX, Math.max(maxX, 0)));
-  viewY = Math.max(Math.min(maxY, 0), Math.min(viewY, Math.max(maxY, 0)));
+  const maxX=rawW-CANVAS_W*viewScale, maxY=rawH-CANVAS_H*viewScale;
+  viewX=Math.max(Math.min(0,maxX), Math.min(viewX, Math.max(0,maxX)));
+  viewY=Math.max(Math.min(0,maxY), Math.min(viewY, Math.max(0,maxY)));
 }
-
 function updateZoomLabel() {
-  const ratio = fitScale / viewScale;  // 1 = fit, 2 = 2× zoom in
-  zoomLevel.textContent = ratio <= 1.05 ? 'fit' : `${ratio.toFixed(1)}×`;
+  const r=fitScale/viewScale;
+  zoomLabel.textContent = r<=1.05 ? 'fit' : r.toFixed(1)+'×';
 }
-
-// Canvas → raw image coordinate
-function canvasToRaw(cx, cy) {
-  return [viewX + cx * viewScale, viewY + cy * viewScale];
-}
-
-function applyZoom(factor, pivotX, pivotY) {
-  // pivot in canvas coords
-  const [rawPX, rawPY] = canvasToRaw(pivotX, pivotY);
-  const minScale = fitScale * 0.9;
-  const maxScale = Math.max(rawW, rawH) / 8;
-  viewScale = Math.max(minScale, Math.min(maxScale, viewScale * factor));
-  viewX = rawPX - pivotX * viewScale;
-  viewY = rawPY - pivotY * viewScale;
-  clampView();
-  updateZoomLabel();
+function applyZoom(factor, px, py) {
+  const rawPX=viewX+px*viewScale, rawPY=viewY+py*viewScale;
+  // Allow zoom from fit down to individual pixel level (max 20× from fit)
+  const minS = fitScale / 20;
+  const maxS = fitScale * 1.5;   // slight zoom out is OK
+  viewScale = Math.max(minS, Math.min(maxS, viewScale*factor));
+  viewX=rawPX-px*viewScale; viewY=rawPY-py*viewScale;
+  clampView(); updateZoomLabel();
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // Source canvas drawing
 // ═══════════════════════════════════════════════════════════════════════════════
-
 function drawSource() {
   if (!sourceBitmap) return;
+  CANVAS_W=sourceCanvas.width; CANVAS_H=sourceCanvas.height;
+  const ctx=sourceCanvas.getContext('2d');
+  ctx.clearRect(0,0,CANVAS_W,CANVAS_H);
 
-  CANVAS_W = sourceCanvas.width;
-  CANVAS_H = sourceCanvas.height;
+  // Draw full image through viewport
+  ctx.drawImage(sourceBitmap, viewX, viewY, CANVAS_W*viewScale, CANVAS_H*viewScale, 0, 0, CANVAS_W, CANVAS_H);
 
-  const ctx = sourceCanvas.getContext('2d');
-  ctx.clearRect(0, 0, CANVAS_W, CANVAS_H);
-
-  // Draw visible region of raw image
-  ctx.drawImage(
-    sourceBitmap,
-    viewX, viewY, CANVAS_W * viewScale, CANVAS_H * viewScale,
-    0, 0, CANVAS_W, CANVAS_H
-  );
-
-  // ── Cell grid overlay ──
+  // ── Effective reading area overlay ──────────────────────────────────────────
   if (lastResult) {
-    const cell = lastResult.cell;
-    const cellPx = cell / viewScale;  // cell size in canvas pixels
-    const startRawX = Math.floor(viewX / cell) * cell;
-    const startRawY = Math.floor(viewY / cell) * cell;
-    const opacity = Math.min(1, cellPx / 4);  // fade when very zoomed out
-    ctx.strokeStyle = `rgba(196,154,32,${(0.4 * opacity).toFixed(2)})`;
-    ctx.lineWidth = 1;
-    for (let rx = startRawX; rx < viewX + CANVAS_W * viewScale + cell; rx += cell) {
-      const cx = Math.round((rx - viewX) / viewScale) + 0.5;
-      ctx.beginPath(); ctx.moveTo(cx, 0); ctx.lineTo(cx, CANVAS_H); ctx.stroke();
+    const { rows, cols, cell } = lastResult;
+    const crop = getActiveCrop();
+    const ox = parseInt(ox_.value)||0, oy = parseInt(oy_.value)||0;
+    // In raw image coords, the effective reading area
+    const baseX = crop ? crop.x : 0, baseY = crop ? crop.y : 0;
+    const effRawX = baseX + ox, effRawY = baseY + oy;
+    const effRawW = cols * cell,   effRawH = rows * cell;
+
+    // Convert to canvas coords
+    const ex=(effRawX-viewX)/viewScale, ey=(effRawY-viewY)/viewScale;
+    const ew=effRawW/viewScale,         eh=effRawH/viewScale;
+
+    // Dim everything outside effective area
+    ctx.fillStyle='rgba(0,0,0,0.5)';
+    ctx.fillRect(0,0,CANVAS_W,CANVAS_H);
+    // Re-draw image in effective area at full brightness
+    ctx.drawImage(sourceBitmap, effRawX, effRawY, effRawW, effRawH, ex, ey, ew, eh);
+
+    // Grid lines (only inside effective area)
+    const cellPx = cell/viewScale;
+    const alpha  = Math.min(0.9, Math.max(0.2, cellPx/6));
+    ctx.strokeStyle=`rgba(196,154,32,${alpha.toFixed(2)})`;
+    ctx.lineWidth=1;
+    for (let c=0; c<=cols; c++) {
+      const lx=ex+c*cellPx+0.5;
+      ctx.beginPath(); ctx.moveTo(lx,ey); ctx.lineTo(lx,ey+eh); ctx.stroke();
     }
-    for (let ry = startRawY; ry < viewY + CANVAS_H * viewScale + cell; ry += cell) {
-      const cy = Math.round((ry - viewY) / viewScale) + 0.5;
-      ctx.beginPath(); ctx.moveTo(0, cy); ctx.lineTo(CANVAS_W, cy); ctx.stroke();
+    for (let r=0; r<=rows; r++) {
+      const ly=ey+r*cellPx+0.5;
+      ctx.beginPath(); ctx.moveTo(ex,ly); ctx.lineTo(ex+ew,ly); ctx.stroke();
     }
+    // Effective area border
+    ctx.strokeStyle='#c49a20'; ctx.lineWidth=1.5;
+    ctx.strokeRect(ex+0.5, ey+0.5, ew, eh);
   }
 
-  // ── Crop rectangle overlay ──
+  // ── Crop rectangle ──────────────────────────────────────────────────────────
   const crop = tempCrop || getActiveCrop();
-  if (crop && crop.w > 0 && crop.h > 0) {
-    const rx = (crop.x - viewX) / viewScale;
-    const ry = (crop.y - viewY) / viewScale;
-    const rw = crop.w / viewScale;
-    const rh = crop.h / viewScale;
-
-    // Darken outside crop
-    ctx.fillStyle = 'rgba(0,0,0,0.5)';
-    ctx.fillRect(0, 0, CANVAS_W, CANVAS_H);
-    ctx.clearRect(rx, ry, rw, rh);
-    // Re-draw image in crop area (to remove the darkening)
-    ctx.drawImage(sourceBitmap, crop.x, crop.y, crop.w, crop.h, rx, ry, rw, rh);
-    // Crop border
-    ctx.strokeStyle = '#c49a20';
-    ctx.lineWidth = 1.5;
-    ctx.strokeRect(rx + 0.5, ry + 0.5, rw, rh);
+  if (crop && crop.w>0 && crop.h>0) {
+    const rx=(crop.x-viewX)/viewScale, ry=(crop.y-viewY)/viewScale;
+    const rw=crop.w/viewScale,         rh=crop.h/viewScale;
+    // Border only (dim was already handled by effective area, or draw if no result)
+    ctx.strokeStyle=lastResult?'rgba(200,160,60,0.6)':'#c49a20';
+    ctx.lineWidth=1.5; ctx.setLineDash([4,3]);
+    ctx.strokeRect(rx+0.5,ry+0.5,rw,rh);
+    ctx.setLineDash([]);
     // Corner handles
-    const hs = 6;
-    ctx.fillStyle = '#c49a20';
-    [[rx,ry],[rx+rw-hs,ry],[rx,ry+rh-hs],[rx+rw-hs,ry+rh-hs]].forEach(([hx,hy]) => {
-      ctx.fillRect(hx, hy, hs, hs);
-    });
-    cropInfo.textContent = `crop: ${Math.round(crop.w)}×${Math.round(crop.h)}px at (${Math.round(crop.x)}, ${Math.round(crop.y)})`;
+    const hs=5; ctx.fillStyle='#c49a20';
+    [[rx,ry],[rx+rw-hs,ry],[rx,ry+rh-hs],[rx+rw-hs,ry+rh-hs]].forEach(([hx,hy])=>ctx.fillRect(hx,hy,hs,hs));
+    cropInfo.textContent=`${Math.round(crop.w)}×${Math.round(crop.h)} at (${Math.round(crop.x)},${Math.round(crop.y)})`;
   } else {
-    cropInfo.textContent = '';
+    cropInfo.textContent='';
   }
 
-  sourceInfo.textContent = rawW && rawH ? `${rawW}×${rawH}px  ·  scroll to zoom, drag to pan` : '';
+  // ── Align cursor cross (while in align mode, show raw grid snapped to cursor) ──
+  if (mode==='align' && lastResult && _alignCursor) {
+    const cell=lastResult.cell;
+    const ox=parseInt(ox_.value)||0, oy=parseInt(oy_.value)||0;
+    const crop=getActiveCrop();
+    const baseX=crop?crop.x:0, baseY=crop?crop.y:0;
+    // Snap: closest grid line to cursor
+    const rawX=_alignCursor[0], rawY=_alignCursor[1];
+    const snapRawX=baseX+ox+Math.round((rawX-baseX-ox)/cell)*cell;
+    const snapRawY=baseY+oy+Math.round((rawY-baseY-oy)/cell)*cell;
+    const sx=(snapRawX-viewX)/viewScale, sy=(snapRawY-viewY)/viewScale;
+    ctx.strokeStyle='rgba(255,100,100,0.8)'; ctx.lineWidth=1; ctx.setLineDash([2,2]);
+    ctx.beginPath(); ctx.moveTo(sx,0); ctx.lineTo(sx,CANVAS_H); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(0,sy); ctx.lineTo(CANVAS_W,sy); ctx.stroke();
+    ctx.setLineDash([]);
+  }
+
+  sourceInfo.textContent=rawW?`${rawW}×${rawH}px`:'';
 }
+let _alignCursor = null;
 
 function getActiveCrop() {
-  const x = parseInt(cx.value)||0, y = parseInt(cy.value)||0;
-  const w = parseInt(cw.value)||0, h = parseInt(ch.value)||0;
-  return (w > 0 && h > 0) ? { x, y, w, h } : null;
+  const x=parseInt(cx_.value)||0, y=parseInt(cy_.value)||0;
+  const w=parseInt(cw_.value)||0, h=parseInt(ch_.value)||0;
+  return (w>0&&h>0)?{x,y,w,h}:null;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// Zoom controls
+// Toolbar buttons
 // ═══════════════════════════════════════════════════════════════════════════════
+zoomOutBtn.addEventListener('click',()=>{ if(!rawPixels)return; applyZoom(1.4,CANVAS_W/2,CANVAS_H/2); drawSource(); });
+zoomInBtn .addEventListener('click',()=>{ if(!rawPixels)return; applyZoom(1/1.4,CANVAS_W/2,CANVAS_H/2); drawSource(); });
+fitBtn    .addEventListener('click',()=>{ if(!rawPixels)return; resetFit(); drawSource(); });
 
-zoomOutBtn.addEventListener('click', () => { if (!rawPixels) return; applyZoom(1.4, CANVAS_W/2, CANVAS_H/2); drawSource(); });
-zoomInBtn .addEventListener('click', () => { if (!rawPixels) return; applyZoom(1/1.4, CANVAS_W/2, CANVAS_H/2); drawSource(); });
-fitBtn    .addEventListener('click', () => { if (!rawPixels) return; resetFit(); drawSource(); });
-
-sourceCanvas.addEventListener('wheel', e => {
-  if (!rawPixels) return;
-  e.preventDefault();
-  const rect = sourceCanvas.getBoundingClientRect();
-  const mx = (e.clientX - rect.left) * (CANVAS_W / rect.width);
-  const my = (e.clientY - rect.top)  * (CANVAS_H / rect.height);
-  applyZoom(e.deltaY > 0 ? 1.15 : 1/1.15, mx, my);
-  drawSource();
-}, { passive: false });
-
-// ═══════════════════════════════════════════════════════════════════════════════
-// Crop mode
-// ═══════════════════════════════════════════════════════════════════════════════
-
-cropModeBtn.addEventListener('click', () => {
-  cropMode = !cropMode;
-  cropModeBtn.classList.toggle('active', cropMode);
-  modeHint.textContent = cropMode ? 'drag to draw crop' : '';
-  sourceCanvas.classList.toggle('crosshair', cropMode);
-  sourceCanvas.classList.remove('grabbing');
-});
-
-clearCropBtn.addEventListener('click', () => {
-  cx.value = cy.value = cw.value = ch.value = 0;
-  tempCrop = null;
-  drawSource();
-  scheduleExtract(200);
-});
-
-// ═══════════════════════════════════════════════════════════════════════════════
-// Mouse interaction (pan + crop draw)
-// ═══════════════════════════════════════════════════════════════════════════════
-
-function canvasPoint(e) {
-  const rect = sourceCanvas.getBoundingClientRect();
-  return [
-    (e.clientX - rect.left) * (CANVAS_W / rect.width),
-    (e.clientY - rect.top)  * (CANVAS_H / rect.height),
-  ];
+function setMode(m) {
+  mode=m;
+  cropModeBtn .classList.toggle('active', m==='crop');
+  alignModeBtn.classList.toggle('active', m==='align');
+  sourceCanvas.className = m==='crop'||m==='align' ? 'crosshair' : 'grab';
+  modeInfo.textContent = m==='crop'?'drag to draw crop':m==='align'?'click on a grid line to align':'';
 }
-
-sourceCanvas.addEventListener('mousedown', e => {
-  if (!rawPixels) return;
-  e.preventDefault();
-  isDragging = true;
-  const [px, py] = canvasPoint(e);
-  dragStartRaw = { x: viewX + px * viewScale, y: viewY + py * viewScale, vx: viewX, vy: viewY };
-  if (!cropMode) sourceCanvas.classList.add('grabbing');
+cropModeBtn .addEventListener('click',()=>setMode(mode==='crop' ?'pan':'crop'));
+alignModeBtn.addEventListener('click',()=>setMode(mode==='align'?'pan':'align'));
+clearToolBtn.addEventListener('click',()=>{
+  cx_.value=cy_.value=cw_.value=ch_.value=0;
+  ox_.value=oy_.value=0;
+  tempCrop=null; drawSource(); scheduleExtract(200);
 });
 
-sourceCanvas.addEventListener('mousemove', e => {
-  if (!isDragging || !rawPixels) return;
-  const [px, py] = canvasPoint(e);
+// ═══════════════════════════════════════════════════════════════════════════════
+// Mouse interaction
+// ═══════════════════════════════════════════════════════════════════════════════
+sourceCanvas.addEventListener('wheel', e=>{
+  if(!rawPixels) return; e.preventDefault();
+  const rect=sourceCanvas.getBoundingClientRect();
+  const mx=(e.clientX-rect.left)*(CANVAS_W/rect.width);
+  const my=(e.clientY-rect.top )*(CANVAS_H/rect.height);
+  applyZoom(e.deltaY>0?1.1:1/1.1, mx, my);
+  drawSource();
+},{passive:false});
 
-  if (cropMode) {
-    // Draw crop rectangle from dragStart to current mouse position
-    const rawX = viewX + px * viewScale;
-    const rawY = viewY + py * viewScale;
-    const x = Math.max(0, Math.min(dragStartRaw.x, rawX));
-    const y = Math.max(0, Math.min(dragStartRaw.y, rawY));
-    const w = Math.min(rawW - x, Math.abs(rawX - dragStartRaw.x));
-    const h = Math.min(rawH - y, Math.abs(rawY - dragStartRaw.y));
-    tempCrop = { x, y, w, h };
-    drawSource();
+function canvasPt(e) {
+  const r=sourceCanvas.getBoundingClientRect();
+  return [(e.clientX-r.left)*(CANVAS_W/r.width), (e.clientY-r.top)*(CANVAS_H/r.height)];
+}
+function rawPt(cx,cy) { return [viewX+cx*viewScale, viewY+cy*viewScale]; }
+
+sourceCanvas.addEventListener('mousedown', e=>{
+  if(!rawPixels) return; e.preventDefault(); isDragging=true;
+  const [px,py]=canvasPt(e); const [rx,ry]=rawPt(px,py);
+  dragStart={rawX:rx, rawY:ry, vx:viewX, vy:viewY, px, py};
+  if(mode==='pan') sourceCanvas.classList.add('grabbing');
+});
+
+sourceCanvas.addEventListener('mousemove', e=>{
+  const [px,py]=canvasPt(e); const [rx,ry]=rawPt(px,py);
+
+  if(mode==='align') {
+    _alignCursor=[rx,ry]; drawSource(); return;
+  }
+
+  if(!isDragging) return;
+  if(mode==='crop') {
+    const x=Math.max(0,Math.min(dragStart.rawX,rx));
+    const y=Math.max(0,Math.min(dragStart.rawY,ry));
+    const w=Math.min(rawW-x, Math.abs(rx-dragStart.rawX));
+    const h=Math.min(rawH-y, Math.abs(ry-dragStart.rawY));
+    tempCrop={x,y,w,h}; drawSource();
   } else {
-    // Pan: keep the grabbed raw point under the cursor
-    viewX = dragStartRaw.x - px * viewScale;
-    viewY = dragStartRaw.y - py * viewScale;
-    clampView();
-    drawSource();
+    // Pan: keep dragStart.rawX/Y under cursor
+    viewX=dragStart.rawX-px*viewScale;
+    viewY=dragStart.rawY-py*viewScale;
+    clampView(); drawSource();
   }
 });
 
-sourceCanvas.addEventListener('mouseup', e => {
-  if (!isDragging) return;
-  isDragging = false;
-  sourceCanvas.classList.remove('grabbing');
+sourceCanvas.addEventListener('mouseup', e=>{
+  const [px,py]=canvasPt(e); const [rx,ry]=rawPt(px,py);
 
-  if (cropMode && tempCrop && tempCrop.w > 2 && tempCrop.h > 2) {
-    // Commit crop to inputs
-    cx.value = Math.round(tempCrop.x);
-    cy.value = Math.round(tempCrop.y);
-    cw.value = Math.round(tempCrop.w);
-    ch.value = Math.round(tempCrop.h);
-    tempCrop = null;
-    // Exit crop mode after drawing
-    cropMode = false;
-    cropModeBtn.classList.remove('active');
-    modeHint.textContent = '';
-    sourceCanvas.classList.remove('crosshair');
-    drawSource();
-    scheduleExtract(300);
+  if(mode==='align' && lastResult) {
+    // Click: set grid offset so nearest grid line passes through this point
+    const cell=lastResult.cell;
+    const crop=getActiveCrop();
+    const baseX=crop?crop.x:0, baseY=crop?crop.y:0;
+    const localX=rx-baseX, localY=ry-baseY;
+    ox_.value=Math.round(((localX%cell)+cell)%cell);
+    oy_.value=Math.round(((localY%cell)+cell)%cell);
+    setMode('pan'); _alignCursor=null; drawSource(); scheduleExtract(200); return;
   }
-  tempCrop = null;
+
+  if(!isDragging) return;
+  isDragging=false; sourceCanvas.classList.remove('grabbing');
+
+  if(mode==='crop' && tempCrop && tempCrop.w>2 && tempCrop.h>2) {
+    cx_.value=Math.round(tempCrop.x); cy_.value=Math.round(tempCrop.y);
+    cw_.value=Math.round(tempCrop.w); ch_.value=Math.round(tempCrop.h);
+    tempCrop=null; setMode('pan'); drawSource(); scheduleExtract(300);
+  }
+  tempCrop=null;
 });
 
-sourceCanvas.addEventListener('mouseleave', () => {
-  if (isDragging && !cropMode) { isDragging = false; sourceCanvas.classList.remove('grabbing'); }
+sourceCanvas.addEventListener('mouseleave',()=>{
+  if(mode==='align'){ _alignCursor=null; drawSource(); }
+  if(isDragging && mode==='pan'){ isDragging=false; sourceCanvas.classList.remove('grabbing'); }
 });
 
-// Crop inputs → redraw immediately
-[cx, cy, cw, ch].forEach(el => el.addEventListener('input', () => { drawSource(); scheduleExtract(400); }));
+[cx_,cy_,cw_,ch_].forEach(el=>el.addEventListener('input',()=>{ drawSource(); scheduleExtract(400); }));
+[ox_,oy_]        .forEach(el=>el.addEventListener('input',()=>{ drawSource(); scheduleExtract(200); }));
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// Extraction pipeline (cell detection + quantization — runs fully in JS)
+// Extraction
 // ═══════════════════════════════════════════════════════════════════════════════
-
-function scheduleExtract(delay = 200) {
-  clearTimeout(extractTimer);
-  extractTimer = setTimeout(runExtract, delay);
-}
+function scheduleExtract(d=200) { clearTimeout(extractTimer); extractTimer=setTimeout(runExtract,d); }
 
 function runExtract() {
-  if (!rawPixels) return;
+  if(!rawPixels) return;
+  const k=parseInt(colorsSlider.value);
+  const lo=parseInt(minCell.value)||12;
+  const ox=parseInt(ox_.value)||0, oy=parseInt(oy_.value)||0;
+  const crop=getActiveCrop();
+  let [pixels,w,h]=crop?applyCrop(rawPixels,rawW,rawH,crop):[rawPixels,rawW,rawH];
 
-  const k   = parseInt(colorsSlider.value);
-  const lo  = parseInt(minCell.value) || 12;
-  const crop = getActiveCrop();
-
-  let [pixels, w, h] = crop ? applyCrop(rawPixels, rawW, rawH, crop) : [rawPixels, rawW, rawH];
-
-  // Cell size
   let cell;
-  if (cellAuto.checked) {
-    cell = detectCellSize(pixels, w, h, lo);
-    cellInput.value = cell;
-    cellHint.textContent = `detected ${cell}px`;
+  if(cellAuto.checked){
+    cell=detectCellSize(pixels,w,h,lo);
+    cellInput.value=cell; cellNudge.value=0;
   } else {
-    cell = parseInt(cellInput.value) || 16;
-    cellHint.textContent = `${cell}px`;
+    cell=parseFloat(cellInput.value)||16;
   }
+  const nudge=(parseInt(cellNudge.value)||0)*0.01;
+  cell=Math.round((cell+nudge)*100)/100;  // keep to 2 decimal places
+  cellHint.textContent=nudge!==0?`${cell}px (${nudge>0?'+':''}${nudge.toFixed(2)})`:`${cell}px`;
 
-  // Sample grid + quantize
-  const { colors: gridColors, rows, cols } = sampleGrid(pixels, w, h, cell);
-  const { centers, labels } = kmeans(gridColors, k);
+  const {colors:gridColors,rows,cols}=sampleGrid(pixels,w,h,cell,ox,oy);
+  const {centers,labels}=kmeans(gridColors,k);
 
-  // Sort by luminance (brightest = index 0 = background)
-  const lum = centers.map(c => 0.299*c[0] + 0.587*c[1] + 0.114*c[2]);
-  const order = lum.map((_,i)=>i).sort((a,b) => lum[b]-lum[a]);
-  const inv = new Uint8Array(k);
-  order.forEach((origC, newC) => inv[origC] = newC);
+  const lum=centers.map(c=>0.299*c[0]+0.587*c[1]+0.114*c[2]);
+  const order=lum.map((_,i)=>i).sort((a,b)=>lum[b]-lum[a]);
+  const inv=new Uint8Array(k); order.forEach((origC,newC)=>inv[origC]=newC);
 
-  const hexColors = order.map(i => toHex(centers[i]));
-  const grid = [];
-  for (let r = 0; r < rows; r++) {
-    const row = [];
-    for (let c = 0; c < cols; c++) row.push(inv[labels[r * cols + c]]);
-    grid.push(row);
-  }
+  const hexColors=order.map(i=>toHex(centers[i]));
+  const grid=[];
+  for(let r=0;r<rows;r++){ const row=[]; for(let c=0;c<cols;c++) row.push(inv[labels[r*cols+c]]); grid.push(row); }
 
-  lastResult = { grid, hexColors, rows, cols, cell };
-  renderResult();
-  drawSource();  // re-draw to show cell grid overlay
+  lastResult={grid,hexColors,rows,cols,cell};
+  renderResult(); drawSource();
 }
 
-// ── Crop helper ──
-function applyCrop(pixels, w, h, { x, y, w: cw, h: ch }) {
-  const out = new Uint8ClampedArray(cw * ch * 4);
-  for (let r = 0; r < ch; r++) {
-    for (let c = 0; c < cw; c++) {
-      const si = ((y + r) * w + (x + c)) * 4;
-      const di = (r * cw + c) * 4;
-      out[di] = pixels[si]; out[di+1] = pixels[si+1];
-      out[di+2] = pixels[si+2]; out[di+3] = 255;
+function applyCrop(pixels,w,h,{x,y,w:cw,h:ch}) {
+  const out=new Uint8ClampedArray(cw*ch*4);
+  for(let r=0;r<ch;r++) for(let c=0;c<cw;c++){
+    const si=((y+r)*w+(x+c))*4, di=(r*cw+c)*4;
+    out[di]=pixels[si];out[di+1]=pixels[si+1];out[di+2]=pixels[si+2];out[di+3]=255;
+  }
+  return [out,cw,ch];
+}
+
+function scoreCellSize(pixels,w,h,s){
+  const rows=Math.floor(h/s),cols=Math.floor(w/s);
+  if(rows<3||cols<3) return Infinity;
+  let total=0,count=0;
+  for(let r=0;r<rows;r++) for(let c=0;c<cols;c++){
+    let sR=0,sG=0,sB=0,sR2=0,sG2=0,sB2=0,n=0;
+    for(let dr=0;dr<s;dr++) for(let dc=0;dc<s;dc++){
+      const p=((r*s+dr)*w+(c*s+dc))*4; const R=pixels[p],G=pixels[p+1],B=pixels[p+2];
+      sR+=R;sG+=G;sB+=B;sR2+=R*R;sG2+=G*G;sB2+=B*B;n++;
     }
+    total+=(Math.sqrt(Math.max(0,sR2/n-(sR/n)**2))+Math.sqrt(Math.max(0,sG2/n-(sG/n)**2))+Math.sqrt(Math.max(0,sB2/n-(sB/n)**2)))/3;
+    count++;
   }
-  return [out, cw, ch];
+  return count?total/count:Infinity;
 }
 
-// ── Cell detection ──
-function scoreCellSize(pixels, w, h, s) {
-  const rows = Math.floor(h / s), cols = Math.floor(w / s);
-  if (rows < 3 || cols < 3) return Infinity;
-  let total = 0, count = 0;
-  for (let r = 0; r < rows; r++) {
-    for (let c = 0; c < cols; c++) {
-      let sR=0,sG=0,sB=0,sR2=0,sG2=0,sB2=0,n=0;
-      for (let dr = 0; dr < s; dr++) for (let dc = 0; dc < s; dc++) {
-        const p = ((r*s+dr)*w + (c*s+dc)) * 4;
-        const R=pixels[p],G=pixels[p+1],B=pixels[p+2];
-        sR+=R;sG+=G;sB+=B;sR2+=R*R;sG2+=G*G;sB2+=B*B;n++;
-      }
-      total += (Math.sqrt(Math.max(0,sR2/n-(sR/n)**2)) +
-                Math.sqrt(Math.max(0,sG2/n-(sG/n)**2)) +
-                Math.sqrt(Math.max(0,sB2/n-(sB/n)**2))) / 3;
-      count++;
-    }
+function detectCellSize(pixels,w,h,lo,hi=64){
+  hi=Math.min(hi,Math.floor(Math.min(w,h)/4));
+  if(lo>hi) return lo;
+  let varBest=lo,varBestScore=Infinity; const scores={};
+  for(let s=lo;s<=hi;s++){ const sc=scoreCellSize(pixels,w,h,s); scores[s]=sc; if(sc<varBestScore){varBestScore=sc;varBest=s;} }
+  const proj=new Float64Array(w);
+  for(let col=0;col<w;col++){ let sum=0; for(let row=0;row<h;row++){const p=(row*w+col)*4;sum+=pixels[p]+pixels[p+1]+pixels[p+2];} proj[col]=sum/(h*3); }
+  let mean=0; for(let i=0;i<w;i++) mean+=proj[i]; mean/=w; for(let i=0;i<w;i++) proj[i]-=mean;
+  let acBest=lo,acBestVal=-Infinity;
+  for(let lag=lo;lag<=Math.min(hi,w-2);lag++){
+    let ac=0; for(let i=0;i<w-lag;i++) ac+=proj[i]*proj[i+lag];
+    if(ac>acBestVal){acBestVal=ac;acBest=lag;} else if(ac<acBestVal*0.9&&acBest>lo) break;
   }
-  return count ? total / count : Infinity;
+  return (scores[acBest]??Infinity)<varBestScore*1.5?acBest:varBest;
 }
 
-function detectCellSize(pixels, w, h, lo, hi=64) {
-  hi = Math.min(hi, Math.floor(Math.min(w, h) / 4));
-  if (lo > hi) return lo;
-
-  let varBest = lo, varBestScore = Infinity;
-  const scores = {};
-  for (let s = lo; s <= hi; s++) {
-    const sc = scoreCellSize(pixels, w, h, s);
-    scores[s] = sc;
-    if (sc < varBestScore) { varBestScore = sc; varBest = s; }
-  }
-
-  // Autocorrelation of column mean
-  const proj = new Float64Array(w);
-  for (let col = 0; col < w; col++) {
-    let sum = 0;
-    for (let row = 0; row < h; row++) {
-      const p = (row*w+col)*4; sum += pixels[p]+pixels[p+1]+pixels[p+2];
-    }
-    proj[col] = sum / (h * 3);
-  }
-  let mean = 0; for (let i = 0; i < w; i++) mean += proj[i]; mean /= w;
-  for (let i = 0; i < w; i++) proj[i] -= mean;
-
-  let acBest = lo, acBestVal = -Infinity;
-  for (let lag = lo; lag <= Math.min(hi, w-2); lag++) {
-    let ac = 0;
-    for (let i = 0; i < w-lag; i++) ac += proj[i] * proj[i+lag];
-    if (ac > acBestVal) { acBestVal = ac; acBest = lag; }
-    else if (ac < acBestVal * 0.9 && acBest > lo) break;
-  }
-
-  const varAtAc = scores[acBest] ?? Infinity;
-  return varAtAc < varBestScore * 1.5 ? acBest : varBest;
-}
-
-// ── Grid sampling ──
-function sampleGrid(pixels, w, h, cell) {
-  const rows = Math.floor(h / cell), cols = Math.floor(w / cell);
-  const m = Math.max(1, Math.floor(cell / 4));
-  const colors = [];
-  for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
+function sampleGrid(pixels,w,h,cell,ox=0,oy=0){
+  // Wrap negative offsets to positive equivalent (same grid alignment)
+  const cell_i=Math.round(cell);
+  if(ox<0) ox=((Math.round(ox)%cell_i)+cell_i)%cell_i;
+  if(oy<0) oy=((Math.round(oy)%cell_i)+cell_i)%cell_i;
+  // Include a cell if ≥50% of it fits in the image (avoids dropping last col/row by 1px)
+  let cols=Math.floor((w-ox)/cell), rows=Math.floor((h-oy)/cell);
+  if((w-ox)-cols*cell >= cell*0.5) cols++;
+  if((h-oy)-rows*cell >= cell*0.5) rows++;
+  const mFrac=0.25;
+  const colors=[];
+  for(let r=0;r<rows;r++) for(let c=0;c<cols;c++){
+    const x0=Math.round(ox+c*cell), x1=Math.min(Math.round(ox+(c+1)*cell),w);
+    const y0=Math.round(oy+r*cell), y1=Math.min(Math.round(oy+(r+1)*cell),h);
+    const cw=x1-x0, ch=y1-y0;
+    if(cw<=0||ch<=0){ colors.push([0,0,0]); continue; }
+    const mx=Math.max(1,Math.round(cw*mFrac)), my=Math.max(1,Math.round(ch*mFrac));
     let sR=0,sG=0,sB=0,n=0;
-    for (let dr = m; dr < cell-m; dr++) for (let dc = m; dc < cell-m; dc++) {
-      const p = ((r*cell+dr)*w + (c*cell+dc)) * 4;
-      sR+=pixels[p]; sG+=pixels[p+1]; sB+=pixels[p+2]; n++;
+    for(let dy=my;dy<ch-my;dy++) for(let dx=mx;dx<cw-mx;dx++){
+      const p=((y0+dy)*w+(x0+dx))*4;
+      sR+=pixels[p];sG+=pixels[p+1];sB+=pixels[p+2];n++;
     }
-    colors.push(n > 0 ? [sR/n, sG/n, sB/n] : [0,0,0]);
+    colors.push(n>0?[sR/n,sG/n,sB/n]:[0,0,0]);
   }
-  return { colors, rows, cols };
+  return{colors,rows,cols};
 }
 
-// ── K-means++ ──
-function sqDist(a, b) { return (a[0]-b[0])**2+(a[1]-b[1])**2+(a[2]-b[2])**2; }
-
-function kmeans(points, k, maxIter=40) {
-  const n = points.length;
-  if (!n || k <= 0) return { centers: [], labels: new Uint8Array(0) };
-  k = Math.min(k, n);
-
-  // K-means++ init
-  const chosen = [Math.floor(Math.random() * n)];
-  while (chosen.length < k) {
-    const dists = points.map(p => Math.min(...chosen.map(i => sqDist(p, points[i]))));
-    let total = dists.reduce((a,b)=>a+b,0), r = Math.random() * total, added = false;
-    for (let i = 0; i < n; i++) { r -= dists[i]; if (r<=0) { chosen.push(i); added=true; break; } }
-    if (!added) chosen.push(Math.floor(Math.random() * n));
+function sqDist(a,b){return(a[0]-b[0])**2+(a[1]-b[1])**2+(a[2]-b[2])**2;}
+function kmeans(points,k,maxIter=40){
+  const n=points.length; if(!n||k<=0) return{centers:[],labels:new Uint8Array(0)}; k=Math.min(k,n);
+  const chosen=[Math.floor(Math.random()*n)];
+  while(chosen.length<k){
+    const dists=points.map(p=>Math.min(...chosen.map(i=>sqDist(p,points[i]))));
+    let total=dists.reduce((a,b)=>a+b,0),r=Math.random()*total,added=false;
+    for(let i=0;i<n;i++){r-=dists[i];if(r<=0){chosen.push(i);added=true;break;}}
+    if(!added) chosen.push(Math.floor(Math.random()*n));
   }
-  let centers = chosen.map(i => [...points[i]]);
-  const labels = new Uint8Array(n);
-
-  for (let iter = 0; iter < maxIter; iter++) {
-    let changed = false;
-    for (let i = 0; i < n; i++) {
-      let best=0, bestD=Infinity;
-      for (let c = 0; c < k; c++) { const d=sqDist(points[i],centers[c]); if(d<bestD){bestD=d;best=c;} }
-      if (labels[i] !== best) { labels[i]=best; changed=true; }
-    }
-    if (!changed) break;
-    const sums = Array.from({length:k},()=>[0,0,0]);
-    const counts = new Uint32Array(k);
-    for (let i=0;i<n;i++) { const c=labels[i]; sums[c][0]+=points[i][0];sums[c][1]+=points[i][1];sums[c][2]+=points[i][2];counts[c]++; }
-    centers = sums.map((s,c) => counts[c]>0 ? s.map(v=>v/counts[c]) : centers[c]);
+  let centers=chosen.map(i=>[...points[i]]); const labels=new Uint8Array(n);
+  for(let iter=0;iter<maxIter;iter++){
+    let changed=false;
+    for(let i=0;i<n;i++){let best=0,bestD=Infinity;for(let c=0;c<k;c++){const d=sqDist(points[i],centers[c]);if(d<bestD){bestD=d;best=c;}}if(labels[i]!==best){labels[i]=best;changed=true;}}
+    if(!changed) break;
+    const sums=Array.from({length:k},()=>[0,0,0]); const counts=new Uint32Array(k);
+    for(let i=0;i<n;i++){const c=labels[i];sums[c][0]+=points[i][0];sums[c][1]+=points[i][1];sums[c][2]+=points[i][2];counts[c]++;}
+    centers=sums.map((s,c)=>counts[c]>0?s.map(v=>v/counts[c]):centers[c]);
   }
-  return { centers, labels };
+  return{centers,labels};
 }
-
-function toHex(rgb) {
-  return '#' + rgb.map(v => Math.round(Math.max(0,Math.min(255,v))).toString(16).padStart(2,'0')).join('');
-}
+function toHex(rgb){return'#'+rgb.map(v=>Math.round(Math.max(0,Math.min(255,v))).toString(16).padStart(2,'0')).join('');}
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // Result rendering
 // ═══════════════════════════════════════════════════════════════════════════════
-
-function renderResult() {
-  if (!lastResult) return;
-  const { grid, hexColors, rows, cols } = lastResult;
-
-  resultEmpty.style.display = 'none';
-  resultCanvas.style.display = 'block';
-  copyBtn.style.display = 'inline-block';
-  saveBtn.style.display = 'inline-block';
-
-  const MAX = 360;
-  const cellPx = Math.max(2, Math.floor(MAX / Math.max(rows, cols)));
-  resultCanvas.width  = cols * cellPx;
-  resultCanvas.height = rows * cellPx;
-  const ctx = resultCanvas.getContext('2d');
-  for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
-    ctx.fillStyle = hexColors[grid[r][c]];
-    ctx.fillRect(c*cellPx, r*cellPx, cellPx, cellPx);
-  }
-
-  resultInfo.textContent = `${cols}×${rows} cells · ${hexColors.length} colors · cell=${lastResult.cell}px`;
-
-  swatches.innerHTML = hexColors.map((hex, i) => {
-    const pct = Math.round(100 * lastResult.grid.flat().filter(v=>v===i).length / (rows*cols));
-    return `<div class="swatch"><div class="swatch-dot" style="background:${hex}"></div>${hex}<span style="opacity:.5"> ${pct}%</span></div>`;
+function renderResult(){
+  if(!lastResult) return;
+  const{grid,hexColors,rows,cols}=lastResult;
+  resultEmpty.style.display='none'; resultCanvas.style.display='block';
+  copyBtn.style.display=saveBtn.style.display='inline-block';
+  const MAX=380; const cellPx=Math.max(2,Math.floor(MAX/Math.max(rows,cols)));
+  resultCanvas.width=cols*cellPx; resultCanvas.height=rows*cellPx;
+  const ctx=resultCanvas.getContext('2d');
+  for(let r=0;r<rows;r++) for(let c=0;c<cols;c++){ctx.fillStyle=hexColors[grid[r][c]];ctx.fillRect(c*cellPx,r*cellPx,cellPx,cellPx);}
+  resultInfo.textContent=`${cols}×${rows} cells · ${hexColors.length} colors · cell=${lastResult.cell}px`;
+  const flat=grid.flat();
+  swatches.innerHTML=hexColors.map((hex,i)=>{
+    const pct=Math.round(100*flat.filter(v=>v===i).length/flat.length);
+    return`<div class="swatch"><div class="swatch-dot" style="background:${hex}"></div>${hex}<span style="opacity:.5"> ${pct}%</span></div>`;
   }).join('');
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// Parameter listeners
+// Param listeners
 // ═══════════════════════════════════════════════════════════════════════════════
-
-colorsSlider.addEventListener('input', () => { colorsVal.textContent = colorsSlider.value; scheduleExtract(200); });
-colorsVal.textContent = colorsSlider.value;
-cellAuto.addEventListener('change', () => { cellInput.disabled = cellAuto.checked; scheduleExtract(200); });
-cellInput.addEventListener('input', () => scheduleExtract(400));
-minCell  .addEventListener('input', () => scheduleExtract(400));
+colorsSlider.addEventListener('input',()=>{colorsVal.textContent=colorsSlider.value;scheduleExtract(200);});
+colorsVal.textContent=colorsSlider.value;
+cellAuto.addEventListener('change',()=>{
+  cellInput.disabled=cellAuto.checked; scheduleExtract(200);
+});
+cellInput.addEventListener('input',()=>scheduleExtract(400));
+cellNudge.addEventListener('input',()=>scheduleExtract(200));
+minCell  .addEventListener('input',()=>scheduleExtract(400));
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // Save / Copy
 // ═══════════════════════════════════════════════════════════════════════════════
-
-copyBtn.addEventListener('click', () => {
-  if (!lastResult) return;
-  navigator.clipboard.writeText(JSON.stringify(buildMotifJson(), null, 2))
-    .then(() => { saveStatus.textContent = 'Copied!'; setTimeout(()=>saveStatus.textContent='',2000); });
+copyBtn.addEventListener('click',()=>{
+  if(!lastResult) return;
+  navigator.clipboard.writeText(JSON.stringify(buildJson(),null,2))
+    .then(()=>{saveStatus.textContent='Copied!';setTimeout(()=>saveStatus.textContent='',2000);});
 });
-
-saveBtn.addEventListener('click', async () => {
-  if (!lastResult) return;
-  const name = nameInput.value.trim().replace(/\s+/g,'_') || 'motif';
-  saveStatus.textContent = '…';
-  try {
-    const res = await fetch('/save', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, motif: buildMotifJson(name) }),
-    });
-    const data = await res.json();
-    if (data.error) throw new Error(data.error);
-    saveStatus.textContent = `✓ ${data.saved} (${data.count} total)`;
-  } catch (e) { saveStatus.textContent = '⚠ ' + e.message; }
+saveBtn.addEventListener('click',async()=>{
+  if(!lastResult) return;
+  const name=nameInput.value.trim().replace(/\s+/g,'_')||'motif';
+  saveStatus.textContent='…';
+  try{
+    const res=await fetch('/save',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,motif:buildJson(name)})});
+    let data; try{ data=await res.json(); }catch{ throw new Error(`HTTP ${res.status} — empty response (is server running?)`); }
+    if(data.error) throw new Error(data.error);
+    saveStatus.textContent=`✓ ${data.saved} (${data.count} total)`;
+  }catch(e){saveStatus.textContent='⚠ '+e.message;}
 });
-
-function buildMotifJson(name) {
-  const { grid, hexColors, rows, cols, cell } = lastResult;
-  const fullStitches = [];
-  for (let r=0;r<rows;r++) for (let c=0;c<cols;c++) if (grid[r][c]>0) fullStitches.push({colorId:grid[r][c],x:c,y:r});
-  return {
-    name:         name || nameInput.value.trim() || 'motif',
-    source:       urlInput.value.trim() || '',
-    stitchWidth:  cols, stitchHeight: rows, cellSizePx: cell,
-    colors:       hexColors.map((h,i)=>({colorId:i,hexValue:h})),
-    grid, fullStitches,
-  };
+function buildJson(name){
+  const{grid,hexColors,rows,cols,cell}=lastResult;
+  const fs=[]; for(let r=0;r<rows;r++) for(let c=0;c<cols;c++) if(grid[r][c]>0) fs.push({colorId:grid[r][c],x:c,y:r});
+  return{name:name||nameInput.value.trim()||'motif',source:urlInput.value.trim()||'',
+    stitchWidth:cols,stitchHeight:rows,cellSizePx:cell,
+    colors:hexColors.map((h,i)=>({colorId:i,hexValue:h})),grid,fullStitches:fs};
 }
 </script>
+<script src="/sidebar.js"></script>
 </body>
 </html>

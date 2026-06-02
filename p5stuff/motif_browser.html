@@ -64,7 +64,7 @@ header p { margin-top: 4px; opacity: 0.6; font-size: 0.85rem; }
 /* Modal */
 .modal-bg {
   display: none; position: fixed; inset: 0;
-  background: rgba(44,24,16,0.55); z-index: 100;
+  background: rgba(44,24,16,0.55); z-index: 300;
   align-items: center; justify-content: center;
 }
 .modal-bg.open { display: flex; }
@@ -859,5 +859,6 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal()
 // ─── INIT ────────────────────────────────────────────────────────────────────
 buildCards();
 </script>
+<script src="/sidebar.js"></script>
 </body>
 </html>

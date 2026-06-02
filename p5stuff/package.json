@@ -4,10 +4,12 @@
   "description": "",
   "main": "sketch.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "browser-sync start --server --directory --files * --startPath index.html",
-    "dev": "nodemon server.js --watch server.js --watch *",
-    "interact": "browser-sync start --server --directory --files * --startPath interact.html"
+    "start": "node app.js",
+    "dev": "node --watch app.js",
+    "osc": "nodemon server.js --watch server.js",
+    "bs": "browser-sync start --server --directory --files * --startPath index.html",
+    "interact": "browser-sync start --server --directory --files * --startPath interact.html",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
