@@ -1,6 +1,7 @@
-import { put } from '@vercel/blob';
+'use strict';
+const { put } = require('@vercel/blob');
 
-export default async (req, res) => {
+module.exports = async (req, res) => {
   if (req.method !== 'POST') return res.status(405).end();
   const { name, motif } = req.body || {};
   if (!motif) return res.status(400).json({ error: 'motif required' });
