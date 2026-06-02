@@ -2,6 +2,11 @@
   "framework": null,
   "buildCommand": null,
   "outputDirectory": ".",
+  "functions": {
+    "api/**": {
+      "excludeFiles": "{node_modules,saves,motif_books,motif_wikimedia,motif_images,exports,blender,Finished,GCODE,libs}/**"
+    }
+  },
   "rewrites": [
     { "source": "/", "destination": "/dashboard.html" }
   ]
