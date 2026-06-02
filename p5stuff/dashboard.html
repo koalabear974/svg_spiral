@@ -212,7 +212,7 @@ let allSketches = [];
 let sortCol = 'date', sortAsc = false;
 
 async function loadSketches() {
-  const { sketches } = await fetch('/api/sketches.json').then(r => r.json());
+  const { sketches } = await fetch('/data/sketches.json').then(r => r.json());
   document.getElementById('s-sketches').textContent = sketches.length;
   allSketches = sketches.map(s => {
     const parts = s.label.split(' · ');
@@ -266,7 +266,7 @@ function renderSketchTable() {
 // ── Motifs + stats ───────────────────────────────────────────────────────────
 async function load() {
   try {
-    const { motifs } = await fetch('/api/motifs.json').then(r => r.json());
+    const { motifs } = await fetch('/data/motifs.json').then(r => r.json());
 
     // Stats
     const n = motifs.length;
