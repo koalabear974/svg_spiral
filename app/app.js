@@ -65,10 +65,11 @@ app.get('/api/motifs', async (_req, res) => {
   const blobMotifs = [];
   try {
     const { list } = require('@vercel/blob');
+    const token = process.env.BLOB_READ_WRITE_TOKEN;
     const { blobs } = await list({ prefix: 'motifs/' });
     for (const blob of blobs.filter(b => b.pathname.endsWith('.json'))) {
       try {
-        const r = await fetch(blob.url);
+        const r = await fetch(blob.url, token ? { headers: { authorization: `Bearer ${token}` } } : {});
         const d = await r.json();
         blobMotifs.push({ ...d, _file: blob.pathname.split('/').pop(), _source: 'blob', _blobUrl: blob.url });
       } catch {}
@@ -82,10 +83,11 @@ app.get('/api/blob-motifs', async (_req, res) => {
   const motifs = [];
   try {
     const { list } = require('@vercel/blob');
+    const token = process.env.BLOB_READ_WRITE_TOKEN;
     const { blobs } = await list({ prefix: 'motifs/' });
     for (const blob of blobs.filter(b => b.pathname.endsWith('.json'))) {
       try {
-        const r = await fetch(blob.url);
+        const r = await fetch(blob.url, token ? { headers: { authorization: `Bearer ${token}` } } : {});
         const d = await r.json();
         motifs.push({ ...d, _file: blob.pathname.split('/').pop(), _source: 'blob', _blobUrl: blob.url });
       } catch {}
