@@ -18,3 +18,5 @@ app/exports/
 app/motif_books/
 app/motif_wikimedia/
 .vercel
+.env
+app/.env

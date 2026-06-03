@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const dgram = require('dgram');           // For UDP
 const udpServer = dgram.createSocket('udp4');
 const osc = require('osc'); // OSC decoder
@@ -6,6 +8,13 @@ const path = require('path');             // For serving index.html
 const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
+
+// API routes (Vercel serverless handlers, reused locally)
+app.get('/api/blob-motifs', require('./api/blob-motifs'));
+app.delete('/api/motifs/:name', (req, res) => {
+  req.query.name = req.params.name;
+  require('./api/motifs/[name]')(req, res);
+});
 
 // Serve index.html and static assets
 app.use(express.static(path.join(__dirname, '')));
