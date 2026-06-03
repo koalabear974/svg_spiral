@@ -76,17 +76,25 @@ header p { margin-top: 4px; opacity: 0.6; font-size: 0.85rem; }
 .modal-bg {
   display: none; position: fixed; inset: 0;
   background: rgba(44,24,16,0.55); z-index: 300;
-  align-items: center; justify-content: center;
 }
-.modal-bg.open { display: flex; }
+.modal-bg.open { display: block; }
 .modal {
-  background: #fff; border-radius: 12px; max-width: 660px;
-  width: calc(100% - 32px); max-height: 92vh; overflow-y: auto;
+  position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  background: #fff; border-radius: 12px;
+  width: 660px; max-width: calc(100vw - 32px);
+  max-height: 92vh; overflow: auto;
   box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+  resize: both; min-width: 320px; min-height: 180px;
 }
 .modal-head {
   padding: 20px 24px 14px; border-bottom: 1px solid #f0ebe3;
   display: flex; justify-content: space-between; align-items: flex-start;
+  cursor: grab; user-select: none;
+}
+.modal-head:active { cursor: grabbing; }
+@media (max-width: 600px) {
+  .modal { resize: none; width: calc(100vw - 32px); }
+  .modal-head { cursor: default; }
 }
 .modal-title { font-family: Georgia, serif; font-size: 1.25rem; }
 .modal-title-en { font-size: 0.85rem; color: #7a6a5e; margin-top: 3px; }
@@ -958,8 +966,46 @@ function closeModal() {
 }
 
 document.getElementById('modalClose').addEventListener('click', closeModal);
-modalBg.addEventListener('click', e => { if (e.target === modalBg) closeModal(); });
+let _wasDragging = false;
+modalBg.addEventListener('click', e => {
+  if (_wasDragging) { _wasDragging = false; return; }
+  if (e.target === modalBg) closeModal();
+});
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+// ─── DRAG ────────────────────────────────────────────────────────────────────
+(function () {
+  const modal = document.getElementById('modal');
+  const handle = modal.querySelector('.modal-head');
+  let dragging = false, startX, startY, startLeft, startTop;
+
+  handle.addEventListener('mousedown', e => {
+    if (e.button !== 0) return;
+    // First drag: replace CSS transform centering with pixel coords
+    if (!modal.style.left) {
+      const r = modal.getBoundingClientRect();
+      modal.style.left = r.left + 'px';
+      modal.style.top  = r.top  + 'px';
+      modal.style.transform = 'none';
+    }
+    dragging = true;
+    startX = e.clientX; startY = e.clientY;
+    startLeft = parseFloat(modal.style.left);
+    startTop  = parseFloat(modal.style.top);
+    e.preventDefault();
+  });
+
+  document.addEventListener('mousemove', e => {
+    if (!dragging) return;
+    modal.style.left = (startLeft + e.clientX - startX) + 'px';
+    modal.style.top  = Math.max(0, startTop  + e.clientY - startY) + 'px';
+  });
+
+  document.addEventListener('mouseup', () => {
+    if (dragging) _wasDragging = true;
+    dragging = false;
+  });
+})();
 
 // ─── INIT ────────────────────────────────────────────────────────────────────
 buildCards();
