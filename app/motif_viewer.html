@@ -179,10 +179,6 @@ body { display: flex; flex-direction: column; }
 .xs-leg-items { display: block; }
 
 @media (max-width: 600px) {
-  /* hide sidebar entirely */
-  #_sb { display: none !important; }
-  body._sbody, body._sbody._scoll { padding-left: 0 !important; }
-
   #xsToolbar { height: 56px; gap: 6px; padding: 0 10px; }
   .xs-btn { padding: 10px 12px; font-size: 0.82rem; }
   .xs-btn-zoom { display: inline-block; }
@@ -850,5 +846,13 @@ body { display: flex; flex-direction: column; }
 </script>
 
 <script src="/sidebar.js"></script>
+<script>
+if (window.innerWidth <= 600) {
+  const sb = document.getElementById('_sb');
+  if (sb) sb.remove();
+  document.body.classList.remove('_sbody', '_scoll');
+  document.body.style.paddingLeft = '';
+}
+</script>
 </body>
 </html>
