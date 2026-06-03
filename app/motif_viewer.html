@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cross-Stitch Viewer</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; overflow: hidden; background: #fff; }
+
+#xsToolbar {
+  height: 44px; background: #2c1810; color: #f5f0e8;
+  display: flex; align-items: center; padding: 0 16px; gap: 10px; flex-shrink: 0;
+}
+#xsMotifName {
+  font-family: Georgia,serif; font-size: 0.95rem; flex: 1;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+#xsZoomPct {
+  font-size: 0.75rem; opacity: 0.65; min-width: 46px;
+  text-align: right; font-variant-numeric: tabular-nums;
+}
+.xs-btn {
+  padding: 4px 12px; border: 1px solid rgba(255,255,255,0.3); border-radius: 4px;
+  background: transparent; color: #f5f0e8; cursor: pointer; font-size: 0.78rem;
+}
+.xs-btn:hover { background: rgba(255,255,255,0.12); }
+.xs-btn.active { background: #8b2020; border-color: #8b2020; }
+#xsMain { position: relative; flex: 1; overflow: hidden; }
+#xsCanvas { position: absolute; inset: 0; display: block; cursor: grab; }
+#xsCanvas.xs-select { cursor: crosshair; }
+#xsCanvas.xs-dragging { cursor: grabbing; }
+#xsRulerCorner {
+  position: absolute; top: 0; left: 0; width: 28px; height: 20px;
+  background: rgba(248,248,248,0.94); border-right: 1px solid #ddd;
+  border-bottom: 1px solid #ddd; z-index: 5; pointer-events: none;
+}
+#xsRulerH {
+  position: absolute; top: 0; left: 28px; right: 0; height: 20px;
+  background: rgba(248,248,248,0.94); border-bottom: 1px solid #ddd;
+  overflow: hidden; z-index: 4; pointer-events: none;
+}
+#xsRulerV {
+  position: absolute; top: 20px; left: 0; bottom: 0; width: 28px;
+  background: rgba(248,248,248,0.94); border-right: 1px solid #ddd;
+  overflow: hidden; z-index: 4; pointer-events: none;
+}
+.xs-rlbl {
+  position: absolute; font-size: 9px; color: #aaa;
+  font-family: monospace; user-select: none; line-height: 1;
+}
+#xsRulerH .xs-rlbl { top: 5px; transform: translateX(-50%); }
+#xsRulerV .xs-rlbl { left: 2px; transform: translateY(-50%); }
+#xsInfoBar {
+  position: absolute;
+  background: rgba(44,24,16,0.88); color: #f5f0e8;
+  padding: 4px 10px; font-size: 0.75rem; border-radius: 4px;
+  display: none; align-items: center; gap: 10px; z-index: 10;
+  pointer-events: none; white-space: nowrap;
+}
+#xsInfoBar.active { display: flex; }
+.xs-chip { display: inline-flex; align-items: center; gap: 5px; }
+.xs-chip-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.3); flex-shrink: 0;
+}
+
+#noMotif {
+  display: none; position: absolute; inset: 0;
+  align-items: center; justify-content: center; flex-direction: column;
+  gap: 16px; color: #7a6a5e; font-family: Georgia, serif;
+}
+#noMotif.visible { display: flex; }
+#noMotif a {
+  padding: 8px 20px; background: #2c1810; color: #f5f0e8;
+  border-radius: 6px; text-decoration: none; font-family: system-ui; font-size: 0.85rem;
+}
+
+body { display: flex; flex-direction: column; }
+
+@media (max-width: 600px) {
+  #xsToolbar { height: 56px; gap: 6px; padding: 0 10px; }
+  .xs-btn { padding: 10px 12px; font-size: 0.82rem; }
+  .xs-btn-zoom { display: inline-block; }
+}
+@media (min-width: 601px) {
+  .xs-btn-zoom { display: none; }
+}
+@media (max-width: 400px) {
+  #xsZoomPct { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div id="xsToolbar">
+  <span id="xsMotifName">Cross-Stitch Viewer</span>
+  <span id="xsZoomPct">100%</span>
+  <button class="xs-btn xs-btn-zoom" id="xsZoomOut">−</button>
+  <button class="xs-btn xs-btn-zoom" id="xsZoomIn">+</button>
+  <button class="xs-btn" id="xsModeBtn">Select</button>
+  <button class="xs-btn" id="xsFitBtn">Fit</button>
+  <button class="xs-btn" id="xsBackBtn">← Back</button>
+</div>
+<div id="xsMain">
+  <canvas id="xsCanvas"></canvas>
+  <div id="xsRulerCorner"></div>
+  <div id="xsRulerH"></div>
+  <div id="xsRulerV"></div>
+  <div id="xsInfoBar"></div>
+  <div id="noMotif">
+    <span>No motif loaded.</span>
+    <a href="/motif_browser.html">← Back to Motif Browser</a>
+  </div>
+</div>
+
+<script>
+(function () {
+  const RULER_W = 28, RULER_H = 20;
+  const MIN_SCALE = 0.5, MAX_SCALE = 40;
+  const GRID_THRESHOLD = 3;
+  const X_THRESHOLD = 8;
+
+  let xm = null;
+  let panX = 0, panY = 0, scale = 1;
+  let mode = 'pan';
+  let sel = null;
+  let dirty = false;
+  let dragState = null;
+  let pinchState = null;
+  let longPressTimer = null;
+  let longPressOrigin = null;
+
+  function loadMotif() {
+    const raw = sessionStorage.getItem('xsViewerMotif');
+    if (!raw) {
+      document.getElementById('noMotif').classList.add('visible');
+      return;
+    }
+    const data = JSON.parse(raw);
+    xm = {
+      name: data.name,
+      cols: data.cols,
+      rows: data.rows,
+      colors: data.colors,
+      bgColor: data.bgColor,
+      cell(c, r) {
+        return data.colors[Math.min(data.grid[r][c], data.colors.length - 1)];
+      }
+    };
+    document.title = xm.name + ' — Cross-Stitch Viewer';
+    document.getElementById('xsMotifName').textContent = xm.name;
+    sizeCanvas();
+    fit();
+    markDirty();
+  }
+
+  function sizeCanvas() {
+    const canvas = document.getElementById('xsCanvas');
+    const main = document.getElementById('xsMain');
+    canvas.width = main.offsetWidth;
+    canvas.height = main.offsetHeight;
+  }
+
+  function fit() {
+    const canvas = document.getElementById('xsCanvas');
+    const W = canvas.width, H = canvas.height;
+    const pad = 32;
+    const availW = W - RULER_W - pad * 2;
+    const availH = H - RULER_H - pad * 2;
+    scale = Math.min(availW / xm.cols, availH / xm.rows);
+    panX = RULER_W + pad + (availW - xm.cols * scale) / 2;
+    panY = RULER_H + pad + (availH - xm.rows * scale) / 2;
+  }
+
+  function markDirty() {
+    if (!dirty) { dirty = true; requestAnimationFrame(render); }
+  }
+
+  function render() {
+    dirty = false;
+    if (!xm) return;
+    const canvas = document.getElementById('xsCanvas');
+    const ctx = canvas.getContext('2d');
+    const W = canvas.width, H = canvas.height;
+    const cp = scale;
+
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, W, H);
+
+    const c0 = Math.max(0, Math.floor((RULER_W - panX) / cp));
+    const c1 = Math.min(xm.cols - 1, Math.ceil((W - panX) / cp));
+    const r0 = Math.max(0, Math.floor((RULER_H - panY) / cp));
+    const r1 = Math.min(xm.rows - 1, Math.ceil((H - panY) / cp));
+
+    if (cp >= GRID_THRESHOLD) {
+      ctx.strokeStyle = '#e8e8e8';
+      ctx.lineWidth = 0.5;
+      ctx.beginPath();
+      for (let c = c0; c <= c1 + 1; c++) {
+        const x = Math.round(panX + c * cp);
+        ctx.moveTo(x, panY + r0 * cp);
+        ctx.lineTo(x, panY + (r1 + 1) * cp);
+      }
+      for (let r = r0; r <= r1 + 1; r++) {
+        const y = Math.round(panY + r * cp);
+        ctx.moveTo(panX + c0 * cp, y);
+        ctx.lineTo(panX + (c1 + 1) * cp, y);
+      }
+      ctx.stroke();
+    }
+
+    const useX = cp >= X_THRESHOLD;
+    if (useX) {
+      ctx.lineCap = 'round';
+      ctx.lineWidth = Math.max(1, cp * 0.15);
+    }
+    const inset = Math.max(1, cp * 0.12);
+
+    for (let r = r0; r <= r1; r++) {
+      for (let c = c0; c <= c1; c++) {
+        const hex = xm.cell(c, r);
+        if (hex === xm.bgColor) continue;
+        const x = panX + c * cp;
+        const y = panY + r * cp;
+        if (!useX) {
+          ctx.fillStyle = hex;
+          ctx.fillRect(x, y, cp, cp);
+        } else {
+          ctx.strokeStyle = hex;
+          ctx.beginPath();
+          ctx.moveTo(x + inset,      y + inset);
+          ctx.lineTo(x + cp - inset, y + cp - inset);
+          ctx.moveTo(x + cp - inset, y + inset);
+          ctx.lineTo(x + inset,      y + cp - inset);
+          ctx.stroke();
+        }
+      }
+    }
+
+    if (sel) {
+      const sc = Math.min(sel.c1, sel.c2), ec = Math.max(sel.c1, sel.c2);
+      const sr = Math.min(sel.r1, sel.r2), er = Math.max(sel.r1, sel.r2);
+      ctx.fillStyle = 'rgba(180,40,40,0.15)';
+      ctx.fillRect(panX + sc * cp, panY + sr * cp, (ec - sc + 1) * cp, (er - sr + 1) * cp);
+      ctx.strokeStyle = 'rgba(180,40,40,0.75)';
+      ctx.lineWidth = 1.5;
+      ctx.strokeRect(panX + sc * cp, panY + sr * cp, (ec - sc + 1) * cp, (er - sr + 1) * cp);
+      positionTooltip();
+    }
+
+    ctx.fillStyle = 'rgba(248,248,248,0.94)';
+    ctx.fillRect(0, 0, W, RULER_H);
+    ctx.fillRect(0, 0, RULER_W, H);
+
+    document.getElementById('xsZoomPct').textContent = Math.round(scale * 100) + '%';
+    updateRulers(c0, c1, r0, r1, cp);
+  }
+
+  function rulerStep(cp) {
+    const minGap = 40;
+    const raw = Math.ceil(minGap / cp);
+    return [1, 2, 5, 10, 20, 50, 100].find(s => s >= raw) || 100;
+  }
+
+  function updateRulers(c0, c1, r0, r1, cp) {
+    const rh = document.getElementById('xsRulerH');
+    const rv = document.getElementById('xsRulerV');
+    const step = rulerStep(cp);
+
+    rh.innerHTML = '';
+    const cStart = Math.ceil(c0 / step) * step;
+    for (let c = cStart; c <= c1; c += step) {
+      const x = panX + c * cp - RULER_W;
+      if (x < 0 || x > rh.offsetWidth) continue;
+      const el = document.createElement('span');
+      el.className = 'xs-rlbl';
+      el.style.left = x + 'px';
+      el.textContent = c;
+      rh.appendChild(el);
+    }
+
+    rv.innerHTML = '';
+    const rStart = Math.ceil(r0 / step) * step;
+    for (let r = rStart; r <= r1; r += step) {
+      const y = panY + r * cp - RULER_H;
+      if (y < 0 || y > rv.offsetHeight) continue;
+      const el = document.createElement('span');
+      el.className = 'xs-rlbl';
+      el.style.top = y + 'px';
+      el.textContent = r;
+      rv.appendChild(el);
+    }
+  }
+
+  function positionTooltip() {
+    const bar = document.getElementById('xsInfoBar');
+    if (!bar.classList.contains('active') || !sel) return;
+    const sc = Math.min(sel.c1, sel.c2), ec = Math.max(sel.c1, sel.c2);
+    const sr = Math.min(sel.r1, sel.r2), er = Math.max(sel.r1, sel.r2);
+    const canvas = document.getElementById('xsCanvas');
+    const cx = panX + (sc + (ec - sc + 1) / 2) * scale;
+    const topY = panY + sr * scale - 8;
+    const botY = panY + (er + 1) * scale + 8;
+    const useBelow = topY < RULER_H + 32;
+    bar.style.left = Math.max(4, Math.min(canvas.width - 4, cx)) + 'px';
+    bar.style.top = (useBelow ? botY : topY) + 'px';
+    bar.style.transform = useBelow ? 'translate(-50%, 0)' : 'translate(-50%, -100%)';
+  }
+
+  function updateInfoBar() {
+    if (!sel) return;
+    const sc = Math.min(sel.c1, sel.c2), ec = Math.max(sel.c1, sel.c2);
+    const sr = Math.min(sel.r1, sel.r2), er = Math.max(sel.r1, sel.r2);
+    const W = ec - sc + 1, H = er - sr + 1;
+    const counts = {};
+    for (let r = sr; r <= er; r++) {
+      for (let c = sc; c <= ec; c++) {
+        const hex = xm.cell(c, r);
+        if (hex === xm.bgColor) continue;
+        counts[hex] = (counts[hex] || 0) + 1;
+      }
+    }
+    const bar = document.getElementById('xsInfoBar');
+    let html = `<span>Selected: <b>${W}×${H}</b></span>`;
+    for (const [hex, cnt] of Object.entries(counts)) {
+      html += `<span class="xs-chip"><span class="xs-chip-dot" style="background:${hex}"></span>${cnt}</span>`;
+    }
+    bar.innerHTML = html;
+    bar.classList.add('active');
+    positionTooltip();
+  }
+
+  function screenToStitch(sx, sy) {
+    return {
+      c: Math.max(0, Math.min(xm.cols - 1, Math.floor((sx - panX) / scale))),
+      r: Math.max(0, Math.min(xm.rows - 1, Math.floor((sy - panY) / scale)))
+    };
+  }
+
+  function zoomAt(factor, cx, cy) {
+    const sc = (cx - panX) / scale;
+    const sr = (cy - panY) / scale;
+    scale = Math.max(MIN_SCALE, Math.min(MAX_SCALE, scale * factor));
+    panX = cx - sc * scale;
+    panY = cy - sr * scale;
+    markDirty();
+  }
+
+  function onWheel(e) {
+    if (!xm) return;
+    e.preventDefault();
+    const rect = e.currentTarget.getBoundingClientRect();
+    zoomAt(e.deltaY < 0 ? 1.12 : 1 / 1.12, e.clientX - rect.left, e.clientY - rect.top);
+  }
+
+  function onMouseDown(e) {
+    if (!xm || e.button !== 0) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const sx = e.clientX - rect.left, sy = e.clientY - rect.top;
+    if (mode === 'select') {
+      const { c, r } = screenToStitch(sx, sy);
+      dragState = { type: 'select', startC: c, startR: r };
+      sel = { c1: c, r1: r, c2: c, r2: r };
+      document.getElementById('xsInfoBar').classList.remove('active');
+    } else {
+      dragState = { type: 'pan', startX: sx, startY: sy, px0: panX, py0: panY };
+    }
+    e.currentTarget.classList.add('xs-dragging');
+  }
+
+  function onMouseMove(e) {
+    if (!dragState || !xm) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const sx = e.clientX - rect.left, sy = e.clientY - rect.top;
+    if (dragState.type === 'pan') {
+      panX = dragState.px0 + (sx - dragState.startX);
+      panY = dragState.py0 + (sy - dragState.startY);
+    } else {
+      const { c, r } = screenToStitch(sx, sy);
+      sel = { c1: dragState.startC, r1: dragState.startR, c2: c, r2: r };
+    }
+    markDirty();
+  }
+
+  function onMouseUp(e) {
+    if (!dragState) return;
+    const wasSel = dragState.type === 'select';
+    dragState = null;
+    e.currentTarget.classList.remove('xs-dragging');
+    if (wasSel && sel) updateInfoBar();
+  }
+
+  function touchDist(t1, t2) {
+    return Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY);
+  }
+
+  function onTouchStart(e) {
+    if (!xm) return;
+    e.preventDefault();
+    const rect = e.currentTarget.getBoundingClientRect();
+    if (e.touches.length === 1) {
+      pinchState = null;
+      if (longPressTimer) { clearTimeout(longPressTimer); longPressTimer = null; }
+      const sx = e.touches[0].clientX - rect.left;
+      const sy = e.touches[0].clientY - rect.top;
+      if (mode === 'select') {
+        const { c, r } = screenToStitch(sx, sy);
+        dragState = { type: 'select', startC: c, startR: r };
+        sel = { c1: c, r1: r, c2: c, r2: r };
+        document.getElementById('xsInfoBar').classList.remove('active');
+      } else {
+        dragState = { type: 'pan', startX: sx, startY: sy, px0: panX, py0: panY };
+        longPressOrigin = { sx, sy };
+        longPressTimer = setTimeout(() => {
+          longPressTimer = null;
+          const { c, r } = screenToStitch(longPressOrigin.sx, longPressOrigin.sy);
+          dragState = { type: 'select', startC: c, startR: r };
+          sel = { c1: c, r1: r, c2: c, r2: r };
+          document.getElementById('xsInfoBar').classList.remove('active');
+          const canvas = document.getElementById('xsCanvas');
+          canvas.style.outline = '3px solid rgba(180,40,40,0.5)';
+          setTimeout(() => { canvas.style.outline = ''; }, 200);
+          if (navigator.vibrate) navigator.vibrate(30);
+          markDirty();
+        }, 400);
+      }
+    } else if (e.touches.length === 2) {
+      if (longPressTimer) { clearTimeout(longPressTimer); longPressTimer = null; }
+      dragState = null;
+      const mx = ((e.touches[0].clientX + e.touches[1].clientX) / 2) - rect.left;
+      const my = ((e.touches[0].clientY + e.touches[1].clientY) / 2) - rect.top;
+      pinchState = {
+        dist: touchDist(e.touches[0], e.touches[1]),
+        initScale: scale,
+        stitchC: (mx - panX) / scale,
+        stitchR: (my - panY) / scale
+      };
+    }
+  }
+
+  function onTouchMove(e) {
+    if (!xm) return;
+    e.preventDefault();
+    const rect = e.currentTarget.getBoundingClientRect();
+    if (e.touches.length === 2 && pinchState) {
+      const dist = touchDist(e.touches[0], e.touches[1]);
+      const mx = ((e.touches[0].clientX + e.touches[1].clientX) / 2) - rect.left;
+      const my = ((e.touches[0].clientY + e.touches[1].clientY) / 2) - rect.top;
+      scale = Math.max(MIN_SCALE, Math.min(MAX_SCALE, pinchState.initScale * (dist / pinchState.dist)));
+      panX = mx - pinchState.stitchC * scale;
+      panY = my - pinchState.stitchR * scale;
+      markDirty();
+    } else if (e.touches.length === 1 && dragState) {
+      const sx = e.touches[0].clientX - rect.left;
+      const sy = e.touches[0].clientY - rect.top;
+      if (longPressTimer && longPressOrigin) {
+        const dx = sx - longPressOrigin.sx, dy = sy - longPressOrigin.sy;
+        if (Math.hypot(dx, dy) > 8) {
+          clearTimeout(longPressTimer);
+          longPressTimer = null;
+        }
+      }
+      if (dragState.type === 'pan') {
+        panX = dragState.px0 + (sx - dragState.startX);
+        panY = dragState.py0 + (sy - dragState.startY);
+      } else {
+        const { c, r } = screenToStitch(sx, sy);
+        sel = { c1: dragState.startC, r1: dragState.startR, c2: c, r2: r };
+      }
+      markDirty();
+    }
+  }
+
+  function onTouchEnd(e) {
+    e.preventDefault();
+    if (longPressTimer) { clearTimeout(longPressTimer); longPressTimer = null; }
+    if (e.touches.length < 2) pinchState = null;
+    if (e.touches.length === 0) {
+      const wasSel = dragState && dragState.type === 'select';
+      const wasTap = dragState && dragState.type === 'pan' &&
+        panX === dragState.px0 && panY === dragState.py0;
+      dragState = null;
+      longPressOrigin = null;
+      if (wasSel && sel) {
+        updateInfoBar();
+      } else if (wasTap && sel && mode !== 'select') {
+        sel = null;
+        document.getElementById('xsInfoBar').classList.remove('active');
+        markDirty();
+      }
+    }
+  }
+
+  function init() {
+    const canvas = document.getElementById('xsCanvas');
+
+    canvas.addEventListener('wheel', onWheel, { passive: false });
+    canvas.addEventListener('mousedown', onMouseDown);
+    canvas.addEventListener('mousemove', onMouseMove);
+    canvas.addEventListener('mouseup', onMouseUp);
+    canvas.addEventListener('mouseleave', onMouseUp);
+    canvas.addEventListener('touchstart', onTouchStart, { passive: false });
+    canvas.addEventListener('touchmove', onTouchMove, { passive: false });
+    canvas.addEventListener('touchend', onTouchEnd, { passive: false });
+
+    document.getElementById('xsBackBtn').addEventListener('click', () => {
+      if (history.length > 1) history.back();
+      else window.location.href = '/motif_browser.html';
+    });
+
+    document.getElementById('xsZoomIn').addEventListener('click', () => {
+      if (!xm) return;
+      zoomAt(1.5, canvas.width / 2, canvas.height / 2);
+    });
+
+    document.getElementById('xsZoomOut').addEventListener('click', () => {
+      if (!xm) return;
+      zoomAt(1 / 1.5, canvas.width / 2, canvas.height / 2);
+    });
+
+    document.getElementById('xsFitBtn').addEventListener('click', () => {
+      if (!xm) return;
+      sizeCanvas();
+      fit();
+      markDirty();
+    });
+
+    document.getElementById('xsModeBtn').addEventListener('click', () => {
+      mode = mode === 'pan' ? 'select' : 'pan';
+      const btn = document.getElementById('xsModeBtn');
+      btn.textContent = mode === 'select' ? 'Pan' : 'Select';
+      btn.classList.toggle('active', mode === 'select');
+      canvas.classList.toggle('xs-select', mode === 'select');
+      if (mode === 'pan') {
+        sel = null;
+        document.getElementById('xsInfoBar').classList.remove('active');
+        markDirty();
+      }
+    });
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        if (history.length > 1) history.back();
+        else window.location.href = '/motif_browser.html';
+      }
+      if (e.key === '0' && xm) { sizeCanvas(); fit(); markDirty(); }
+    });
+
+    window.addEventListener('resize', () => {
+      if (!xm) return;
+      sizeCanvas();
+      fit();
+      markDirty();
+    });
+
+    loadMotif();
+  }
+
+  if (document.readyState !== 'loading') init();
+  else document.addEventListener('DOMContentLoaded', init);
+})();
+</script>
+
+<script src="/sidebar.js"></script>
+</body>
+</html>
