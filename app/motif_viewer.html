@@ -87,24 +87,46 @@ body { display: flex; flex-direction: column; }
   max-height: calc(100% - 60px); overflow-y: auto;
   box-shadow: 0 4px 24px rgba(0,0,0,0.35);
   backdrop-filter: blur(4px);
-  min-width: 140px;
+  min-width: 160px;
 }
 #xsLegend.visible { display: block; }
-.xs-leg-title {
-  font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.12em;
-  opacity: 0.45; margin-bottom: 8px; padding-bottom: 6px;
+.xs-leg-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 8px; padding-bottom: 6px;
   border-bottom: 1px solid rgba(255,255,255,0.1);
 }
+.xs-leg-title {
+  font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.12em;
+  opacity: 0.45;
+}
+.xs-leg-toggle-all {
+  font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.08em;
+  opacity: 0.55; cursor: pointer; padding: 2px 6px;
+  border: 1px solid rgba(255,255,255,0.2); border-radius: 3px;
+  background: transparent; color: #f5f0e8;
+  transition: opacity 0.1s, background 0.1s;
+}
+.xs-leg-toggle-all:hover { opacity: 1; background: rgba(255,255,255,0.1); }
 .xs-leg-item {
   display: flex; align-items: center; gap: 9px;
   padding: 4px 5px; border-radius: 5px; cursor: pointer;
-  transition: background 0.1s; user-select: none;
+  transition: background 0.1s, opacity 0.15s; user-select: none;
 }
 .xs-leg-item:hover { background: rgba(255,255,255,0.1); }
 .xs-leg-item.previewing { background: rgba(255,255,255,0.15); }
+.xs-leg-item.hidden-color { opacity: 0.3; }
+.xs-leg-item.hidden-color .xs-leg-swatch { filter: grayscale(1); }
 .xs-leg-swatch {
   width: 20px; height: 20px; border-radius: 4px; flex-shrink: 0;
-  border: 1px solid rgba(255,255,255,0.2);
+  border: 1px solid rgba(255,255,255,0.2); position: relative;
+}
+.xs-leg-item.hidden-color .xs-leg-swatch::after {
+  content: ''; position: absolute; inset: 0;
+  background: repeating-linear-gradient(
+    -45deg, transparent, transparent 3px,
+    rgba(255,255,255,0.5) 3px, rgba(255,255,255,0.5) 4px
+  );
+  border-radius: 3px;
 }
 .xs-leg-sym {
   font-family: monospace; font-size: 1rem; font-weight: bold;
@@ -178,7 +200,12 @@ body { display: flex; flex-direction: column; }
   <div id="xsRulerH"></div>
   <div id="xsRulerV"></div>
   <div id="xsInfoBar"></div>
-  <div id="xsLegend"><div class="xs-leg-title">Color legend</div></div>
+  <div id="xsLegend">
+    <div class="xs-leg-header">
+      <span class="xs-leg-title">Color legend</span>
+      <button class="xs-leg-toggle-all" id="xsLegToggleAll">Hide all</button>
+    </div>
+  </div>
   <div id="xsColorPreview"><div id="xsColorSwatch"></div><div id="xsColorHex"></div></div>
   <div id="xsColorModal">
     <div id="xsColorModalSwatch"></div>
@@ -211,6 +238,7 @@ body { display: flex; flex-direction: column; }
   // ── Symbol mode ──────────────────────────────────────────────────────────────
   let symMode = false;
   let colorSymbols = new Map(); // hex → symbol char
+  let hiddenColors = new Set(); // hex colors hidden from canvas
 
   // Traditional cross-stitch charting symbols
   const SYMBOLS = [
@@ -222,30 +250,55 @@ body { display: flex; flex-direction: column; }
 
   function buildColorSymbols() {
     colorSymbols = new Map();
+    hiddenColors = new Set([xm.bgColor]); // bgColor hidden by default
     xm.colors.forEach((hex, i) => {
-      if (hex !== xm.bgColor) colorSymbols.set(hex, SYMBOLS[i % SYMBOLS.length]);
+      colorSymbols.set(hex, SYMBOLS[i % SYMBOLS.length]);
     });
   }
 
   function buildLegend() {
     const legend = document.getElementById('xsLegend');
-    // keep the title node, replace the rest
-    const title = legend.querySelector('.xs-leg-title');
+    const header = legend.querySelector('.xs-leg-header');
     legend.innerHTML = '';
-    legend.appendChild(title);
+    legend.appendChild(header);
+
     colorSymbols.forEach((sym, hex) => {
       const item = document.createElement('div');
-      item.className = 'xs-leg-item';
+      item.className = 'xs-leg-item' + (hiddenColors.has(hex) ? ' hidden-color' : '');
       item.dataset.hex = hex;
+      const isBg = hex === xm.bgColor;
       item.innerHTML =
-        `<span class="xs-leg-swatch" style="background:${hex}"></span>` +
+        `<span class="xs-leg-swatch" style="background:${hex}" title="${isBg ? 'background' : ''}"></span>` +
         `<span class="xs-leg-sym">${sym}</span>` +
-        `<span class="xs-leg-hex">${hex}</span>`;
+        `<span class="xs-leg-hex">${hex}${isBg ? ' ·bg' : ''}</span>`;
       item.addEventListener('mouseenter', () => showColorHover(hex, item));
       item.addEventListener('mouseleave', hideColorHover);
-      item.addEventListener('click', e => { e.stopPropagation(); showColorModal(hex); });
+      item.addEventListener('click', e => {
+        if (e.shiftKey) { e.stopPropagation(); showColorModal(hex); return; }
+        toggleColorVisibility(hex, item);
+      });
       legend.appendChild(item);
     });
+
+    updateToggleAllBtn();
+  }
+
+  function toggleColorVisibility(hex, item) {
+    if (hiddenColors.has(hex)) {
+      hiddenColors.delete(hex);
+      item.classList.remove('hidden-color');
+    } else {
+      hiddenColors.add(hex);
+      item.classList.add('hidden-color');
+    }
+    updateToggleAllBtn();
+    markDirty();
+  }
+
+  function updateToggleAllBtn() {
+    const nonBg = xm.colors.filter(h => h !== xm.bgColor);
+    const allHidden = nonBg.every(h => hiddenColors.has(h));
+    document.getElementById('xsLegToggleAll').textContent = allHidden ? 'Show all' : 'Hide all';
   }
 
   function showColorHover(hex, el) {
@@ -378,7 +431,7 @@ body { display: flex; flex-direction: column; }
     for (let r = r0; r <= r1; r++) {
       for (let c = c0; c <= c1; c++) {
         const hex = xm.cell(c, r);
-        if (hex === xm.bgColor) continue;
+        if (hiddenColors.has(hex)) continue;
         const x = panX + c * cp;
         const y = panY + r * cp;
         if (useSym) {
@@ -481,7 +534,7 @@ body { display: flex; flex-direction: column; }
     for (let r = sr; r <= er; r++) {
       for (let c = sc; c <= ec; c++) {
         const hex = xm.cell(c, r);
-        if (hex === xm.bgColor) continue;
+        if (hiddenColors.has(hex)) continue;
         counts[hex] = (counts[hex] || 0) + 1;
       }
     }
@@ -711,6 +764,23 @@ body { display: flex; flex-direction: column; }
     });
 
     document.getElementById('xsColorModal').addEventListener('click', hideColorModal);
+
+    document.getElementById('xsLegToggleAll').addEventListener('click', e => {
+      e.stopPropagation();
+      const nonBg = xm.colors.filter(h => h !== xm.bgColor);
+      const allHidden = nonBg.every(h => hiddenColors.has(h));
+      if (allHidden) {
+        nonBg.forEach(h => hiddenColors.delete(h));
+      } else {
+        nonBg.forEach(h => hiddenColors.add(h));
+      }
+      document.querySelectorAll('.xs-leg-item').forEach(item => {
+        const h = item.dataset.hex;
+        item.classList.toggle('hidden-color', hiddenColors.has(h));
+      });
+      updateToggleAllBtn();
+      markDirty();
+    });
 
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape') {
