@@ -97,9 +97,33 @@ header p { margin-top: 4px; opacity: 0.6; font-size: 0.85rem; }
 .modal-body { padding: 24px; display: flex; gap: 24px; flex-wrap: wrap; }
 .modal-canvas-wrap {
   flex-shrink: 0; background: #f5f0e8; border-radius: 8px;
-  padding: 20px; display: flex; align-items: center; justify-content: center;
+  padding: 16px 20px; display: flex; align-items: center; justify-content: center;
+  flex-direction: column; gap: 12px;
+  overflow: auto; max-height: 60vh;
 }
-.modal-canvas-wrap canvas { display: block; image-rendering: pixelated; image-rendering: crisp-edges; }
+.modal-canvas-wrap canvas { display: block; image-rendering: pixelated; image-rendering: crisp-edges; flex-shrink: 0; }
+
+/* ── Real-size controls ───────────── */
+.modal-size-bar { width: 100%; flex-shrink: 0; }
+.modal-size-row { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.modal-size-select {
+  padding: 4px 6px; border: 1px solid #d8d0c8; border-radius: 5px;
+  background: #fff; color: #3c2c20; font-size: 0.72rem; cursor: pointer;
+  flex: 1; min-width: 0;
+}
+.modal-size-btn {
+  padding: 4px 10px; border-radius: 5px; border: 1px solid #b8a060;
+  background: transparent; color: #7a5800; cursor: pointer;
+  font-size: 0.72rem; white-space: nowrap; flex-shrink: 0;
+  transition: background 0.12s, color 0.12s;
+}
+.modal-size-btn.active { background: #c49a20; color: #fff; border-color: #c49a20; }
+.modal-size-btn:hover:not(.active) { background: rgba(196,154,32,0.12); }
+.modal-size-label {
+  margin-top: 5px; font-size: 0.68rem; color: #9a8a7e;
+  text-align: center; font-family: monospace; letter-spacing: 0.02em;
+  min-height: 1em;
+}
 .modal-details { flex: 1; min-width: 200px; }
 .modal-meta { font-size: 0.78rem; color: #9a8a7e; margin-bottom: 10px; }
 .modal-desc { font-size: 0.875rem; line-height: 1.65; color: #3c2c20; margin-bottom: 14px; }
@@ -167,7 +191,25 @@ header p { margin-top: 4px; opacity: 0.6; font-size: 0.85rem; }
       <button class="modal-close" id="modalClose">✕</button>
     </div>
     <div class="modal-body">
-      <div class="modal-canvas-wrap"><canvas id="mCanvas"></canvas></div>
+      <div class="modal-canvas-wrap">
+        <canvas id="mCanvas"></canvas>
+        <div class="modal-size-bar">
+          <div class="modal-size-row">
+            <select class="modal-size-select" id="mFabricSelect">
+              <option value="11">Aida 11ct — 2.3mm</option>
+              <option value="14" selected>Aida 14ct — 1.8mm</option>
+              <option value="18">Aida 18ct — 1.4mm</option>
+            </select>
+            <select class="modal-size-select" id="mScreenSelect">
+              <option value="109">iMac 27″ 5K</option>
+              <option value="127">MacBook Pro 16″</option>
+              <option value="153.3">iPhone 15</option>
+            </select>
+            <button class="modal-size-btn" id="mRealSizeBtn">Real size</button>
+          </div>
+          <div class="modal-size-label" id="mRealSizeLabel"></div>
+        </div>
+      </div>
       <div class="modal-details">
         <div class="modal-meta" id="mMeta"></div>
         <div class="modal-desc" id="mDesc"></div>
@@ -841,6 +883,39 @@ function refreshCanvases() {
 let activeMotif = null;
 const modalBg = document.getElementById('modalBg');
 
+// ─── REAL SIZE PREVIEW ───────────────────────────────────────────────────────
+// CSS pixels per physical inch per device: physicalPPI / devicePixelRatio
+const SCREEN_CSS_PPI = { '109': 109, '127': 127, '153.3': 153.3 };
+let realSizeMode = false;
+
+function refreshModalCanvas() {
+  const mc = document.getElementById('mCanvas');
+  document.getElementById('mRealSizeBtn').classList.toggle('active', realSizeMode);
+  if (!realSizeMode) {
+    document.getElementById('mRealSizeLabel').textContent = '';
+    if (activeMotif) renderMotif(mc, activeMotif, cellPxForModal(activeMotif));
+    else if (activeJsonMotif) renderJsonMotif(mc, activeJsonMotif, cellPxForJsonModal(activeJsonMotif));
+    return;
+  }
+  const count = parseFloat(document.getElementById('mFabricSelect').value);
+  const cssPpi = parseFloat(document.getElementById('mScreenSelect').value);
+  const cellPx = cssPpi / count;
+  if (activeMotif) renderMotif(mc, activeMotif, cellPx);
+  else if (activeJsonMotif) renderJsonMotif(mc, activeJsonMotif, cellPx);
+  const cols = activeMotif ? activeMotif.gridW : activeJsonMotif.stitchWidth;
+  const rows = activeMotif ? activeMotif.gridH : activeJsonMotif.stitchHeight;
+  const wcm = (cols / count * 2.54).toFixed(1);
+  const hcm = (rows / count * 2.54).toFixed(1);
+  document.getElementById('mRealSizeLabel').textContent = `≈ ${wcm} × ${hcm} cm  ·  ${count}-count Aida`;
+}
+
+document.getElementById('mRealSizeBtn').addEventListener('click', () => {
+  realSizeMode = !realSizeMode;
+  refreshModalCanvas();
+});
+document.getElementById('mFabricSelect').addEventListener('change', () => { if (realSizeMode) refreshModalCanvas(); });
+document.getElementById('mScreenSelect').addEventListener('change', () => { if (realSizeMode) refreshModalCanvas(); });
+
 function openModal(m) {
   activeMotif = m;
   activeJsonMotif = null;
@@ -849,8 +924,7 @@ function openModal(m) {
   document.getElementById('mMeta').textContent = `${m.tradition.replace('-',' ')} · ${m.gridW}×${m.gridH} cells · ${m.tradition === 'bosnian' ? '1 color' : '3 colors'}`;
   document.getElementById('mDesc').textContent = m.desc;
   document.getElementById('mConstruct').textContent = m.notes;
-  const mc = document.getElementById('mCanvas');
-  renderMotif(mc, m, cellPxForModal(m));
+  refreshModalCanvas();
   window._activeModalMotif = { motif: m, isJson: false };
   document.getElementById('mOpenViewer').classList.add('visible');
   modalBg.classList.add('open');
@@ -869,8 +943,7 @@ function openJsonModal(m) {
     `#${i} ${c.hexValue}`
   ).join('  ·  ');
   document.getElementById('mConstruct').textContent = colorSwatches;
-  const mc = document.getElementById('mCanvas');
-  renderJsonMotif(mc, m, cellPxForJsonModal(m));
+  refreshModalCanvas();
   window._activeModalMotif = { motif: m, isJson: true };
   document.getElementById('mOpenViewer').classList.add('visible');
   modalBg.classList.add('open');
