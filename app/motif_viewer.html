@@ -168,11 +168,30 @@ body { display: flex; flex-direction: column; }
 #xsColorModalHex { color: #fff; font-family: monospace; font-size: 1.3rem; letter-spacing: 0.06em; }
 #xsColorModalHint { color: rgba(255,255,255,0.4); font-size: 0.75rem; }
 
+/* ── Legend collapse toggle (mobile only) */
+.xs-leg-collapse {
+  display: none; background: transparent; border: none;
+  color: #f5f0e8; cursor: pointer; padding: 0 4px;
+  font-size: 1rem; opacity: 0.55; line-height: 1;
+  transition: transform 0.2s;
+}
+.xs-leg-collapse.open { transform: rotate(180deg); }
+.xs-leg-items { display: block; }
+
 @media (max-width: 600px) {
+  /* hide sidebar entirely */
+  #_sb { display: none !important; }
+  body._sbody, body._sbody._scoll { padding-left: 0 !important; }
+
   #xsToolbar { height: 56px; gap: 6px; padding: 0 10px; }
   .xs-btn { padding: 10px 12px; font-size: 0.82rem; }
   .xs-btn-zoom { display: inline-block; }
-  #xsLegend { bottom: 8px; right: 8px; }
+  #xsLegend { bottom: 8px; right: 8px; max-width: calc(100vw - 16px); }
+
+  /* legend collapsed by default on mobile */
+  .xs-leg-items { display: none; }
+  .xs-leg-items.open { display: block; }
+  .xs-leg-collapse { display: inline-flex; align-items: center; }
 }
 @media (min-width: 601px) {
   .xs-btn-zoom { display: none; }
@@ -202,7 +221,8 @@ body { display: flex; flex-direction: column; }
   <div id="xsInfoBar"></div>
   <div id="xsLegend">
     <div class="xs-leg-header">
-      <span class="xs-leg-title">Color legend</span>
+      <span class="xs-leg-title" id="xsLegTitleBtn" style="cursor:pointer">Color legend</span>
+      <button class="xs-leg-collapse" id="xsLegCollapse">▾</button>
       <button class="xs-leg-toggle-all" id="xsLegToggleAll">Hide all</button>
     </div>
   </div>
@@ -269,6 +289,9 @@ body { display: flex; flex-direction: column; }
     legend.innerHTML = '';
     legend.appendChild(header);
 
+    const wrap = document.createElement('div');
+    wrap.className = 'xs-leg-items';
+
     colorSymbols.forEach((sym, hex) => {
       const item = document.createElement('div');
       item.className = 'xs-leg-item' + (hiddenColors.has(hex) ? ' hidden-color' : '');
@@ -283,9 +306,10 @@ body { display: flex; flex-direction: column; }
         if (e.shiftKey) { e.stopPropagation(); showColorModal(hex); return; }
         toggleColorVisibility(hex, item);
       });
-      legend.appendChild(item);
+      wrap.appendChild(item);
     });
 
+    legend.appendChild(wrap);
     updateToggleAllBtn();
   }
 
@@ -768,7 +792,19 @@ body { display: flex; flex-direction: column; }
       markDirty();
     });
 
-    document.getElementById('xsColorModal').addEventListener('click', hideColorModal);
+    const modal = document.getElementById('xsColorModal');
+    modal.addEventListener('click', hideColorModal);
+    modal.addEventListener('touchend', e => { e.preventDefault(); hideColorModal(); }, { passive: false });
+
+    function toggleLegendCollapse() {
+      const wrap = document.querySelector('.xs-leg-items');
+      const btn  = document.getElementById('xsLegCollapse');
+      if (!wrap) return;
+      wrap.classList.toggle('open');
+      btn.classList.toggle('open');
+    }
+    document.getElementById('xsLegCollapse').addEventListener('click', e => { e.stopPropagation(); toggleLegendCollapse(); });
+    document.getElementById('xsLegTitleBtn').addEventListener('click', toggleLegendCollapse);
 
     document.getElementById('xsLegToggleAll').addEventListener('click', e => {
       e.stopPropagation();
