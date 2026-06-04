@@ -26,6 +26,19 @@ html, body { height: 100%; overflow: hidden; background: #fff; }
 }
 .xs-btn:hover { background: rgba(255,255,255,0.12); }
 .xs-btn.active { background: #8b2020; border-color: #8b2020; }
+#xsClearBtn { display: none; }
+#xsClearBtn.visible { display: inline-block; }
+
+#xsProgress {
+  position: absolute; bottom: 16px; left: 16px;
+  background: rgba(30,18,10,0.92); color: #f5f0e8;
+  border-radius: 10px; padding: 10px 12px;
+  display: none; z-index: 20;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.35);
+  backdrop-filter: blur(4px);
+  font-size: 0.78rem; white-space: nowrap;
+}
+#xsProgress.visible { display: block; }
 #xsMain { position: relative; flex: 1; overflow: hidden; }
 #xsCanvas { position: absolute; inset: 0; display: block; cursor: grab; }
 #xsCanvas.xs-select { cursor: crosshair; }
@@ -202,6 +215,8 @@ body { display: flex; flex-direction: column; }
   .xs-leg-items { display: none; }
   .xs-leg-items.open { display: block; }
   .xs-leg-collapse { display: inline-flex; align-items: center; }
+  #xsClearBtn.visible { display: inline-block; padding: 10px 8px; }
+  #xsProgress { bottom: 8px; left: 8px; }
 }
 @media (min-width: 601px) {
   .xs-btn-zoom { display: none; }
@@ -219,6 +234,8 @@ body { display: flex; flex-direction: column; }
   <button class="xs-btn xs-btn-zoom" id="xsZoomOut">−</button>
   <button class="xs-btn xs-btn-zoom" id="xsZoomIn">+</button>
   <button class="xs-btn" id="xsModeBtn">Select</button>
+  <button class="xs-btn" id="xsMarkBtn">Mark</button>
+  <button class="xs-btn xs-btn-clear" id="xsClearBtn">Clear</button>
   <button class="xs-btn" id="xsSymBtn">Symbols</button>
   <button class="xs-btn" id="xsFitBtn">Fit</button>
   <button class="xs-btn" id="xsBackBtn">← Back</button>
@@ -242,6 +259,7 @@ body { display: flex; flex-direction: column; }
     <div id="xsColorModalHex"></div>
     <div id="xsColorModalHint">tap anywhere to close</div>
   </div>
+  <div id="xsProgress"></div>
   <div id="noMotif">
     <span>No motif loaded.</span>
     <a href="/motif_browser.html">← Back to Motif Browser</a>
