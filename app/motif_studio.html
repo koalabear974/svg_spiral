@@ -158,8 +158,23 @@ main {
 .swatch {
   display: flex; align-items: center; gap: 4px; font-size: 0.7rem;
   color: #9a8a7a; background: #2c2416; padding: 3px 7px; border-radius: 4px;
+  cursor: pointer; border: 1px solid transparent;
+  transition: border-color 0.1s, opacity 0.1s, background 0.1s;
+  user-select: none;
 }
+.swatch:hover   { border-color: rgba(255,255,255,0.18); }
+.swatch.selected { border-color: #c49a20; background: rgba(196,154,32,0.12); color: #f0ead8; }
+.swatch.ignored  { opacity: 0.35; }
+.swatch.merged   { opacity: 0.55; }
 .swatch-dot { width: 12px; height: 12px; border-radius: 2px; border: 1px solid rgba(255,255,255,0.12); flex-shrink: 0; }
+.swatch-tag  { font-size: 0.6rem; opacity: 0.7; font-style: italic; }
+.swatch-undo { background: none; border: none; color: #6a5a4a; cursor: pointer; font-size: 0.75rem; padding: 0 1px; line-height: 1; }
+.swatch-undo:hover { color: #c07070; }
+.swatch-bar {
+  display: flex; align-items: center; gap: 6px; flex-shrink: 0;
+  overflow: hidden; max-height: 0; transition: max-height 0.15s;
+}
+.swatch-bar.visible { max-height: 28px; }
 
 /* ── Save ── */
 .save-row { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; flex-shrink: 0; }
@@ -294,6 +309,12 @@ main {
 
   <div class="info-line" id="resultInfo"></div>
   <div class="swatches" id="swatches"></div>
+  <div class="swatch-bar" id="swatchBar">
+    <span style="font-size:0.7rem;color:#9a8a7a" id="swatchBarHint">click another to merge</span>
+    <button class="btn-sm" id="swatchBarIgnore">Ignore</button>
+    <button class="btn-sm" id="swatchBarReset" style="display:none">Reset</button>
+    <button class="btn-sm" id="swatchBarCancel">✕</button>
+  </div>
 
   <div class="save-row">
     <input type="text" id="nameInput" placeholder="motif_name">
@@ -312,6 +333,8 @@ let rawPixels = null, rawW = 0, rawH = 0;
 let sourceBitmap = null;   // canvas element with raw image for fast drawImage
 let lastResult   = null;   // { grid, hexColors, rows, cols, cell }
 let extractTimer = null;
+let colorRemap   = {};     // { fromIdx: toIdx | -1 }  (-1 = ignore/background)
+let selSwatch    = null;   // selected original color index
 
 // Viewport
 let CANVAS_W = 400, CANVAS_H = 400;
@@ -342,8 +365,13 @@ const fitBtn      = document.getElementById('fitBtn');
 const cropModeBtn = document.getElementById('cropModeBtn');
 const alignModeBtn= document.getElementById('alignModeBtn');
 const clearToolBtn= document.getElementById('clearToolBtn');
-const colorsSlider= document.getElementById('colorsSlider');
-const colorsVal   = document.getElementById('colorsVal');
+const colorsSlider     = document.getElementById('colorsSlider');
+const colorsVal        = document.getElementById('colorsVal');
+const swatchBar        = document.getElementById('swatchBar');
+const swatchBarHint    = document.getElementById('swatchBarHint');
+const swatchBarIgnore  = document.getElementById('swatchBarIgnore');
+const swatchBarReset   = document.getElementById('swatchBarReset');
+const swatchBarCancel  = document.getElementById('swatchBarCancel');
 const cellAuto      = document.getElementById('cellAuto');
 const cellInt       = document.getElementById('cellInt');
 const cellTenth     = document.getElementById('cellTenth');
@@ -682,6 +710,7 @@ function scheduleExtract(d=200) { clearTimeout(extractTimer); extractTimer=setTi
 
 function runExtract() {
   if(!rawPixels) return;
+  colorRemap = {}; selSwatch = null;
   const k=parseInt(colorsSlider.value);
   const lo=12;
   const ox=parseInt(ox_.value)||0, oy=parseInt(oy_.value)||0;
@@ -804,6 +833,35 @@ function kmeans(points,k,maxIter=40){
 function toHex(rgb){return'#'+rgb.map(v=>Math.round(Math.max(0,Math.min(255,v))).toString(16).padStart(2,'0')).join('');}
 
 // ═══════════════════════════════════════════════════════════════════════════════
+// Color remap helpers
+// ═══════════════════════════════════════════════════════════════════════════════
+function resolveColor(idx) {
+  let d = 0;
+  while (colorRemap[idx] !== undefined && d++ < 20) {
+    if (colorRemap[idx] === -1) return -1;
+    idx = colorRemap[idx];
+  }
+  return idx;
+}
+
+function applyRemapCompact() {
+  const { grid, hexColors } = lastResult;
+  const k = hexColors.length;
+  const eff = Array.from({length: k}, (_, i) => resolveColor(i));
+  // Collect used original indices (those that are live effective targets)
+  const used = new Set([0]);
+  eff.forEach(e => { if (e !== -1) used.add(e); });
+  const sorted = [...used].sort((a, b) => a - b);
+  const o2n = new Map(sorted.map((orig, ni) => [orig, ni]));
+  const newHex = sorted.map(i => hexColors[i]);
+  const newGrid = grid.map(row => row.map(ci => {
+    const e = eff[ci];
+    return e === -1 ? 0 : (o2n.get(e) ?? 0);
+  }));
+  return { grid: newGrid, hexColors: newHex };
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
 // Result rendering
 // ═══════════════════════════════════════════════════════════════════════════════
 function renderResult(){
@@ -811,16 +869,41 @@ function renderResult(){
   const{grid,hexColors,rows,cols}=lastResult;
   resultEmpty.style.display='none'; resultCanvas.style.display='block';
   copyBtn.style.display=saveBtn.style.display='inline-block';
+
+  // Draw canvas with remap applied
+  const eff=applyRemapCompact();
   const MAX=380; const cellPx=Math.max(2,Math.floor(MAX/Math.max(rows,cols)));
   resultCanvas.width=cols*cellPx; resultCanvas.height=rows*cellPx;
   const ctx=resultCanvas.getContext('2d');
-  for(let r=0;r<rows;r++) for(let c=0;c<cols;c++){ctx.fillStyle=hexColors[grid[r][c]];ctx.fillRect(c*cellPx,r*cellPx,cellPx,cellPx);}
-  resultInfo.textContent=`${cols}×${rows} cells · ${hexColors.length} colors · cell=${lastResult.cell}px`;
+  for(let r=0;r<rows;r++) for(let c=0;c<cols;c++){ctx.fillStyle=eff.hexColors[eff.grid[r][c]];ctx.fillRect(c*cellPx,r*cellPx,cellPx,cellPx);}
+  resultInfo.textContent=`${cols}×${rows} cells · ${eff.hexColors.length} colors · cell=${lastResult.cell}px`;
+
+  // Swatches show original colors with remap state badges
   const flat=grid.flat();
   swatches.innerHTML=hexColors.map((hex,i)=>{
     const pct=Math.round(100*flat.filter(v=>v===i).length/flat.length);
-    return`<div class="swatch"><div class="swatch-dot" style="background:${hex}"></div>${hex}<span style="opacity:.5"> ${pct}%</span></div>`;
+    const r=colorRemap[i];
+    const isIgnored=r===-1;
+    const isMerged=r!==undefined&&r!==-1;
+    const isSelected=selSwatch===i;
+    const badge=isIgnored
+      ?`<span class="swatch-tag">ignore</span><button class="swatch-undo" data-undo="${i}" title="Undo">↺</button>`
+      :isMerged
+      ?`<span class="swatch-tag">→</span><div class="swatch-dot" style="background:${hexColors[r]}"></div><button class="swatch-undo" data-undo="${i}" title="Undo">↺</button>`
+      :'';
+    const cls=`swatch${isIgnored?' ignored':isMerged?' merged':''}${isSelected?' selected':''}`;
+    return`<div class="${cls}" data-idx="${i}"><div class="swatch-dot" style="background:${hex}"></div>${hex}<span style="opacity:.5"> ${pct}%</span>${badge}</div>`;
   }).join('');
+
+  // Swatch toolbar
+  const hasSel=selSwatch!==null;
+  swatchBar.className=`swatch-bar${hasSel?' visible':''}`;
+  if(hasSel){
+    const r=colorRemap[selSwatch];
+    const isRemapped=r!==undefined;
+    swatchBarIgnore.style.display=isRemapped?'none':'';
+    swatchBarReset.style.display=isRemapped?'':'none';
+  }
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -828,6 +911,33 @@ function renderResult(){
 // ═══════════════════════════════════════════════════════════════════════════════
 colorsSlider.addEventListener('input',()=>{colorsVal.textContent=colorsSlider.value;scheduleExtract(200);});
 colorsVal.textContent=colorsSlider.value;
+
+// ── Swatch interaction ──────────────────────────────────────────────────────
+swatches.addEventListener('click', e => {
+  e.stopPropagation();
+  const undoEl=e.target.closest('[data-undo]');
+  if(undoEl){ const i=parseInt(undoEl.dataset.undo); delete colorRemap[i]; if(selSwatch===i) selSwatch=null; renderResult(); return; }
+  const el=e.target.closest('[data-idx]');
+  if(!el) return;
+  const i=parseInt(el.dataset.idx);
+  if(selSwatch!==null && selSwatch!==i){
+    // merge selSwatch → resolveColor(i) (flatten chain)
+    const target=resolveColor(i);
+    colorRemap[selSwatch]=target!==-1?target:-1;
+    selSwatch=null;
+  } else {
+    selSwatch=selSwatch===i?null:i;
+  }
+  renderResult();
+});
+document.addEventListener('click', e => {
+  if(selSwatch!==null && !e.target.closest('#swatches') && !e.target.closest('#swatchBar')){
+    selSwatch=null; renderResult();
+  }
+});
+swatchBarIgnore.addEventListener('click', e => { e.stopPropagation(); if(selSwatch===null) return; colorRemap[selSwatch]=-1; selSwatch=null; renderResult(); });
+swatchBarReset.addEventListener('click',  e => { e.stopPropagation(); if(selSwatch===null) return; delete colorRemap[selSwatch]; selSwatch=null; renderResult(); });
+swatchBarCancel.addEventListener('click', e => { e.stopPropagation(); selSwatch=null; renderResult(); });
 function getCellValue(){
   return Math.round(((parseInt(cellInt.value)||16)+(parseInt(cellTenth.value)||0)*0.1+(parseInt(cellHundredth.value)||0)*0.01)*100)/100;
 }
@@ -865,7 +975,8 @@ saveBtn.addEventListener('click',async()=>{
   }catch(e){saveStatus.textContent='⚠ '+e.message;}
 });
 function buildJson(name){
-  const{grid,hexColors,rows,cols,cell}=lastResult;
+  const{rows,cols,cell}=lastResult;
+  const{grid,hexColors}=applyRemapCompact();
   const fs=[]; for(let r=0;r<rows;r++) for(let c=0;c<cols;c++) if(grid[r][c]>0) fs.push({colorId:grid[r][c],x:c,y:r});
   return{name:name||nameInput.value.trim()||'motif',source:urlInput.value.trim()||'',
     stitchWidth:cols,stitchHeight:rows,cellSizePx:cell,
