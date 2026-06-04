@@ -772,6 +772,17 @@ body { display: flex; flex-direction: column; }
         dragState = { type: 'select', startC: c, startR: r };
         sel = { c1: c, r1: r, c2: c, r2: r };
         document.getElementById('xsInfoBar').classList.remove('active');
+      } else if (mode === 'mark') {
+        const { c, r } = screenToStitch(sx, sy);
+        const key = c + ',' + r;
+        const hex = xm.cell(c, r);
+        if (!hiddenColors.has(hex)) {
+          paintDir = !doneSet.has(key);
+          if (paintDir) doneSet.add(key); else doneSet.delete(key);
+          updateProgressBadge();
+          markDirty();
+        }
+        dragState = { type: 'mark' };
       } else {
         dragState = { type: 'pan', startX: sx, startY: sy, px0: panX, py0: panY };
         longPressOrigin = { sx, sy };
@@ -791,6 +802,7 @@ body { display: flex; flex-direction: column; }
     } else if (e.touches.length === 2) {
       if (longPressTimer) { clearTimeout(longPressTimer); longPressTimer = null; }
       dragState = null;
+      paintDir = null;
       const mx = ((e.touches[0].clientX + e.touches[1].clientX) / 2) - rect.left;
       const my = ((e.touches[0].clientY + e.touches[1].clientY) / 2) - rect.top;
       pinchState = {
@@ -817,21 +829,35 @@ body { display: flex; flex-direction: column; }
     } else if (e.touches.length === 1 && dragState) {
       const sx = e.touches[0].clientX - rect.left;
       const sy = e.touches[0].clientY - rect.top;
-      if (longPressTimer && longPressOrigin) {
-        const dx = sx - longPressOrigin.sx, dy = sy - longPressOrigin.sy;
-        if (Math.hypot(dx, dy) > 8) {
-          clearTimeout(longPressTimer);
-          longPressTimer = null;
-        }
-      }
-      if (dragState.type === 'pan') {
-        panX = dragState.px0 + (sx - dragState.startX);
-        panY = dragState.py0 + (sy - dragState.startY);
-      } else {
+      if (dragState.type === 'mark') {
         const { c, r } = screenToStitch(sx, sy);
-        sel = { c1: dragState.startC, r1: dragState.startR, c2: c, r2: r };
+        const key = c + ',' + r;
+        const hex = xm.cell(c, r);
+        if (!hiddenColors.has(hex) && paintDir !== null) {
+          const changed = paintDir ? !doneSet.has(key) : doneSet.has(key);
+          if (changed) {
+            if (paintDir) doneSet.add(key); else doneSet.delete(key);
+            updateProgressBadge();
+          }
+        }
+        markDirty();
+      } else {
+        if (longPressTimer && longPressOrigin) {
+          const dx = sx - longPressOrigin.sx, dy = sy - longPressOrigin.sy;
+          if (Math.hypot(dx, dy) > 8) {
+            clearTimeout(longPressTimer);
+            longPressTimer = null;
+          }
+        }
+        if (dragState.type === 'pan') {
+          panX = dragState.px0 + (sx - dragState.startX);
+          panY = dragState.py0 + (sy - dragState.startY);
+        } else {
+          const { c, r } = screenToStitch(sx, sy);
+          sel = { c1: dragState.startC, r1: dragState.startR, c2: c, r2: r };
+        }
+        markDirty();
       }
-      markDirty();
     }
   }
 
@@ -841,12 +867,16 @@ body { display: flex; flex-direction: column; }
     if (e.touches.length < 2) pinchState = null;
     if (e.touches.length === 0) {
       const wasSel = dragState && dragState.type === 'select';
+      const wasMark = dragState && dragState.type === 'mark';
       const wasTap = dragState && dragState.type === 'pan' &&
         panX === dragState.px0 && panY === dragState.py0;
       dragState = null;
+      paintDir = null;
       longPressOrigin = null;
       if (wasSel && sel) {
         updateInfoBar();
+      } else if (wasMark) {
+        saveProgress();
       } else if (wasTap && sel && mode !== 'select') {
         sel = null;
         document.getElementById('xsInfoBar').classList.remove('active');
