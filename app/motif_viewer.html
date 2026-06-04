@@ -282,6 +282,9 @@ body { display: flex; flex-direction: column; }
   let pinchState = null;
   let longPressTimer = null;
   let longPressOrigin = null;
+  let doneSet = new Set();
+  let saveTimer = null;
+  let paintDir = null; // true = marking done, false = unmarking
 
   // ── Symbol mode ──────────────────────────────────────────────────────────────
   let symMode = false;
@@ -309,6 +312,54 @@ body { display: flex; flex-direction: column; }
     xm.colors.forEach((hex, i) => {
       colorSymbols.set(hex, SYMBOLS[i % SYMBOLS.length]);
     });
+  }
+
+  function progressKey() {
+    return 'xs-progress-' + xm.name;
+  }
+
+  function saveProgress() {
+    if (saveTimer) clearTimeout(saveTimer);
+    saveTimer = setTimeout(() => {
+      if (doneSet.size === 0) {
+        localStorage.removeItem(progressKey());
+      } else {
+        localStorage.setItem(progressKey(), JSON.stringify([...doneSet]));
+      }
+    }, 300);
+  }
+
+  function loadProgress() {
+    doneSet = new Set();
+    const raw = localStorage.getItem(progressKey());
+    if (raw) {
+      try { doneSet = new Set(JSON.parse(raw)); } catch (e) {}
+    }
+  }
+
+  function clearProgress() {
+    if (!confirm('Clear all progress?')) return;
+    doneSet = new Set();
+    if (saveTimer) clearTimeout(saveTimer);
+    localStorage.removeItem(progressKey());
+    updateProgressBadge();
+    markDirty();
+  }
+
+  function updateProgressBadge() {
+    if (!xm) return;
+    const badge = document.getElementById('xsProgress');
+    let total = 0, done = 0;
+    for (let r = 0; r < xm.rows; r++) {
+      for (let c = 0; c < xm.cols; c++) {
+        const hex = xm.cell(c, r);
+        if (hiddenColors.has(hex)) continue;
+        total++;
+        if (doneSet.has(c + ',' + r)) done++;
+      }
+    }
+    badge.textContent = done + ' / ' + total + ' stitched';
+    badge.classList.toggle('visible', doneSet.size > 0 || mode === 'mark');
   }
 
   const hasFinePointer = window.matchMedia('(pointer: fine)').matches;
