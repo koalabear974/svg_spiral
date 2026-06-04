@@ -414,6 +414,7 @@ body { display: flex; flex-direction: column; }
       if (btn) btn.textContent = 'show';
     }
     updateToggleAllBtn();
+    updateProgressBadge();
     markDirty();
   }
 
@@ -474,10 +475,12 @@ body { display: flex; flex-direction: column; }
     document.title = xm.name + ' — Cross-Stitch Viewer';
     document.getElementById('xsMotifName').textContent = xm.name;
     buildColorSymbols();
+    loadProgress();
     buildLegend();
     sizeCanvas();
     fit();
     markDirty();
+    updateProgressBadge();
   }
 
   function sizeCanvas() {
@@ -572,6 +575,18 @@ body { display: flex; flex-direction: column; }
           ctx.moveTo(x + cp - inset, y + inset);
           ctx.lineTo(x + inset,      y + cp - inset);
           ctx.stroke();
+        }
+      }
+    }
+
+    // Done-stitch overlay
+    if (doneSet.size > 0) {
+      ctx.fillStyle = 'rgba(180, 180, 180, 0.55)';
+      for (let r = r0; r <= r1; r++) {
+        for (let c = c0; c <= c1; c++) {
+          if (doneSet.has(c + ',' + r)) {
+            ctx.fillRect(panX + c * cp, panY + r * cp, cp, cp);
+          }
         }
       }
     }
@@ -998,6 +1013,7 @@ body { display: flex; flex-direction: column; }
         if (btn) btn.textContent = hidden ? 'show' : 'hide';
       });
       updateToggleAllBtn();
+      updateProgressBadge();
       markDirty();
     });
 
