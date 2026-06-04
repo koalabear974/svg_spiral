@@ -584,7 +584,7 @@ body { display: flex; flex-direction: column; }
       ctx.fillStyle = 'rgba(180, 180, 180, 0.55)';
       for (let r = r0; r <= r1; r++) {
         for (let c = c0; c <= c1; c++) {
-          if (doneSet.has(c + ',' + r)) {
+          if (doneSet.has(c + ',' + r) && !hiddenColors.has(xm.cell(c, r))) {
             ctx.fillRect(panX + c * cp, panY + r * cp, cp, cp);
           }
         }
@@ -961,9 +961,12 @@ body { display: flex; flex-direction: column; }
         deactivateMarkMode();
       } else {
         mode = 'mark';
-        // exit select if active
+        // exit select if active, reset mode button
         sel = null;
         document.getElementById('xsInfoBar').classList.remove('active');
+        const modeBtn = document.getElementById('xsModeBtn');
+        modeBtn.textContent = 'Select';
+        modeBtn.classList.remove('active');
         document.getElementById('xsMarkBtn').classList.add('active');
         document.getElementById('xsClearBtn').classList.add('visible');
         document.getElementById('xsCanvas').classList.add('xs-select');
