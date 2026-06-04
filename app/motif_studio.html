@@ -880,19 +880,27 @@ function renderResult(){
 
   // Swatches show original colors with remap state badges
   const flat=grid.flat();
+  // Effective count: cells that resolve to each original index
+  const effCounts=new Array(hexColors.length).fill(0);
+  flat.forEach(ci=>{ const e=resolveColor(ci); if(e!==-1) effCounts[e]++; });
   swatches.innerHTML=hexColors.map((hex,i)=>{
-    const pct=Math.round(100*flat.filter(v=>v===i).length/flat.length);
+    const ownPct=Math.round(100*flat.filter(v=>v===i).length/flat.length);
+    const effPct=Math.round(100*effCounts[i]/flat.length);
     const r=colorRemap[i];
     const isIgnored=r===-1;
     const isMerged=r!==undefined&&r!==-1;
     const isSelected=selSwatch===i;
+    // Show effective pct; for merged-away show original in parens
+    const pctLabel=isMerged
+      ?`<span style="opacity:.5"> ${ownPct}%</span>`
+      :`<span style="opacity:.5"> ${effPct}%</span>`;
     const badge=isIgnored
       ?`<span class="swatch-tag">ignore</span><button class="swatch-undo" data-undo="${i}" title="Undo">↺</button>`
       :isMerged
       ?`<span class="swatch-tag">→</span><div class="swatch-dot" style="background:${hexColors[r]}"></div><button class="swatch-undo" data-undo="${i}" title="Undo">↺</button>`
       :'';
     const cls=`swatch${isIgnored?' ignored':isMerged?' merged':''}${isSelected?' selected':''}`;
-    return`<div class="${cls}" data-idx="${i}"><div class="swatch-dot" style="background:${hex}"></div>${hex}<span style="opacity:.5"> ${pct}%</span>${badge}</div>`;
+    return`<div class="${cls}" data-idx="${i}"><div class="swatch-dot" style="background:${hex}"></div>${hex}${pctLabel}${badge}</div>`;
   }).join('');
 
   // Swatch toolbar
