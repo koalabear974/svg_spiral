@@ -1,81 +1,30 @@
-// Balkan Motif Stamps
-// Places Balkan motifs on a kaleidoscope cross-stitch grid.
-// Motif source: built-in algorithmic shapes or motifs saved from Motif Studio.
+// Two Motif Composer
+// Place two imported motifs on canvas with position, color, and overlap blend controls.
 
-var seed = 0;
-var seedMin = 0; var seedMax = 1000; var seedStep = 1;
+var cellSize = 8;
+var cellSizeMin = 2; var cellSizeMax = 40; var cellSizeStep = 1;
 
-var cellSize = 12;
-var cellSizeMin = 4; var cellSizeMax = 40; var cellSizeStep = 1;
+var useCross = false;
+var crossWeight = 3;
+var crossWeightMin = 0.3; var crossWeightMax = 6; var crossWeightStep = 0.1;
 
-var motifSelector = 'diamond'; // updated by dropdown
+var overlapMode = 'full'; // 'full', 'mix', 'half'
 
-var motifSize = 22;
-var motifSizeMin = 8; var motifSizeMax = 150; var motifSizeStep = 2;
+var showMotifA = true;
+var motifAName = '';
+var motifAX = 300; var motifAXMin = 0; var motifAXMax = 1122; var motifAXStep = 1;
+var motifAY = 600; var motifAYMin = 0; var motifAYMax = 1587; var motifAYStep = 1;
+var motifAColor1 = '#ed1c25';
+var motifAColor2 = '#020202';
 
-var motifGap = 4;
-var motifGapMin = 0; var motifGapMax = 20; var motifGapStep = 1;
+var showMotifB = true;
+var motifBName = '';
+var motifBX = 800; var motifBXMin = 0; var motifBXMax = 1122; var motifBXStep = 1;
+var motifBY = 1000; var motifBYMin = 0; var motifBYMax = 1587; var motifBYStep = 1;
+var motifBColor1 = '#1c5aed';
+var motifBColor2 = '#0a0a8c';
 
-var stampOffX = 0;
-var stampOffXMin = -600; var stampOffXMax = 600; var stampOffXStep = 1;
-
-var stampOffY = 0;
-var stampOffYMin = -600; var stampOffYMax = 600; var stampOffYStep = 1;
-
-var rotateStamps = true;
-var flipH = false;
-var flipV = false;
-
-var noiseBackground = true;
-var noiseScale = 0.02;
-var noiseScaleMin = 0.001; var noiseScaleMax = 0.12; var noiseScaleStep = 0.001;
-
-var noiseOctaves = 4;
-var noiseOctavesMin = 1; var noiseOctavesMax = 8; var noiseOctavesStep = 1;
-
-var noiseFalloff = 0.5;
-var noiseFalloffMin = 0.1; var noiseFalloffMax = 0.9; var noiseFalloffStep = 0.05;
-
-var threshold = 0.48;
-var thresholdMin = 0; var thresholdMax = 1; var thresholdStep = 0.01;
-
-var colorNoiseScale = 0.5;
-var colorNoiseScaleMin = 0.05; var colorNoiseScaleMax = 3; var colorNoiseScaleStep = 0.05;
-
-var colorSeed = 0;
-var colorSeedMin = 0; var colorSeedMax = 100; var colorSeedStep = 1;
-
-var mirror = 4;
-var mirrorMin = 0; var mirrorMax = 10; var mirrorStep = 1;
-
-var usePixel = true;
-
-var crossStrokeWeight = 1.5;
-var crossStrokeWeightMin = 0.3; var crossStrokeWeightMax = 6; var crossStrokeWeightStep = 0.1;
-
-var paddingX = 70;
-var paddingXMin = 0; var paddingXMax = 300; var paddingXStep = 5;
-
-var paddingY = 100;
-var paddingYMin = 0; var paddingYMax = 300; var paddingYStep = 5;
-
-var blackAndWhite = false;
-var showGrid = false;
-
-var stampGui, canvasGui;
-var _allMotifs = []; // internal list, not GUI-bound
-
-function buildMotifList() {
-  _allMotifs = [
-    {name: 'diamond', isBuiltin: true, builtinType: 0},
-    {name: 'tree',    isBuiltin: true, builtinType: 1},
-    {name: 'star',    isBuiltin: true, builtinType: 2},
-  ];
-  var imported = window.IMPORTED_MOTIFS || [];
-  for (var i = 0; i < imported.length; i++) {
-    _allMotifs.push({name: imported[i].name, isBuiltin: false, data: imported[i]});
-  }
-}
+var guiA, guiB, guiCanvas;
 
 function setup() {
   if (typeof SVG === 'undefined') {
@@ -85,31 +34,45 @@ function setup() {
   }
   pixelDensity(1);
 
-  buildMotifList();
+  var names = (window.IMPORTED_MOTIFS || []).map(function(m) { return m.name; });
+  if (names.length === 0) names = ['(no motifs)'];
+  motifAName = names[0];
+  motifBName = names[Math.min(1, names.length - 1)];
 
-  stampGui = createGui('Stamp');
-  // addDropDown via underlying quicksettings instance (gui.prototype)
-  stampGui.prototype.addDropDown('motif', _allMotifs.map(m => m.name), function(v) {
-    motifSelector = v.value;
-    var entry = _allMotifs.find(m => m.name === v.value);
-    if (entry && !entry.isBuiltin) {
-      motifSize = max(entry.data.stitchWidth, entry.data.stitchHeight);
-      stampGui.prototype.setValue('motifSize', motifSize);
-    }
-    redraw();
+  guiA = createGui('Motif A');
+  guiA.addGlobals('showMotifA');
+  guiA.prototype.addDropDown('motif', names, function(v) {
+    motifAName = v.value; redraw();
   });
-  stampGui.addGlobals('motifSize', 'motifGap', 'stampOffX', 'stampOffY', 'rotateStamps', 'flipH', 'flipV');
-  stampGui.setPosition(10, 10);
+  guiA.prototype.addColor('color 1', motifAColor1, function(v) {
+    motifAColor1 = v; redraw();
+  });
+  guiA.prototype.addColor('color 2', motifAColor2, function(v) {
+    motifAColor2 = v; redraw();
+  });
+  guiA.addGlobals('motifAX', 'motifAY');
+  guiA.setPosition(10, 10);
 
-  canvasGui = createGui('Canvas');
-  canvasGui.addGlobals(
-    'seed', 'cellSize',
-    'noiseBackground', 'noiseScale', 'noiseOctaves', 'noiseFalloff', 'threshold',
-    'colorNoiseScale', 'colorSeed',
-    'mirror', 'paddingX', 'paddingY',
-    'usePixel', 'blackAndWhite', 'crossStrokeWeight', 'showGrid'
-  );
-  canvasGui.setPosition(240, 10);
+  guiB = createGui('Motif B');
+  guiB.addGlobals('showMotifB');
+  guiB.prototype.addDropDown('motif', names, function(v) {
+    motifBName = v.value; redraw();
+  });
+  guiB.prototype.addColor('color 1', motifBColor1, function(v) {
+    motifBColor1 = v; redraw();
+  });
+  guiB.prototype.addColor('color 2', motifBColor2, function(v) {
+    motifBColor2 = v; redraw();
+  });
+  guiB.addGlobals('motifBX', 'motifBY');
+  guiB.setPosition(240, 10);
+
+  guiCanvas = createGui('Canvas');
+  guiCanvas.prototype.addDropDown('overlap', ['full', 'mix', 'half'], function(v) {
+    overlapMode = v.value; redraw();
+  });
+  guiCanvas.addGlobals('cellSize', 'useCross', 'crossWeight');
+  guiCanvas.setPosition(470, 10);
 
   noLoop();
 }
@@ -123,177 +86,88 @@ function keyPressed() {
 }
 
 function draw() {
-  colorMode(HSB, 360, 100, 100);
-  randomSeed(colorSeed);
-  let pal = Array.from({length: 8}, () => color(random(360), random(50, 90), random(40, 85)));
-  colorMode(RGB, 255);
-
-  let motifEntry = _allMotifs.find(m => m.name === motifSelector) || _allMotifs[0];
-
-  // Pre-build studio palette (colorId → p5 color)
-  let studioPalette = {};
-  if (!motifEntry.isBuiltin) {
-    for (let cd of motifEntry.data.colors) {
-      if (cd.colorId > 0) studioPalette[cd.colorId] = color(cd.hexValue);
-    }
-  }
-
-  randomSeed(seed);
-  noiseSeed(seed);
-  noiseDetail(noiseOctaves, noiseFalloff);
   clear();
   background(243, 238, 225);
 
-  let cols = floor((width - paddingX * 2) / cellSize);
-  let rows = floor((height - paddingY * 2) / cellSize);
-  let offX = floor((width - cols * cellSize) / 2);
-  let offY = floor((height - rows * cellSize) / 2);
+  var all = window.IMPORTED_MOTIFS || [];
+  var mA = all.find(function(m) { return m.name === motifAName; });
+  var mB = all.find(function(m) { return m.name === motifBName; });
 
-  if (showGrid) {
-    stroke(210, 200, 185); strokeWeight(0.5);
-    for (let c = 0; c <= cols; c++) line(offX + c * cellSize, offY, offX + c * cellSize, offY + rows * cellSize);
-    for (let r = 0; r <= rows; r++) line(offX, offY + r * cellSize, offX + cols * cellSize, offY + r * cellSize);
+  var pixelsA = (mA && showMotifA) ? getMotifPixels(mA, motifAX, motifAY, motifAColor1, motifAColor2) : new Map();
+  var pixelsB = (mB && showMotifB) ? getMotifPixels(mB, motifBX, motifBY, motifBColor1, motifBColor2) : new Map();
+
+  if (overlapMode === 'full') {
+    pixelsA.forEach(function(hex, key) {
+      var p = splitKey(key); drawCell(p[0], p[1], hex, 'full');
+    });
+    pixelsB.forEach(function(hex, key) {
+      var p = splitKey(key); drawCell(p[0], p[1], hex, 'full');
+    });
+  } else if (overlapMode === 'mix') {
+    pixelsA.forEach(function(hex, key) {
+      var p = splitKey(key);
+      drawCell(p[0], p[1], hex, pixelsB.has(key) ? 'left' : 'full');
+    });
+    pixelsB.forEach(function(hex, key) {
+      var p = splitKey(key);
+      drawCell(p[0], p[1], hex, pixelsA.has(key) ? 'right' : 'full');
+    });
+  } else if (overlapMode === 'half') {
+    pixelsA.forEach(function(hex, key) {
+      var p = splitKey(key); drawCell(p[0], p[1], hex, 'left');
+    });
+    pixelsB.forEach(function(hex, key) {
+      var p = splitKey(key); drawCell(p[0], p[1], hex, 'right');
+    });
   }
+}
 
-  let spacing = (motifSize + motifGap) * cellSize;
-
-  for (let col = 0; col < cols; col++) {
-    for (let row = 0; row < rows; row++) {
-      let cx = offX + col * cellSize + cellSize * 0.5;
-      let cy = offY + row * cellSize + cellSize * 0.5;
-
-      let sx = cx, sy = cy;
-      if (mirror > 0) {
-        let dx = cx - width * 0.5, dy = cy - height * 0.5;
-        let r = sqrt(dx * dx + dy * dy);
-        let angle = atan2(dy, dx);
-        if (angle < 0) angle += TWO_PI;
-        let sectorSize = PI / mirror;
-        let folded = angle % (sectorSize * 2);
-        if (folded > sectorSize) folded = sectorSize * 2 - folded;
-        sx = width * 0.5 + r * cos(folded);
-        sy = height * 0.5 + r * sin(folded);
-      }
-
-      let osx = sx + stampOffX;
-      let osy = sy + stampOffY;
-      let sCol = floor(osx / spacing);
-      let sRow = floor(osy / spacing);
-      let localX = osx - (sCol + 0.5) * spacing;
-      let localY = osy - (sRow + 0.5) * spacing;
-      let lc = round(localX / cellSize);
-      let lr = round(localY / cellSize);
-
-      if (rotateStamps) {
-        let turns = (sCol * 3 + sRow * 7) % 4;
-        let tmp = lc;
-        for (let t = 0; t < turns; t++) { tmp = lc; lc = -lr; lr = tmp; }
-      }
-
-      let colorId = 0;
-
-      if (motifEntry.isBuiltin) {
-        colorId = getMotifColor(flipH ? -lc : lc, flipV ? -lr : lr, motifEntry.builtinType, motifSize);
+// Returns a Map from "px,py" canvas coord → hex color for all non-zero cells
+function getMotifPixels(motif, cx, cy, color1, color2) {
+  var map = new Map();
+  var hw = floor(motif.stitchWidth / 2);
+  var hh = floor(motif.stitchHeight / 2);
+  var snappedX = floor(cx / cellSize) * cellSize;
+  var snappedY = floor(cy / cellSize) * cellSize;
+  for (var gr = 0; gr < motif.stitchHeight; gr++) {
+    for (var gc = 0; gc < motif.stitchWidth; gc++) {
+      var cid = motif.grid[gr][gc];
+      if (cid === 0) continue;
+      var hex;
+      if (cid === 1) {
+        hex = color1;
+      } else if (cid === 2) {
+        hex = color2;
       } else {
-        colorId = getStudioMotifColor(lc, lr, motifEntry.data);
+        var cd = motif.colors.find(function(c) { return c.colorId === cid; });
+        hex = cd ? cd.hexValue : '#000000';
       }
-
-      if (colorId > 0) {
-        let c;
-        if (motifEntry.isBuiltin) {
-          c = blackAndWhite ? color(0) : pal[(colorId - 1) % pal.length];
-        } else {
-          c = blackAndWhite ? color(0) : (studioPalette[colorId] || color(0));
-        }
-        drawCell(col, row, offX, offY, c);
-      } else if (noiseBackground) {
-        let n = noise(sx * noiseScale, sy * noiseScale);
-        if (n > threshold) {
-          let cn = noise(sx * noiseScale * colorNoiseScale + 999, sy * noiseScale * colorNoiseScale + 999);
-          let c = blackAndWhite ? color(0) : pal[constrain(floor(cn * pal.length), 0, pal.length - 1)];
-          drawCell(col, row, offX, offY, c);
-        }
-      }
+      var px = snappedX + (gc - hw) * cellSize;
+      var py = snappedY + (gr - hh) * cellSize;
+      map.set(px + ',' + py, hex);
     }
   }
+  return map;
 }
 
-// Returns colorId for a studio motif at local grid coords (lc, lr)
-function getStudioMotifColor(lc, lr, motif) {
-  let halfW = floor(motif.stitchWidth / 2);
-  let halfH = floor(motif.stitchHeight / 2);
-  let gc = lc + halfW;
-  let gr = lr + halfH;
-  if (flipH) gc = motif.stitchWidth - 1 - gc;
-  if (flipV) gr = motif.stitchHeight - 1 - gr;
-  if (gc < 0 || gc >= motif.stitchWidth || gr < 0 || gr >= motif.stitchHeight) return 0;
-  return motif.grid[gr][gc];
+function splitKey(key) {
+  var i = key.indexOf(',');
+  return [parseInt(key.slice(0, i)), parseInt(key.slice(i + 1))];
 }
 
-// Returns color index 0=background, 1..3=palette layers
-function getMotifColor(lc, lr, type, size) {
-  let half = floor(size / 2);
-  if (abs(lc) > half || abs(lr) > half) return 0;
-  if (type === 0) return getDiamondMotif(lc, lr, half);
-  if (type === 1) return getTreeMotif(lc, lr, half, size);
-  if (type === 2) return getStarMotif(lc, lr, half);
-  return 0;
-}
-
-// Nested diamond: 3 concentric L1-norm rings
-function getDiamondMotif(lc, lr, half) {
-  let d = abs(lc) + abs(lr);
-  if (d > half) return 0;
-  if (d > half * 0.65) return 1;
-  if (d > half * 0.3) return 2;
-  return 3;
-}
-
-// Tree of life: crown diamond + vertical stem + 3 branch pairs
-function getTreeMotif(lc, lr, half, size) {
-  let row = lr + half;
-  let crownR = max(2, floor(half * 0.28));
-  let crownDist = abs(lc) + abs(row - crownR);
-  if (crownDist <= crownR) return crownDist < crownR ? 3 : 1;
-  let stemStart = crownR * 2 + 1;
-  if (row < stemStart) return 0;
-  if (lc === 0) return 2;
-  let stemLen = size - stemStart;
-  for (let b = 1; b <= 3; b++) {
-    let branchRow = stemStart + floor(stemLen * b / 4);
-    let s = abs(lc);
-    let bLen = floor(half * (0.22 + b * 0.07));
-    if (s >= 1 && s <= bLen && row === branchRow - s) return 3;
-    if (s === bLen + 1 && abs(row - (branchRow - bLen)) <= 1 && abs(lc) <= bLen + 1) {
-      let tipDist = abs(lc - (bLen + 1) * sign(lc)) + abs(row - (branchRow - bLen));
-      if (tipDist <= 1) return 1;
-    }
-  }
-  return 0;
-}
-
-function sign(x) { return x > 0 ? 1 : x < 0 ? -1 : 0; }
-
-// 8-pointed star: union of L1 diamond (cardinal) + Chebyshev square (ordinal)
-function getStarMotif(lc, lr, half) {
-  let d1 = abs(lc) + abs(lr);
-  let d2 = max(abs(lc), abs(lr));
-  let h2 = floor(half * 0.72);
-  if (d1 > half && d2 > h2) return 0;
-  if (d1 <= floor(half * 0.35) && d2 <= floor(h2 * 0.5)) return 3;
-  if (d1 <= floor(half * 0.6) || d2 <= floor(h2 * 0.65)) return 2;
-  return 1;
-}
-
-function drawCell(col, row, offX, offY, c) {
-  if (usePixel) {
-    noStroke(); fill(c);
-    rect(offX + col * cellSize, offY + row * cellSize, cellSize, cellSize);
+// style: 'full' | 'left' (backslash / left-half) | 'right' (fwd-slash / right-half)
+function drawCell(px, py, hex, style) {
+  if (useCross) {
+    noFill(); stroke(hex); strokeWeight(crossWeight);
+    var m = cellSize * 0.18;
+    var x1 = px + m, y1 = py + m;
+    var x2 = px + cellSize - m, y2 = py + cellSize - m;
+    if (style === 'full' || style === 'left')  line(x1, y1, x2, y2); // backslash
+    if (style === 'full' || style === 'right') line(x2, y1, x1, y2); // fwd-slash
   } else {
-    noFill(); stroke(c); strokeWeight(crossStrokeWeight);
-    let m = cellSize * 0.18;
-    let x1 = offX + col * cellSize + m, y1 = offY + row * cellSize + m;
-    let x2 = offX + (col + 1) * cellSize - m, y2 = offY + (row + 1) * cellSize - m;
-    line(x1, y1, x2, y2); line(x2, y1, x1, y2);
+    noStroke(); fill(hex);
+    if (style === 'full')  rect(px, py, cellSize, cellSize);
+    if (style === 'left')  rect(px, py, cellSize / 2, cellSize);
+    if (style === 'right') rect(px + cellSize / 2, py, cellSize / 2, cellSize);
   }
 }
