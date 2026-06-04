@@ -701,6 +701,17 @@ body { display: flex; flex-direction: column; }
       dragState = { type: 'select', startC: c, startR: r };
       sel = { c1: c, r1: r, c2: c, r2: r };
       document.getElementById('xsInfoBar').classList.remove('active');
+    } else if (mode === 'mark') {
+      const { c, r } = screenToStitch(sx, sy);
+      const key = c + ',' + r;
+      const hex = xm.cell(c, r);
+      if (!hiddenColors.has(hex)) {
+        paintDir = !doneSet.has(key);
+        if (paintDir) doneSet.add(key); else doneSet.delete(key);
+        updateProgressBadge();
+        markDirty();
+      }
+      dragState = { type: 'mark' };
     } else {
       dragState = { type: 'pan', startX: sx, startY: sy, px0: panX, py0: panY };
     }
@@ -714,6 +725,17 @@ body { display: flex; flex-direction: column; }
     if (dragState.type === 'pan') {
       panX = dragState.px0 + (sx - dragState.startX);
       panY = dragState.py0 + (sy - dragState.startY);
+    } else if (dragState.type === 'mark') {
+      const { c, r } = screenToStitch(sx, sy);
+      const key = c + ',' + r;
+      const hex = xm.cell(c, r);
+      if (!hiddenColors.has(hex) && paintDir !== null) {
+        const changed = paintDir ? !doneSet.has(key) : doneSet.has(key);
+        if (changed) {
+          if (paintDir) doneSet.add(key); else doneSet.delete(key);
+          updateProgressBadge();
+        }
+      }
     } else {
       const { c, r } = screenToStitch(sx, sy);
       sel = { c1: dragState.startC, r1: dragState.startR, c2: c, r2: r };
@@ -724,9 +746,12 @@ body { display: flex; flex-direction: column; }
   function onMouseUp(e) {
     if (!dragState) return;
     const wasSel = dragState.type === 'select';
+    const wasMark = dragState.type === 'mark';
     dragState = null;
+    paintDir = null;
     e.currentTarget.classList.remove('xs-dragging');
     if (wasSel && sel) updateInfoBar();
+    if (wasMark) saveProgress();
   }
 
   function touchDist(t1, t2) {
