@@ -830,6 +830,12 @@ body { display: flex; flex-direction: column; }
     }
   }
 
+  function deactivateMarkMode() {
+    document.getElementById('xsMarkBtn').classList.remove('active');
+    document.getElementById('xsClearBtn').classList.remove('visible');
+    document.getElementById('xsCanvas').classList.remove('xs-select');
+  }
+
   function init() {
     const canvas = document.getElementById('xsCanvas');
 
@@ -865,7 +871,9 @@ body { display: flex; flex-direction: column; }
     });
 
     document.getElementById('xsModeBtn').addEventListener('click', () => {
-      mode = mode === 'pan' ? 'select' : 'pan';
+      const wasInMark = mode === 'mark';
+      mode = (mode === 'select') ? 'pan' : 'select';
+      if (wasInMark) deactivateMarkMode();
       const btn = document.getElementById('xsModeBtn');
       btn.textContent = mode === 'select' ? 'Pan' : 'Select';
       btn.classList.toggle('active', mode === 'select');
@@ -876,6 +884,25 @@ body { display: flex; flex-direction: column; }
         markDirty();
       }
     });
+
+    document.getElementById('xsMarkBtn').addEventListener('click', () => {
+      if (mode === 'mark') {
+        mode = 'pan';
+        deactivateMarkMode();
+      } else {
+        mode = 'mark';
+        // exit select if active
+        sel = null;
+        document.getElementById('xsInfoBar').classList.remove('active');
+        document.getElementById('xsMarkBtn').classList.add('active');
+        document.getElementById('xsClearBtn').classList.add('visible');
+        document.getElementById('xsCanvas').classList.add('xs-select');
+      }
+      updateProgressBadge();
+      markDirty();
+    });
+
+    document.getElementById('xsClearBtn').addEventListener('click', clearProgress);
 
     document.getElementById('xsSymBtn').addEventListener('click', () => {
       symMode = !symMode;
