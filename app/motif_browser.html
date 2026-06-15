@@ -137,6 +137,50 @@ header p { margin-top: 4px; opacity: 0.6; font-size: 0.85rem; }
 .modal-construction { font-size: 0.78rem; line-height: 1.6; color: #5c4a3e; font-family: monospace; background: #f9f5ef; padding: 10px 12px; border-radius: 6px; }
 .modal-construction h4 { font-family: system-ui; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: #9a8a7e; margin-bottom: 6px; font-weight: 600; }
 
+/* ── DMC thread match panel */
+#mDmcPanel {
+  margin-top: 10px; padding: 10px 12px; border-radius: 6px;
+  background: #f0ece6; display: none;
+}
+#mDmcPanel.open { display: block; }
+#mDmcPanel h4 { font-family: system-ui; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: #9a8a7e; margin-bottom: 8px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+#mDmcSelected { width: 20px; height: 20px; border-radius: 4px; border: 1px solid rgba(0,0,0,0.15); display: inline-block; vertical-align: middle; }
+.mdmc-section { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.08em; color: #9a8a7e; margin: 6px 0 3px; }
+.mdmc-row { display: flex; align-items: center; gap: 8px; padding: 4px 6px; border-radius: 5px; }
+.mdmc-row.in-kit { background: rgba(80,160,90,0.12); }
+.mdmc-swatch { width: 18px; height: 18px; border-radius: 3px; border: 1px solid rgba(0,0,0,0.12); flex-shrink: 0; }
+.mdmc-id { font-family: monospace; font-size: 0.78rem; font-weight: 600; color: #3c2c20; min-width: 54px; }
+.mdmc-name { font-size: 0.72rem; color: #7a6a5e; flex: 1; }
+.mdmc-kit-badge { font-size: 0.65rem; color: #3a8a45; font-weight: 600; }
+
+/* ── Kit config overlay */
+#mKitOverlay {
+  display: none; position: fixed; inset: 0; z-index: 400;
+  background: rgba(0,0,0,0.6); align-items: center; justify-content: center;
+}
+#mKitOverlay.open { display: flex; }
+#mKitBox {
+  background: #fff; border-radius: 12px; padding: 24px; width: min(380px, 90vw);
+  display: flex; flex-direction: column; gap: 12px; box-shadow: 0 8px 48px rgba(0,0,0,0.3);
+}
+#mKitBox h3 { font-size: 1rem; color: #2c1810; }
+#mKitBox p { font-size: 0.78rem; color: #7a6a5e; line-height: 1.5; }
+#mKitBox textarea {
+  width: 100%; height: 110px; border-radius: 6px; border: 1px solid #d4c8be;
+  font-family: monospace; font-size: 0.78rem; padding: 8px; resize: none; color: #3c2c20;
+}
+.mkit-btns { display: flex; gap: 8px; justify-content: flex-end; }
+.mkit-btn { padding: 7px 18px; border-radius: 6px; border: none; cursor: pointer; font-size: 0.82rem; }
+.mkit-btn.save { background: #2c1810; color: #f5f0e8; font-weight: 600; }
+.mkit-btn.cancel { background: #e8e0d8; color: #3c2c20; }
+#mKitBtn {
+  font-size: 0.72rem; color: #9a8a7e; border: 1px solid #d4c8be; border-radius: 4px;
+  padding: 3px 8px; background: transparent; cursor: pointer; white-space: nowrap;
+}
+#mKitBtn:hover { background: #f0ece6; color: #3c2c20; }
+#mKitStatus { font-size: 0.65rem; color: #7a6a5e; }
+.mopen-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+
 @media (max-width: 520px) { .grid { padding: 16px; } .controls { padding: 14px 16px; } header { padding: 18px 16px 0; } }
 
 /* "Open in viewer" modal button */
@@ -224,14 +268,35 @@ header p { margin-top: 4px; opacity: 0.6; font-size: 0.85rem; }
           <h4>Construction Notes</h4>
           <div id="mConstruct"></div>
         </div>
-        <button id="mOpenViewer">Open in cross-stitch viewer</button>
+        <div id="mDmcPanel">
+          <h4>Closest thread — <span id="mDmcSelected"></span></h4>
+          <div id="mDmcMatches"></div>
+        </div>
+        <div class="mopen-row">
+          <button id="mOpenViewer">Open in cross-stitch viewer</button>
+          <button id="mKitBtn">⚙ My kit</button>
+          <span id="mKitStatus"></span>
+        </div>
       </div>
+    </div>
+  </div>
+</div>
+
+<div id="mKitOverlay">
+  <div id="mKitBox">
+    <h3>My Thread Kit</h3>
+    <p>Enter the DMC numbers printed on your thread spools or the color card included in your kit. Separate by spaces or commas.</p>
+    <textarea id="mKitTextarea" placeholder="e.g. 310 321 666 3826 blanc ecru ..."></textarea>
+    <div class="mkit-btns">
+      <button class="mkit-btn cancel" id="mKitCancel">Cancel</button>
+      <button class="mkit-btn save" id="mKitSave">Save</button>
     </div>
   </div>
 </div>
 
 <script>window.IMPORTED_MOTIFS = [];</script>
 <script src="motifs/motifs.js" onerror="void 0"></script>
+<script src="dmc-palette.js"></script>
 <script>
 // ─── PALETTES ────────────────────────────────────────────────────────────────
 // Index 0=bg, 1=primary, 2=secondary, 3=accent
@@ -947,9 +1012,14 @@ function openJsonModal(m) {
   document.getElementById('mMeta').textContent = 'generated · image_to_motif.py';
   document.getElementById('mDesc').textContent = `Source: ${m.source}`;
   const colorSwatches = m.colors.map((c, i) =>
-    `#${i} ${c.hexValue}`
-  ).join('  ·  ');
-  document.getElementById('mConstruct').textContent = colorSwatches;
+    `<span data-hex="${c.hexValue}" style="display:inline-flex;align-items:center;gap:4px;margin-right:10px;padding:3px 6px 3px 3px;border-radius:5px;cursor:pointer" title="Click for thread match">` +
+    `<span style="display:inline-block;width:16px;height:16px;border-radius:3px;background:${c.hexValue};border:1px solid #ccc;flex-shrink:0"></span>` +
+    `#${i} ${c.hexValue}` +
+    `</span>`
+  ).join('');
+  document.getElementById('mConstruct').innerHTML = colorSwatches;
+  document.getElementById('mDmcPanel').classList.remove('open');
+  makeConstructSwatchesClickable();
   refreshModalCanvas();
   window._activeModalMotif = { motif: m, isJson: true };
   document.getElementById('mOpenViewer').classList.add('visible');
@@ -1105,6 +1175,74 @@ document.getElementById('mOpenViewer').addEventListener('click', () => {
 });
 </script>
 
+<script>
+// ─── DMC THREAD MATCHING ─────────────────────────────────────────────────────
+function showDmcPanel(hex) {
+  const kit = getKitSet();
+  const matches = findClosestDMC(hex, 12);
+
+  const sel = document.getElementById('mDmcSelected');
+  sel.style.background = hex;
+  sel.title = hex;
+
+  const html = matches.map(m => {
+    const inKit = kit.size > 0 && kit.has(m.id.toUpperCase());
+    return `<div class="mdmc-row${inKit ? ' in-kit' : ''}">
+      <div class="mdmc-swatch" style="background:${m.hex}"></div>
+      <div class="mdmc-id">DMC ${m.id}</div>
+      <div class="mdmc-name">${m.name}</div>
+      ${inKit ? '<div class="mdmc-kit-badge">✓ have it</div>' : ''}
+    </div>`;
+  }).join('');
+
+  document.getElementById('mDmcMatches').innerHTML = html;
+  document.getElementById('mDmcPanel').classList.add('open');
+}
+
+function updateKitStatus() {
+  const kit = getKitSet();
+  const s = document.getElementById('mKitStatus');
+  s.textContent = kit.size > 0 ? `${kit.size} colors in kit` : '';
+}
+
+// Make color swatches in mConstruct clickable
+function makeConstructSwatchesClickable() {
+  document.querySelectorAll('#mConstruct [data-hex]').forEach(el => {
+    el.style.cursor = 'pointer';
+    el.title = 'Click to find matching DMC thread';
+    el.addEventListener('click', e => {
+      e.stopPropagation();
+      showDmcPanel(el.dataset.hex);
+    });
+  });
+}
+
+// Kit overlay
+document.getElementById('mKitBtn').addEventListener('click', () => {
+  document.getElementById('mKitTextarea').value =
+    (localStorage.getItem('xsMyKit') || '').split(/[\s,]+/).filter(Boolean).join(' ');
+  document.getElementById('mKitOverlay').classList.add('open');
+});
+document.getElementById('mKitCancel').addEventListener('click', () => {
+  document.getElementById('mKitOverlay').classList.remove('open');
+});
+document.getElementById('mKitSave').addEventListener('click', () => {
+  localStorage.setItem('xsMyKit', document.getElementById('mKitTextarea').value);
+  document.getElementById('mKitOverlay').classList.remove('open');
+  updateKitStatus();
+  // refresh panel if open
+  const sel = document.getElementById('mDmcSelected');
+  if (document.getElementById('mDmcPanel').classList.contains('open') && sel.style.background) {
+    showDmcPanel(sel.style.background);
+  }
+});
+document.getElementById('mKitOverlay').addEventListener('click', e => {
+  if (e.target === document.getElementById('mKitOverlay'))
+    document.getElementById('mKitOverlay').classList.remove('open');
+});
+
+updateKitStatus();
+</script>
 <script src="/sidebar.js"></script>
 </body>
 </html>
