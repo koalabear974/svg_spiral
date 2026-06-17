@@ -182,17 +182,6 @@ body { display: flex; flex-direction: column; }
   cursor: pointer; touch-action: manipulation;
 }
 .xs-leg-swatch:hover { border-color: rgba(255,255,255,0.5); }
-.xs-leg-vis {
-  margin-left: auto; background: transparent; flex-shrink: 0;
-  border: 1px solid rgba(255,255,255,0.18); border-radius: 3px;
-  cursor: pointer; color: rgba(245,240,232,0.45);
-  font-size: 0.6rem; padding: 1px 5px; line-height: 1.5;
-  font-family: system-ui, sans-serif; text-transform: uppercase;
-  letter-spacing: 0.06em; transition: color 0.1s, background 0.1s;
-  touch-action: manipulation;
-}
-.xs-leg-vis:hover { color: rgba(245,240,232,0.9); background: rgba(255,255,255,0.08); }
-.xs-leg-item.hidden-color .xs-leg-vis { color: rgba(245,240,232,0.6); }
 .xs-leg-item.hidden-color .xs-leg-swatch::after {
   content: ''; position: absolute; inset: 0;
   background: repeating-linear-gradient(
@@ -265,17 +254,16 @@ body { display: flex; flex-direction: column; }
 
 @media (max-width: 600px) {
   #xsToolbar { height: 56px; gap: 6px; padding: 0 10px; }
-  .xs-btn { padding: 10px 12px; font-size: 0.82rem; }
-  .xs-btn-zoom { display: inline-block; }
+  .xs-btn { padding: 10px 14px; font-size: 0.82rem; border-radius: 20px; }
+  .xs-btn-zoom, #xsModeBtn, #xsFitBtn { display: none; }
   #xsLegend { bottom: 8px; right: 8px; max-width: calc(100vw - 16px); }
   .xs-leg-swatch { width: 26px; height: 26px; }
-  .xs-leg-vis { padding: 3px 8px; font-size: 0.65rem; }
 
   /* legend collapsed by default on mobile */
   .xs-leg-items { display: none; }
   .xs-leg-items.open { display: block; }
   .xs-leg-collapse { display: inline-flex; align-items: center; }
-  #xsClearBtn.visible { display: inline-block; padding: 10px 8px; }
+  #xsClearBtn.visible { display: inline-block; padding: 10px 14px; }
   #xsProgress { bottom: 8px; left: 8px; }
 }
 @media (min-width: 601px) {
@@ -507,8 +495,7 @@ body { display: flex; flex-direction: column; }
       item.innerHTML =
         `<span class="xs-leg-swatch" style="background:${hex}"></span>` +
         `<span class="xs-leg-sym">${sym}</span>` +
-        dmcLabel +
-        `<button class="xs-leg-vis">${isHidden ? 'show' : 'hide'}</button>`;
+        dmcLabel;
       if (hasFinePointer) {
         item.addEventListener('mouseenter', () => showColorHover(hex, item));
         item.addEventListener('mouseleave', hideColorHover);
@@ -517,10 +504,7 @@ body { display: flex; flex-direction: column; }
         e.stopPropagation();
         showColorModal(hex);
       });
-      item.querySelector('.xs-leg-vis').addEventListener('click', e => {
-        e.stopPropagation();
-        toggleColorVisibility(hex, item);
-      });
+      item.addEventListener('click', () => toggleColorVisibility(hex, item));
       wrap.appendChild(item);
     });
 
