@@ -314,12 +314,11 @@ body { display: flex; flex-direction: column; }
   <div id="xsColorPreview"><div id="xsColorSwatch"></div><div id="xsColorHex"></div></div>
   <div id="xsSyncModal">
     <div id="xsSyncModalContent">
-      <div id="xsSyncModalTitle">Progress found in two places</div>
+      <div id="xsSyncModalTitle">Local progress found</div>
       <div id="xsSyncModalCounts"></div>
       <div style="display:flex;flex-direction:column;gap:8px;margin-top:4px">
-        <button class="xs-btn" id="xsSyncUseLocal">Use local</button>
-        <button class="xs-btn" id="xsSyncUseCloud">Use cloud</button>
-        <button class="xs-btn" id="xsSyncPushCloud">Push local → cloud</button>
+        <button class="xs-btn" id="xsSyncPushCloud">Upload to cloud</button>
+        <button class="xs-btn" id="xsSyncUseLocal">Keep local only</button>
       </div>
     </div>
   </div>
@@ -422,20 +421,18 @@ body { display: flex; flex-direction: column; }
     }
   }
 
-  let _syncLocalArr = null, _syncCloudArr = null;
+  let _syncLocalArr = null;
 
-  function showSyncModal(localArr, cloudArr) {
+  function showSyncModal(localArr) {
     _syncLocalArr = localArr;
-    _syncCloudArr = cloudArr;
     document.getElementById('xsSyncModalCounts').textContent =
-      'Local: ' + localArr.length + ' stitches · Cloud: ' + cloudArr.length + ' stitches';
+      localArr.length + ' stitches saved locally — upload to sync across devices?';
     document.getElementById('xsSyncModal').classList.add('open');
   }
 
   function hideSyncModal() {
     document.getElementById('xsSyncModal').classList.remove('open');
     _syncLocalArr = null;
-    _syncCloudArr = null;
   }
 
   function saveProgress() {
@@ -627,17 +624,17 @@ body { display: flex; flex-direction: column; }
     // Resolve cloud
     const cloudArr = await cloudPromise;
 
-    if (localArr && localArr.length > 0 && cloudArr && cloudArr.length > 0) {
-      // Both exist — let user choose
-      showSyncModal(localArr, cloudArr);
-    } else if ((!localArr || localArr.length === 0) && cloudArr && cloudArr.length > 0) {
-      // Only cloud — adopt it
+    if (cloudArr && cloudArr.length > 0) {
+      // Cloud is authoritative — always use latest cloud
       doneSet = new Set(cloudArr);
       localStorage.setItem(progressKey(), JSON.stringify(cloudArr));
       markDirty();
       updateProgressBadge();
+    } else if (localArr && localArr.length > 0) {
+      // No cloud data yet — offer to migrate local up
+      showSyncModal(localArr);
     }
-    // Only local (or neither) — already applied above, nothing more to do
+    // Both empty — nothing more to do
   }
 
   function sizeCanvas() {
@@ -1100,19 +1097,8 @@ body { display: flex; flex-direction: column; }
 
     document.getElementById('xsSyncUseLocal').addEventListener('click', () => {
       hideSyncModal();
-      // doneSet is already set from local; nothing more needed
-    });
-    document.getElementById('xsSyncUseCloud').addEventListener('click', () => {
-      if (_syncCloudArr) {
-        doneSet = new Set(_syncCloudArr);
-        localStorage.setItem(progressKey(), JSON.stringify(_syncCloudArr));
-        markDirty();
-        updateProgressBadge();
-      }
-      hideSyncModal();
     });
     document.getElementById('xsSyncPushCloud').addEventListener('click', () => {
-      // doneSet is already set from local — just upload it
       hideSyncModal();
       uploadProgress();
     });
