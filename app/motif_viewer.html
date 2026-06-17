@@ -1142,7 +1142,7 @@ body { display: flex; flex-direction: column; }
     document.getElementById('xsModeBtn').addEventListener('click', () => {
       const wasInMark = mode === 'mark';
       mode = (mode === 'select') ? 'pan' : 'select';
-      if (wasInMark) deactivateMarkMode();
+      if (wasInMark) { deactivateMarkMode(); uploadProgress(); }
       const btn = document.getElementById('xsModeBtn');
       btn.textContent = mode === 'select' ? 'Pan' : 'Select';
       btn.classList.toggle('active', mode === 'select');
@@ -1158,6 +1158,7 @@ body { display: flex; flex-direction: column; }
       if (mode === 'mark') {
         mode = 'pan';
         deactivateMarkMode();
+        uploadProgress();
       } else {
         mode = 'mark';
         // exit select if active, reset mode button
