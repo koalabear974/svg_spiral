@@ -388,6 +388,56 @@ body { display: flex; flex-direction: column; }
     return 'xs-progress-' + xm.name;
   }
 
+  let pillTimer = null;
+  function setPillState(state) {
+    const pill = document.getElementById('xsSyncPill');
+    pill.className = state || '';
+    if (state === 'saving') {
+      pill.textContent = '⟳ Saving…';
+    } else if (state === 'saved') {
+      pill.textContent = '✓ Saved';
+      if (pillTimer) clearTimeout(pillTimer);
+      pillTimer = setTimeout(() => setPillState(null), 3000);
+    } else if (state === 'failed') {
+      pill.textContent = '✗ Save failed';
+    } else {
+      pill.textContent = '';
+    }
+  }
+
+  async function uploadProgress() {
+    if (!xm || doneSet.size === 0) return;
+    setPillState('saving');
+    try {
+      const r = await fetch('/api/progress', {
+        method: 'PUT',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ name: xm.name, done: [...doneSet] }),
+      });
+      const data = await r.json();
+      if (!r.ok || data.error) throw new Error(data.error || r.status);
+      setPillState('saved');
+    } catch {
+      setPillState('failed');
+    }
+  }
+
+  let _syncLocalArr = null, _syncCloudArr = null;
+
+  function showSyncModal(localArr, cloudArr) {
+    _syncLocalArr = localArr;
+    _syncCloudArr = cloudArr;
+    document.getElementById('xsSyncModalCounts').textContent =
+      'Local: ' + localArr.length + ' stitches · Cloud: ' + cloudArr.length + ' stitches';
+    document.getElementById('xsSyncModal').classList.add('open');
+  }
+
+  function hideSyncModal() {
+    document.getElementById('xsSyncModal').classList.remove('open');
+    _syncLocalArr = null;
+    _syncCloudArr = null;
+  }
+
   function saveProgress() {
     if (saveTimer) clearTimeout(saveTimer);
     saveTimer = setTimeout(() => {
@@ -531,7 +581,7 @@ body { display: flex; flex-direction: column; }
     document.getElementById('xsColorModal').classList.remove('open');
   }
 
-  function loadMotif() {
+  async function loadMotif() {
     const raw = sessionStorage.getItem('xsViewerMotif');
     if (!raw) {
       document.getElementById('noMotif').classList.add('visible');
@@ -551,12 +601,43 @@ body { display: flex; flex-direction: column; }
     document.title = xm.name + ' — Cross-Stitch Viewer';
     document.getElementById('xsMotifName').textContent = xm.name;
     buildColorSymbols();
-    loadProgress();
+
+    // Read local immediately
+    const localRaw = localStorage.getItem(progressKey());
+    let localArr = null;
+    if (localRaw) {
+      try { localArr = JSON.parse(localRaw); } catch {}
+    }
+
+    // Start cloud fetch in parallel — don't block render
+    const cloudPromise = fetch('/api/progress?name=' + encodeURIComponent(xm.name))
+      .then(r => r.json())
+      .then(d => (Array.isArray(d.done) && d.done.length > 0 ? d.done : null))
+      .catch(() => null);
+
+    // Apply local immediately so canvas renders without waiting for network
+    doneSet = localArr && localArr.length > 0 ? new Set(localArr) : new Set();
+
     buildLegend();
     sizeCanvas();
     fit();
     markDirty();
     updateProgressBadge();
+
+    // Resolve cloud
+    const cloudArr = await cloudPromise;
+
+    if (localArr && localArr.length > 0 && cloudArr && cloudArr.length > 0) {
+      // Both exist — let user choose
+      showSyncModal(localArr, cloudArr);
+    } else if ((!localArr || localArr.length === 0) && cloudArr && cloudArr.length > 0) {
+      // Only cloud — adopt it
+      doneSet = new Set(cloudArr);
+      localStorage.setItem(progressKey(), JSON.stringify(cloudArr));
+      markDirty();
+      updateProgressBadge();
+    }
+    // Only local (or neither) — already applied above, nothing more to do
   }
 
   function sizeCanvas() {
@@ -1016,6 +1097,25 @@ body { display: flex; flex-direction: column; }
     canvas.addEventListener('touchstart', onTouchStart, { passive: false });
     canvas.addEventListener('touchmove', onTouchMove, { passive: false });
     canvas.addEventListener('touchend', onTouchEnd, { passive: false });
+
+    document.getElementById('xsSyncUseLocal').addEventListener('click', () => {
+      hideSyncModal();
+      // doneSet is already set from local; nothing more needed
+    });
+    document.getElementById('xsSyncUseCloud').addEventListener('click', () => {
+      if (_syncCloudArr) {
+        doneSet = new Set(_syncCloudArr);
+        localStorage.setItem(progressKey(), JSON.stringify(_syncCloudArr));
+        markDirty();
+        updateProgressBadge();
+      }
+      hideSyncModal();
+    });
+    document.getElementById('xsSyncPushCloud').addEventListener('click', () => {
+      // doneSet is already set from local — just upload it
+      hideSyncModal();
+      uploadProgress();
+    });
 
     document.getElementById('xsBackBtn').addEventListener('click', () => {
       if (history.length > 1) history.back();
