@@ -91,6 +91,38 @@ html, body { height: 100%; overflow: hidden; background: #fff; }
 
 body { display: flex; flex-direction: column; }
 
+/* ── Sync pill ────────────────────────────────────────── */
+#xsSyncPill {
+  font-size: 0.72rem; opacity: 0; transition: opacity 0.25s;
+  font-family: system-ui, sans-serif; padding: 2px 8px;
+  border-radius: 10px; white-space: nowrap; pointer-events: none;
+}
+#xsSyncPill.saving { opacity: 0.6; color: #f5f0e8; }
+#xsSyncPill.saved  { opacity: 1;   color: #7dd285; }
+#xsSyncPill.failed { opacity: 1;   color: #e07070; }
+
+/* ── Sync conflict modal ──────────────────────────────── */
+#xsSyncModal {
+  position: absolute; inset: 0; z-index: 60;
+  display: none; align-items: center; justify-content: center;
+  background: rgba(0,0,0,0.72);
+}
+#xsSyncModal.open { display: flex; }
+#xsSyncModalContent {
+  background: #2c1810; border-radius: 12px;
+  padding: 24px 28px; display: flex; flex-direction: column;
+  gap: 12px; max-width: 300px; width: 90%;
+  box-shadow: 0 12px 60px rgba(0,0,0,0.5);
+}
+#xsSyncModalTitle {
+  color: #f5f0e8; font-family: Georgia,serif; font-size: 0.95rem;
+  text-align: center; line-height: 1.4;
+}
+#xsSyncModalCounts {
+  color: rgba(245,240,232,0.55); font-size: 0.75rem;
+  text-align: center;
+}
+
 /* ── Color legend ─────────────────────────────────────── */
 #xsLegend {
   position: absolute; bottom: 16px; right: 16px;
@@ -263,6 +295,7 @@ body { display: flex; flex-direction: column; }
   <button class="xs-btn xs-btn-clear" id="xsClearBtn">Clear</button>
   <button class="xs-btn" id="xsSymBtn">Symbols</button>
   <button class="xs-btn" id="xsFitBtn">Fit</button>
+  <span id="xsSyncPill"></span>
   <button class="xs-btn" id="xsBackBtn">← Back</button>
 </div>
 <div id="xsMain">
@@ -279,6 +312,17 @@ body { display: flex; flex-direction: column; }
     </div>
   </div>
   <div id="xsColorPreview"><div id="xsColorSwatch"></div><div id="xsColorHex"></div></div>
+  <div id="xsSyncModal">
+    <div id="xsSyncModalContent">
+      <div id="xsSyncModalTitle">Progress found in two places</div>
+      <div id="xsSyncModalCounts"></div>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-top:4px">
+        <button class="xs-btn" id="xsSyncUseLocal">Use local</button>
+        <button class="xs-btn" id="xsSyncUseCloud">Use cloud</button>
+        <button class="xs-btn" id="xsSyncPushCloud">Push local → cloud</button>
+      </div>
+    </div>
+  </div>
   <div id="xsColorModal">
     <div id="xsColorModalSwatch"></div>
     <div id="xsColorModalHex"></div>
