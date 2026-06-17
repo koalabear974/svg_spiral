@@ -149,7 +149,7 @@ body { display: flex; flex-direction: column; }
   opacity: 0.55; cursor: pointer; padding: 2px 6px;
   border: 1px solid rgba(255,255,255,0.2); border-radius: 3px;
   background: transparent; color: #f5f0e8;
-  transition: opacity 0.1s, background 0.1s;
+  transition: opacity 0.1s, background 0.1s; touch-action: manipulation;
 }
 .xs-leg-toggle-all:hover { opacity: 1; background: rgba(255,255,255,0.1); }
 .xs-leg-kit-btn {
@@ -157,7 +157,7 @@ body { display: flex; flex-direction: column; }
   opacity: 0.55; cursor: pointer; padding: 2px 6px;
   border: 1px solid rgba(255,255,255,0.2); border-radius: 3px;
   background: transparent; color: #f5f0e8;
-  transition: opacity 0.1s, background 0.1s;
+  transition: opacity 0.1s, background 0.1s; touch-action: manipulation;
 }
 .xs-leg-kit-btn:hover { opacity: 1; background: rgba(255,255,255,0.1); }
 .xs-leg-dmc {
@@ -169,6 +169,7 @@ body { display: flex; flex-direction: column; }
   display: flex; align-items: center; gap: 9px;
   padding: 4px 5px; border-radius: 5px; cursor: pointer;
   transition: background 0.1s, opacity 0.15s; user-select: none;
+  touch-action: manipulation;
 }
 .xs-leg-item:hover { background: rgba(255,255,255,0.1); }
 .xs-leg-item.previewing { background: rgba(255,255,255,0.15); }
@@ -177,7 +178,7 @@ body { display: flex; flex-direction: column; }
 .xs-leg-swatch {
   width: 20px; height: 20px; border-radius: 4px; flex-shrink: 0;
   border: 1px solid rgba(255,255,255,0.2); position: relative;
-  cursor: pointer;
+  cursor: pointer; touch-action: manipulation;
 }
 .xs-leg-swatch:hover { border-color: rgba(255,255,255,0.5); }
 .xs-leg-vis {
@@ -187,6 +188,7 @@ body { display: flex; flex-direction: column; }
   font-size: 0.6rem; padding: 1px 5px; line-height: 1.5;
   font-family: system-ui, sans-serif; text-transform: uppercase;
   letter-spacing: 0.06em; transition: color 0.1s, background 0.1s;
+  touch-action: manipulation;
 }
 .xs-leg-vis:hover { color: rgba(245,240,232,0.9); background: rgba(255,255,255,0.08); }
 .xs-leg-item.hidden-color .xs-leg-vis { color: rgba(245,240,232,0.6); }
