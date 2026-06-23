@@ -130,6 +130,13 @@ let selectedColor3 = SPRAYBIKE_COLORS[0].value;
 let selectedLabel3 = SPRAYBIKE_COLORS[0].label;
 let selectedEffect = EFFECTS[0].value;
 let selectedEffectLabel = EFFECTS[0].label;
+
+// Marble tuning knobs
+let marbleScale    = 0.007;  // blob size: smaller = larger blobs
+let marbleCoverage = 0.52;   // 0=nothing, 1=fully covered
+let marbleRoughness = 0.65;  // persistence: higher = more fine detail
+let marbleSeed     = 42;
+
 let gui;
 
 function setup() {
@@ -160,6 +167,11 @@ function setup() {
     selectedLabel3 = val.label;
     redraw();
   });
+  gui.addHTML('marbleSep', '<hr style="opacity:.3;margin:4px 0">');
+  gui.addRange('Blob Size',    0.001, 0.025, marbleScale,     0.001, function(v) { marbleScale    = v; redraw(); });
+  gui.addRange('Coverage',     0.30,  0.75,  marbleCoverage,  0.01,  function(v) { marbleCoverage = v; redraw(); });
+  gui.addRange('Roughness',    0.30,  0.85,  marbleRoughness, 0.01,  function(v) { marbleRoughness= v; redraw(); });
+  gui.addRange('Seed',         0,     200,   marbleSeed,      1,     function(v) { marbleSeed     = v; redraw(); });
 
   // Sync dropdown visuals to match the JS defaults
   const idx1 = SPRAYBIKE_COLORS.indexOf(_def1);
@@ -198,38 +210,41 @@ function drawMarble(x, y, sq) {
   noStroke();
   rect(x, y, sq, sq);
 
-  noiseSeed(42);
+  // Fractal noise: high octave count + high persistence → stone/grunge texture
+  noiseDetail(8, marbleRoughness);
+  noiseSeed(marbleSeed);
 
   const c2 = color(selectedColor2);
   const r2 = red(c2), g2 = green(c2), b2 = blue(c2);
 
-  // Read the base pixels and write Color 2 into them at pixel level
   const imgData = drawingContext.getImageData(x, y, sq, sq);
   const d = imgData.data;
 
+  // Domain-warp the noise coords to break up any grid regularity
+  const wsc = marbleScale * 0.4;
+
   for (let py = 0; py < sq; py++) {
     for (let px = 0; px < sq; px++) {
-      // Coarse noise → large organic blob regions (low frequency)
-      const lo = noise(px * 0.004, py * 0.004);
-      // Fine noise → grain / speckle texture within blobs (high frequency, different Z slice)
-      const hi = noise(px * 0.065, py * 0.065, 10.0);
+      const wx = (noise(px * wsc + 500, py * wsc + 500) - 0.5) * 80;
+      const wy = (noise(px * wsc + 600, py * wsc + 600) - 0.5) * 80;
+      const n = noise((px + wx) * marbleScale, (py + wy) * marbleScale);
 
-      // hi is the texture; lo weights how dense that texture is in each region
-      const val = hi * (0.15 + lo * 0.85);
-
-      if (val > 0.36) {
-        const alpha = min(245, (val - 0.36) * 5.5 * 255);
+      if (n > marbleCoverage) {
+        // Sharp transition at threshold, full opacity quickly above it
+        const alpha = min(255, (n - marbleCoverage) * 10 * 255);
         const a = alpha / 255;
         const i = (py * sq + px) * 4;
         d[i]   = d[i]   * (1 - a) + r2 * a;
         d[i+1] = d[i+1] * (1 - a) + g2 * a;
         d[i+2] = d[i+2] * (1 - a) + b2 * a;
-        // alpha channel stays 255
       }
     }
   }
 
   drawingContext.putImageData(imgData, x, y);
+
+  // Reset noise detail to default so other effects aren't affected
+  noiseDetail(4, 0.5);
 }
 
 function draw() {
