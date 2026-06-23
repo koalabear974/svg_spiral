@@ -111,17 +111,19 @@ const EFFECTS = [
   { label: 'Gradient Left→Right', value: 'gradient-lr' },
   { label: 'Marble',              value: 'marble' },
   { label: 'Splatter',            value: 'splatter' },
+  { label: 'Splatter 2',          value: 'splatter2' },
 ];
 
 const EFFECTS2 = [
   { label: 'None',                value: 'none' },
   { label: 'Marble',              value: 'marble' },
   { label: 'Splatter',            value: 'splatter' },
+  { label: 'Splatter 2',          value: 'splatter2' },
   { label: 'Gradient Top→Bottom', value: 'gradient-tb' },
   { label: 'Gradient Left→Right', value: 'gradient-lr' },
 ];
 
-let splatterImg;
+let splatterImg, splatterImg2;
 
 const DEFAULT_COLOR1_LABEL = 'Fluro Yellow';
 const DEFAULT_COLOR2_LABEL = 'Redbridge (Crimson)';
@@ -132,7 +134,8 @@ const MARBLE_ROUGHNESS = 0.75;
 const MARBLE_SEED     = 160;
 
 function preload() {
-  splatterImg = loadImage('/assets/splatter-mask.jpg');
+  splatterImg  = loadImage('/assets/splatter-mask.jpg');
+  splatterImg2 = loadImage('/assets/splatter-mask-2.jpg');
 }
 
 function colorByLabel(label) {
@@ -215,16 +218,16 @@ function applyMarble(x, y, sq, hexColor) {
   noiseDetail(4, 0.5);
 }
 
-// Paint hexColor through the splatter mask (dark pixels = paint, white = transparent)
-function applySplatter(x, y, sq, hexColor) {
-  if (!splatterImg) return;
+// Paint hexColor through a splatter mask (dark pixels = paint, white = transparent)
+function applySplatter(x, y, sq, hexColor, img) {
+  if (!img) return;
 
   const c = color(hexColor);
   const r2 = red(c), g2 = green(c), b2 = blue(c);
 
-  splatterImg.loadPixels();
-  const iw = splatterImg.width;
-  const ih = splatterImg.height;
+  img.loadPixels();
+  const iw = img.width;
+  const ih = img.height;
 
   const imgData = drawingContext.getImageData(x, y, sq, sq);
   const d = imgData.data;
@@ -234,7 +237,7 @@ function applySplatter(x, y, sq, hexColor) {
       const mx = floor(px / sq * iw);
       const my = floor(py / sq * ih);
       const mi = (my * iw + mx) * 4;
-      const lum = (splatterImg.pixels[mi] + splatterImg.pixels[mi+1] + splatterImg.pixels[mi+2]) / 3;
+      const lum = (img.pixels[mi] + img.pixels[mi+1] + img.pixels[mi+2]) / 3;
       const maskVal = 1 - lum / 255; // 0=white(skip), 1=black(full paint)
 
       if (maskVal > 0.25) {
@@ -272,7 +275,10 @@ function drawSquare(x, y, sq) {
     applyMarble(x, y, sq, selectedColor2);
   } else if (selectedEffect === 'splatter') {
     fill(selectedColor1); rect(x, y, sq, sq);
-    applySplatter(x, y, sq, selectedColor2);
+    applySplatter(x, y, sq, selectedColor2, splatterImg);
+  } else if (selectedEffect === 'splatter2') {
+    fill(selectedColor1); rect(x, y, sq, sq);
+    applySplatter(x, y, sq, selectedColor2, splatterImg2);
   } else {
     applyGradient(x, y, sq, selectedColor1, selectedColor2, selectedEffect);
   }
@@ -281,7 +287,9 @@ function drawSquare(x, y, sq) {
   if (selectedEffect2 === 'marble') {
     applyMarble(x, y, sq, selectedColor3);
   } else if (selectedEffect2 === 'splatter') {
-    applySplatter(x, y, sq, selectedColor3);
+    applySplatter(x, y, sq, selectedColor3, splatterImg);
+  } else if (selectedEffect2 === 'splatter2') {
+    applySplatter(x, y, sq, selectedColor3, splatterImg2);
   } else if (selectedEffect2 === 'gradient-tb' || selectedEffect2 === 'gradient-lr') {
     drawingContext.globalAlpha = 0.75;
     applyGradient(x, y, sq, selectedColor2, selectedColor3, selectedEffect2);
