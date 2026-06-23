@@ -112,7 +112,7 @@ const EFFECTS = [
   { label: 'Marble',               value: 'marble' },
 ];
 
-const DEFAULT_COLOR1_LABEL = 'Fluro Green';
+const DEFAULT_COLOR1_LABEL = 'Fluro Yellow';
 const DEFAULT_COLOR2_LABEL = 'Redbridge (Crimson)';
 
 function colorByLabel(label) {
@@ -201,35 +201,35 @@ function drawMarble(x, y, sq) {
   noiseSeed(42);
 
   const c2 = color(selectedColor2);
-  const r = red(c2), g = green(c2), b = blue(c2);
+  const r2 = red(c2), g2 = green(c2), b2 = blue(c2);
 
-  // Three passes at different noise scales for multi-frequency texture
-  const passes = [
-    { sc: 0.014, warpAmt: 30, threshold: 0.52, step: 3 },
-    { sc: 0.028, warpAmt: 15, threshold: 0.54, step: 2 },
-    { sc: 0.055, warpAmt:  8, threshold: 0.56, step: 2 },
-  ];
+  // Read the base pixels and write Color 2 into them at pixel level
+  const imgData = drawingContext.getImageData(x, y, sq, sq);
+  const d = imgData.data;
 
-  for (let p = 0; p < passes.length; p++) {
-    const { sc, warpAmt, threshold, step } = passes[p];
-    const off = p * 200;
+  for (let py = 0; py < sq; py++) {
+    for (let px = 0; px < sq; px++) {
+      // Coarse noise → large organic blob regions (low frequency)
+      const lo = noise(px * 0.004, py * 0.004);
+      // Fine noise → grain / speckle texture within blobs (high frequency, different Z slice)
+      const hi = noise(px * 0.065, py * 0.065, 10.0);
 
-    for (let px = x; px < x + sq; px += step) {
-      for (let py = y; py < y + sq; py += step) {
-        // Domain warp: shift sample coordinates using a second noise field
-        const wx = (noise(px * sc * 2 + off, py * sc * 2 + off) - 0.5) * warpAmt;
-        const wy = (noise(px * sc * 2 + off + 100, py * sc * 2 + off + 100) - 0.5) * warpAmt;
-        const n = noise((px + wx) * sc, (py + wy) * sc);
+      // hi is the texture; lo weights how dense that texture is in each region
+      const val = hi * (0.15 + lo * 0.85);
 
-        if (n > threshold) {
-          const alpha = min(210, (n - threshold) * 7 * 255);
-          const sz = step * (0.9 + n * 1.4);
-          fill(r, g, b, alpha);
-          ellipse(px, py, sz, sz);
-        }
+      if (val > 0.36) {
+        const alpha = min(245, (val - 0.36) * 5.5 * 255);
+        const a = alpha / 255;
+        const i = (py * sq + px) * 4;
+        d[i]   = d[i]   * (1 - a) + r2 * a;
+        d[i+1] = d[i+1] * (1 - a) + g2 * a;
+        d[i+2] = d[i+2] * (1 - a) + b2 * a;
+        // alpha channel stays 255
       }
     }
   }
+
+  drawingContext.putImageData(imgData, x, y);
 }
 
 function draw() {
