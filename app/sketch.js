@@ -169,10 +169,10 @@ function setup() {
     redraw();
   });
   gui.addHTML('marbleSep', '<hr style="opacity:.3;margin:4px 0">');
-  gui.addRange('Blob Size',    0.001, 0.025, marbleScale,     0.001, function(v) { marbleScale    = v; redraw(); });
-  gui.addRange('Coverage',     0.30,  0.75,  marbleCoverage,  0.01,  function(v) { marbleCoverage = v; redraw(); });
-  gui.addRange('Roughness',    0.30,  0.85,  marbleRoughness, 0.01,  function(v) { marbleRoughness= v; redraw(); });
-  gui.addRange('Seed',         0,     200,   marbleSeed,      1,     function(v) { marbleSeed     = v; redraw(); });
+  gui.addRange('Blob Size',    0.001, 0.1,  marbleScale,     0.001, function(v) { marbleScale    = v; redraw(); });
+  gui.addRange('Coverage',     0.0,   0.95, marbleCoverage,  0.01,  function(v) { marbleCoverage = v; redraw(); });
+  gui.addRange('Roughness',    0.1,   0.99, marbleRoughness, 0.01,  function(v) { marbleRoughness= v; redraw(); });
+  gui.addRange('Seed',         0,     999,  marbleSeed,      1,     function(v) { marbleSeed     = v; redraw(); });
 
   // Sync dropdown visuals to match the JS defaults
   const idx1 = SPRAYBIKE_COLORS.indexOf(_def1);
