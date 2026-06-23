@@ -124,8 +124,8 @@ const EFFECTS2 = [
 ];
 
 let splatterImg, splatterImg2, logoImg;
-// Pre-rendered logo silhouettes at exact draw sizes — see setup() for size constants
-let logoWhiteBorder, logoBlackFill, logoBlackBorder, logoWhiteFill;
+// Pre-rendered logo silhouettes (fill only; border via canvas shadow for pixel-perfect alignment)
+let logoBlackFill, logoWhiteFill;
 let LOGO_W, LOGO_H, LOGO_BORDER_PX;
 
 const DEFAULT_COLOR1_LABEL  = 'Plumstead (Deep Purple)';
@@ -205,17 +205,14 @@ function setup() {
     selectedColor3 = val.value; selectedLabel3 = val.label; redraw();
   });
 
-  // Pre-render logo silhouettes at exact pixel sizes.
-  // LOGO_BORDER_PX is added equally to all four sides → uniform pixel-width border.
-  LOGO_BORDER_PX = 22;
+  // Pre-render logo silhouettes at the exact draw size.
+  // The border is painted at draw time via canvas shadow so it expands uniformly
+  // from the actual alpha boundary — no PNG-padding asymmetry.
+  LOGO_BORDER_PX = 18;
   LOGO_W = Math.round(700 * 0.55);                               // 385 px
   LOGO_H = Math.round(LOGO_W * logoImg.height / logoImg.width);  // ~289 px
-  const outerW = LOGO_W + LOGO_BORDER_PX * 2;
-  const outerH = LOGO_H + LOGO_BORDER_PX * 2;
-  logoWhiteBorder = makeLogoSilhouette(255, 255, 255, outerW, outerH);
-  logoBlackFill   = makeLogoSilhouette(0,   0,   0,   LOGO_W, LOGO_H);
-  logoBlackBorder = makeLogoSilhouette(0,   0,   0,   outerW, outerH);
-  logoWhiteFill   = makeLogoSilhouette(255, 255, 255, LOGO_W, LOGO_H);
+  logoBlackFill = makeLogoSilhouette(0,   0,   0,   LOGO_W, LOGO_H);
+  logoWhiteFill = makeLogoSilhouette(255, 255, 255, LOGO_W, LOGO_H);
 
   gui.addBoolean('Show Logo',   showLogo,   function(v) { showLogo   = v; redraw(); });
   gui.addBoolean('Invert Logo', invertLogo, function(v) { invertLogo = v; redraw(); });
@@ -351,21 +348,25 @@ function draw() {
 
   drawSquare(x, y, sq);
 
-  // Logo overlay — fake border by drawing two silhouettes at different sizes.
-  // Both are rendered at exact pixel dimensions in setup() — no scaling here.
-  if (showLogo && logoWhiteBorder) {
-    // Integer center coords to avoid sub-pixel drift
-    const cx   = Math.round(x + sq / 2);
-    const cy   = Math.round(y + sq / 2);
-    // Inner logo top-left corner
-    const lx   = cx - Math.round(LOGO_W / 2);
-    const ly   = cy - Math.round(LOGO_H / 2);
-    const [outer, inner] = invertLogo
-      ? [logoBlackBorder, logoWhiteFill]
-      : [logoWhiteBorder, logoBlackFill];
+  // Logo overlay — fake border via canvas shadow (uniform expansion from alpha boundary).
+  if (showLogo && logoBlackFill) {
+    const cx = Math.round(x + sq / 2);
+    const cy = Math.round(y + sq / 2);
+    const lx = cx - Math.round(LOGO_W / 2);
+    const ly = cy - Math.round(LOGO_H / 2);
+    const inner      = invertLogo ? logoWhiteFill : logoBlackFill;
+    const shadowCol  = invertLogo ? '#000000'     : '#ffffff';
+
     imageMode(CORNER);
-    image(outer, lx - LOGO_BORDER_PX, ly - LOGO_BORDER_PX);  // LOGO_BORDER_PX beyond inner on every side
-    image(inner, lx, ly);
+    // Shadow acts as the border: expands from the actual alpha edges of the logo
+    drawingContext.save();
+    drawingContext.shadowColor   = shadowCol;
+    drawingContext.shadowBlur    = LOGO_BORDER_PX;
+    drawingContext.shadowOffsetX = 0;
+    drawingContext.shadowOffsetY = 0;
+    image(inner, lx, ly);  // first pass — builds the shadow border
+    image(inner, lx, ly);  // second pass — denser border + draws logo on top of shadow
+    drawingContext.restore();
   }
 
   fill(255);
