@@ -354,19 +354,20 @@ function draw() {
     const cy = Math.round(y + sq / 2);
     const lx = cx - Math.round(LOGO_W / 2);
     const ly = cy - Math.round(LOGO_H / 2);
-    const inner      = invertLogo ? logoWhiteFill : logoBlackFill;
-    const shadowCol  = invertLogo ? '#000000'     : '#ffffff';
-
     imageMode(CORNER);
-    // Shadow acts as the border: expands from the actual alpha edges of the logo
-    drawingContext.save();
-    drawingContext.shadowColor   = shadowCol;
-    drawingContext.shadowBlur    = LOGO_BORDER_PX;
-    drawingContext.shadowOffsetX = 0;
-    drawingContext.shadowOffsetY = 0;
-    image(inner, lx, ly);  // first pass — builds the shadow border
-    image(inner, lx, ly);  // second pass — denser border + draws logo on top of shadow
-    drawingContext.restore();
+    // Hard border: stamp the border-color silhouette at 32 angles around a circle
+    // of radius LOGO_BORDER_PX, then draw the fill on top. The union of all 32
+    // shifted copies forms a sharp-edged outline with no blur.
+    const borderSil = invertLogo ? logoBlackFill : logoWhiteFill;
+    const fillSil   = invertLogo ? logoWhiteFill : logoBlackFill;
+    const N = 32;
+    for (let i = 0; i < N; i++) {
+      const ang = (i / N) * Math.PI * 2;
+      const dx  = Math.round(LOGO_BORDER_PX * Math.cos(ang));
+      const dy  = Math.round(LOGO_BORDER_PX * Math.sin(ang));
+      image(borderSil, lx + dx, ly + dy);
+    }
+    image(fillSil, lx, ly);
   }
 
   fill(255);
