@@ -105,12 +105,20 @@ const SPRAYBIKE_COLORS = [
   { label: "Awesome FX Cobweb White",          value: "#f0f0f0" },
 ];
 
+const EFFECTS = [
+  { label: 'Solid',                value: 'solid' },
+  { label: 'Gradient Top→Bottom',  value: 'gradient-tb' },
+  { label: 'Gradient Left→Right',  value: 'gradient-lr' },
+];
+
 let selectedColor1 = SPRAYBIKE_COLORS[0].value;
 let selectedLabel1 = SPRAYBIKE_COLORS[0].label;
 let selectedColor2 = SPRAYBIKE_COLORS[0].value;
 let selectedLabel2 = SPRAYBIKE_COLORS[0].label;
 let selectedColor3 = SPRAYBIKE_COLORS[0].value;
 let selectedLabel3 = SPRAYBIKE_COLORS[0].label;
+let selectedEffect = EFFECTS[0].value;
+let selectedEffectLabel = EFFECTS[0].label;
 let gui;
 
 function setup() {
@@ -121,6 +129,11 @@ function setup() {
   // Use QuickSettings directly — p5.gui.js's createGui() wrapper does not
   // expose addDropDown on the QSGui object, so we bypass it.
   gui = QuickSettings.create(20, 20, 'Bike Paint');
+  gui.addDropDown('Effect', EFFECTS, function(val) {
+    selectedEffect = val.value;
+    selectedEffectLabel = val.label;
+    redraw();
+  });
   gui.addDropDown('Color 1', SPRAYBIKE_COLORS, function(val) {
     selectedColor1 = val.value;
     selectedLabel1 = val.label;
@@ -138,6 +151,26 @@ function setup() {
   });
 }
 
+function drawSquare(x, y, sq) {
+  noStroke();
+  if (selectedEffect === 'solid') {
+    fill(selectedColor1);
+    rect(x, y, sq, sq);
+  } else {
+    // Use the Canvas 2D gradient API via drawingContext
+    let grad;
+    if (selectedEffect === 'gradient-tb') {
+      grad = drawingContext.createLinearGradient(x, y, x, y + sq);
+    } else {
+      grad = drawingContext.createLinearGradient(x, y, x + sq, y);
+    }
+    grad.addColorStop(0, selectedColor1);
+    grad.addColorStop(1, selectedColor2);
+    drawingContext.fillStyle = grad;
+    drawingContext.fillRect(x, y, sq, sq);
+  }
+}
+
 function draw() {
   background(30);
 
@@ -145,19 +178,14 @@ function draw() {
   const x = width / 2 - sq / 2;
   const y = height / 2 - sq / 2;
 
-  fill(selectedColor1);
-  noStroke();
-  rect(x, y, sq, sq);
+  drawSquare(x, y, sq);
 
   fill(255);
   noStroke();
   textAlign(CENTER, TOP);
   textSize(16);
-  text(selectedLabel1, width / 2, y + sq + 16);
+  text(selectedEffectLabel + ' — ' + selectedLabel1 + (selectedEffect !== 'solid' ? ' → ' + selectedLabel2 : ''), width / 2, y + sq + 16);
   fill(100);
   textSize(13);
-  text(selectedColor1, width / 2, y + sq + 36);
-
-  text('Color 2: ' + selectedLabel2 + '  ' + selectedColor2, width / 2, y + sq + 60);
-  text('Color 3: ' + selectedLabel3 + '  ' + selectedColor3, width / 2, y + sq + 80);
+  text(selectedColor1 + (selectedEffect !== 'solid' ? '  →  ' + selectedColor2 : ''), width / 2, y + sq + 36);
 }
