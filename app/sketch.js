@@ -124,6 +124,7 @@ const EFFECTS2 = [
 ];
 
 let splatterImg, splatterImg2, logoImg;
+let logoWhite, logoBlack; // pre-rendered silhouettes
 
 const DEFAULT_COLOR1_LABEL  = 'Plumstead (Deep Purple)';
 const DEFAULT_COLOR2_LABEL  = 'Royale (Deep Purple)';
@@ -158,8 +159,20 @@ let selectedColor3 = _def3.value;  let selectedLabel3 = _def3.label;
 let selectedEffect  = DEFAULT_EFFECT1;       let selectedEffectLabel  = DEFAULT_EFFECT1_LABEL;
 let selectedEffect2 = DEFAULT_EFFECT2;       let selectedEffect2Label = DEFAULT_EFFECT2_LABEL;
 let showLogo = false;
+let invertLogo = false;
 
 let gui;
+
+// Render logo image as a solid-colour silhouette using destination-in compositing
+function makeLogoSilhouette(r, g, b) {
+  const gfx = createGraphics(logoImg.width, logoImg.height);
+  gfx.pixelDensity(1);
+  gfx.background(r, g, b);
+  gfx.drawingContext.globalCompositeOperation = 'destination-in';
+  gfx.image(logoImg, 0, 0);
+  gfx.drawingContext.globalCompositeOperation = 'source-over';
+  return gfx;
+}
 
 function setup() {
   pixelDensity(1);
@@ -186,7 +199,12 @@ function setup() {
     selectedColor3 = val.value; selectedLabel3 = val.label; redraw();
   });
 
-  gui.addBoolean('Show Logo', showLogo, function(v) { showLogo = v; redraw(); });
+  // Pre-render white and black silhouettes of the logo
+  logoWhite = makeLogoSilhouette(255, 255, 255);
+  logoBlack = makeLogoSilhouette(0, 0, 0);
+
+  gui.addBoolean('Show Logo',   showLogo,   function(v) { showLogo   = v; redraw(); });
+  gui.addBoolean('Invert Logo', invertLogo, function(v) { invertLogo = v; redraw(); });
 
   // Sync dropdown visuals to JS defaults
   gui._controls['Color 1'].control.selectedIndex  = SPRAYBIKE_COLORS.indexOf(_def1);
@@ -319,12 +337,18 @@ function draw() {
 
   drawSquare(x, y, sq);
 
-  // Logo overlay — PNG already has transparency, draw on top of everything
-  if (showLogo && logoImg) {
-    const logoW = sq * 0.55;
-    const logoH = logoW * (logoImg.height / logoImg.width);
+  // Logo overlay — white at 110% (border), black at 100% (fill), or inverted
+  if (showLogo && logoWhite && logoBlack) {
+    const logoW  = sq * 0.55;
+    const logoH  = logoW * (logoImg.height / logoImg.width);
+    const outerW = logoW * 1.1;
+    const outerH = logoH * 1.1;
+    const [border, fill] = invertLogo
+      ? [logoBlack, logoWhite]
+      : [logoWhite, logoBlack];
     imageMode(CENTER);
-    image(logoImg, width / 2, height / 2, logoW, logoH);
+    image(border, width / 2, height / 2, outerW, outerH);
+    image(fill,   width / 2, height / 2, logoW,  logoH);
     imageMode(CORNER);
   }
 
