@@ -208,7 +208,7 @@ function setup() {
   // Pre-render logo silhouettes at the exact draw size.
   // The border is painted at draw time via canvas shadow so it expands uniformly
   // from the actual alpha boundary — no PNG-padding asymmetry.
-  LOGO_BORDER_PX = 18;
+  LOGO_BORDER_PX = 8;
   LOGO_W = Math.round(700 * 0.55);                               // 385 px
   LOGO_H = Math.round(LOGO_W * logoImg.height / logoImg.width);  // ~289 px
   logoBlackFill = makeLogoSilhouette(0,   0,   0,   LOGO_W, LOGO_H);
