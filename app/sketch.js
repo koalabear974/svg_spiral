@@ -124,7 +124,9 @@ const EFFECTS2 = [
 ];
 
 let splatterImg, splatterImg2, logoImg;
-let logoWhite, logoBlack; // pre-rendered silhouettes
+// Pre-rendered logo silhouettes at exact draw sizes — see setup() for size constants
+let logoWhiteBorder, logoBlackFill, logoBlackBorder, logoWhiteFill;
+let LOGO_W, LOGO_H, LOGO_BORDER_PX;
 
 const DEFAULT_COLOR1_LABEL  = 'Plumstead (Deep Purple)';
 const DEFAULT_COLOR2_LABEL  = 'Royale (Deep Purple)';
@@ -163,13 +165,17 @@ let invertLogo = false;
 
 let gui;
 
-// Render logo image as a solid-colour silhouette using destination-in compositing
-function makeLogoSilhouette(r, g, b) {
-  const gfx = createGraphics(logoImg.width, logoImg.height);
+// Render logo as a solid-colour silhouette at an exact pixel size.
+// Rendering at the target size avoids any scaling at draw time, giving pixel-perfect alignment.
+function makeLogoSilhouette(r, g, b, w, h) {
+  const gfx = createGraphics(w, h);
   gfx.pixelDensity(1);
-  gfx.background(r, g, b);
+  gfx.clear();
+  gfx.fill(r, g, b);
+  gfx.noStroke();
+  gfx.rect(0, 0, w, h);
   gfx.drawingContext.globalCompositeOperation = 'destination-in';
-  gfx.image(logoImg, 0, 0);
+  gfx.image(logoImg, 0, 0, w, h);
   gfx.drawingContext.globalCompositeOperation = 'source-over';
   return gfx;
 }
@@ -199,9 +205,17 @@ function setup() {
     selectedColor3 = val.value; selectedLabel3 = val.label; redraw();
   });
 
-  // Pre-render white and black silhouettes of the logo
-  logoWhite = makeLogoSilhouette(255, 255, 255);
-  logoBlack = makeLogoSilhouette(0, 0, 0);
+  // Pre-render logo silhouettes at exact pixel sizes.
+  // LOGO_BORDER_PX is added equally to all four sides → uniform pixel-width border.
+  LOGO_BORDER_PX = 22;
+  LOGO_W = Math.round(700 * 0.55);                               // 385 px
+  LOGO_H = Math.round(LOGO_W * logoImg.height / logoImg.width);  // ~289 px
+  const outerW = LOGO_W + LOGO_BORDER_PX * 2;
+  const outerH = LOGO_H + LOGO_BORDER_PX * 2;
+  logoWhiteBorder = makeLogoSilhouette(255, 255, 255, outerW, outerH);
+  logoBlackFill   = makeLogoSilhouette(0,   0,   0,   LOGO_W, LOGO_H);
+  logoBlackBorder = makeLogoSilhouette(0,   0,   0,   outerW, outerH);
+  logoWhiteFill   = makeLogoSilhouette(255, 255, 255, LOGO_W, LOGO_H);
 
   gui.addBoolean('Show Logo',   showLogo,   function(v) { showLogo   = v; redraw(); });
   gui.addBoolean('Invert Logo', invertLogo, function(v) { invertLogo = v; redraw(); });
@@ -337,21 +351,21 @@ function draw() {
 
   drawSquare(x, y, sq);
 
-  // Logo overlay — white at 110% (border), black at 100% (fill), or inverted
-  if (showLogo && logoWhite && logoBlack) {
-    const cx    = x + sq / 2;  // center of the square, not the full canvas
-    const cy    = y + sq / 2;
-    const logoW  = sq * 0.55;
-    const logoH  = logoW * (logoImg.height / logoImg.width);
-    const outerW = logoW * 1.25;
-    const outerH = logoH * 1.25;
-    const [border, fill] = invertLogo
-      ? [logoBlack, logoWhite]
-      : [logoWhite, logoBlack];
-    imageMode(CENTER);
-    image(border, cx, cy, outerW, outerH);
-    image(fill,   cx, cy, logoW,  logoH);
+  // Logo overlay — fake border by drawing two silhouettes at different sizes.
+  // Both are rendered at exact pixel dimensions in setup() — no scaling here.
+  if (showLogo && logoWhiteBorder) {
+    // Integer center coords to avoid sub-pixel drift
+    const cx   = Math.round(x + sq / 2);
+    const cy   = Math.round(y + sq / 2);
+    // Inner logo top-left corner
+    const lx   = cx - Math.round(LOGO_W / 2);
+    const ly   = cy - Math.round(LOGO_H / 2);
+    const [outer, inner] = invertLogo
+      ? [logoBlackBorder, logoWhiteFill]
+      : [logoWhiteBorder, logoBlackFill];
     imageMode(CORNER);
+    image(outer, lx - LOGO_BORDER_PX, ly - LOGO_BORDER_PX);  // LOGO_BORDER_PX beyond inner on every side
+    image(inner, lx, ly);
   }
 
   fill(255);
