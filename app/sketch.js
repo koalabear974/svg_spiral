@@ -105,8 +105,12 @@ const SPRAYBIKE_COLORS = [
   { label: "Awesome FX Cobweb White",          value: "#f0f0f0" },
 ];
 
-let selectedColor = SPRAYBIKE_COLORS[0].value;
-let selectedLabel = SPRAYBIKE_COLORS[0].label;
+let selectedColor1 = SPRAYBIKE_COLORS[0].value;
+let selectedLabel1 = SPRAYBIKE_COLORS[0].label;
+let selectedColor2 = SPRAYBIKE_COLORS[0].value;
+let selectedLabel2 = SPRAYBIKE_COLORS[0].label;
+let selectedColor3 = SPRAYBIKE_COLORS[0].value;
+let selectedLabel3 = SPRAYBIKE_COLORS[0].label;
 let gui;
 
 function setup() {
@@ -118,33 +122,42 @@ function setup() {
   // expose addDropDown on the QSGui object, so we bypass it.
   gui = QuickSettings.create(20, 20, 'Bike Paint');
   gui.addDropDown('Color 1', SPRAYBIKE_COLORS, function(val) {
-    selectedColor = val.value;
-    selectedLabel = val.label;
+    selectedColor1 = val.value;
+    selectedLabel1 = val.label;
     redraw();
   });
-
-  // Color 2 (effect layer) — uncomment when adding effects
-  // gui.addDropDown('Color 2', SPRAYBIKE_COLORS, function(val) { ... });
-
-  // Color 3 (effect layer) — uncomment when adding effects
-  // gui.addDropDown('Color 3', SPRAYBIKE_COLORS, function(val) { ... });
+  gui.addDropDown('Color 2', SPRAYBIKE_COLORS, function(val) {
+    selectedColor2 = val.value;
+    selectedLabel2 = val.label;
+    redraw();
+  });
+  gui.addDropDown('Color 3', SPRAYBIKE_COLORS, function(val) {
+    selectedColor3 = val.value;
+    selectedLabel3 = val.label;
+    redraw();
+  });
 }
 
 function draw() {
   background(30);
 
-  fill(selectedColor);
+  const sq = 700;
+  const x = width / 2 - sq / 2;
+  const y = height / 2 - sq / 2;
+
+  fill(selectedColor1);
   noStroke();
-  const sq = 500;
-  rect(width / 2 - sq / 2, height / 2 - sq / 2, sq, sq);
+  rect(x, y, sq, sq);
 
   fill(255);
   noStroke();
   textAlign(CENTER, TOP);
-  textSize(18);
-  text(selectedLabel, width / 2, height / 2 + sq / 2 + 20);
-
+  textSize(16);
+  text(selectedLabel1, width / 2, y + sq + 16);
   fill(100);
-  textSize(14);
-  text(selectedColor, width / 2, height / 2 + sq / 2 + 46);
+  textSize(13);
+  text(selectedColor1, width / 2, y + sq + 36);
+
+  text('Color 2: ' + selectedLabel2 + '  ' + selectedColor2, width / 2, y + sq + 60);
+  text('Color 3: ' + selectedLabel3 + '  ' + selectedColor3, width / 2, y + sq + 80);
 }
