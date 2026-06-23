@@ -109,6 +109,7 @@ const EFFECTS = [
   { label: 'Solid',                value: 'solid' },
   { label: 'Gradient Top→Bottom',  value: 'gradient-tb' },
   { label: 'Gradient Left→Right',  value: 'gradient-lr' },
+  { label: 'Marble',               value: 'marble' },
 ];
 
 let selectedColor1 = SPRAYBIKE_COLORS[0].value;
@@ -156,6 +157,8 @@ function drawSquare(x, y, sq) {
   if (selectedEffect === 'solid') {
     fill(selectedColor1);
     rect(x, y, sq, sq);
+  } else if (selectedEffect === 'marble') {
+    drawMarble(x, y, sq);
   } else {
     // Use the Canvas 2D gradient API via drawingContext
     let grad;
@@ -168,6 +171,46 @@ function drawSquare(x, y, sq) {
     grad.addColorStop(1, selectedColor2);
     drawingContext.fillStyle = grad;
     drawingContext.fillRect(x, y, sq, sq);
+  }
+}
+
+function drawMarble(x, y, sq) {
+  // Base coat
+  fill(selectedColor1);
+  noStroke();
+  rect(x, y, sq, sq);
+
+  noiseSeed(42);
+
+  const c2 = color(selectedColor2);
+  const r = red(c2), g = green(c2), b = blue(c2);
+
+  // Three passes at different noise scales for multi-frequency texture
+  const passes = [
+    { sc: 0.004, warpAmt: 90, threshold: 0.50, step: 5 },
+    { sc: 0.009, warpAmt: 40, threshold: 0.53, step: 4 },
+    { sc: 0.018, warpAmt: 20, threshold: 0.55, step: 3 },
+  ];
+
+  for (let p = 0; p < passes.length; p++) {
+    const { sc, warpAmt, threshold, step } = passes[p];
+    const off = p * 200;
+
+    for (let px = x; px < x + sq; px += step) {
+      for (let py = y; py < y + sq; py += step) {
+        // Domain warp: shift sample coordinates using a second noise field
+        const wx = (noise(px * sc * 2 + off, py * sc * 2 + off) - 0.5) * warpAmt;
+        const wy = (noise(px * sc * 2 + off + 100, py * sc * 2 + off + 100) - 0.5) * warpAmt;
+        const n = noise((px + wx) * sc, (py + wy) * sc);
+
+        if (n > threshold) {
+          const alpha = min(210, (n - threshold) * 7 * 255);
+          const sz = step * (0.9 + n * 1.4);
+          fill(r, g, b, alpha);
+          ellipse(px, py, sz, sz);
+        }
+      }
+    }
   }
 }
 
