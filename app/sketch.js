@@ -140,6 +140,7 @@ let marbleSeed     = 42;
 let gui;
 
 function setup() {
+  pixelDensity(1);
   createCanvas(800, 800);
   background(30);
   noLoop();
