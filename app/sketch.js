@@ -123,10 +123,15 @@ const EFFECTS2 = [
   { label: 'Gradient Left→Right', value: 'gradient-lr' },
 ];
 
-let splatterImg, splatterImg2;
+let splatterImg, splatterImg2, logoImg;
 
-const DEFAULT_COLOR1_LABEL = 'Fluro Yellow';
-const DEFAULT_COLOR2_LABEL = 'Redbridge (Crimson)';
+const DEFAULT_COLOR1_LABEL  = 'Plumstead (Deep Purple)';
+const DEFAULT_COLOR2_LABEL  = 'Royale (Deep Purple)';
+const DEFAULT_COLOR3_LABEL  = 'Blackfriars (Jet Black)';
+const DEFAULT_EFFECT1       = 'gradient-tb';
+const DEFAULT_EFFECT1_LABEL = 'Gradient Top→Bottom';
+const DEFAULT_EFFECT2       = 'splatter2';
+const DEFAULT_EFFECT2_LABEL = 'Splatter 2';
 
 const MARBLE_SCALE    = 0.038;
 const MARBLE_COVERAGE = 0.95;
@@ -136,6 +141,7 @@ const MARBLE_SEED     = 160;
 function preload() {
   splatterImg  = loadImage('/assets/splatter-mask.jpg');
   splatterImg2 = loadImage('/assets/splatter-mask-2.jpg');
+  logoImg      = loadImage('/assets/bike-logo.png');
 }
 
 function colorByLabel(label) {
@@ -144,12 +150,14 @@ function colorByLabel(label) {
 
 const _def1 = colorByLabel(DEFAULT_COLOR1_LABEL);
 const _def2 = colorByLabel(DEFAULT_COLOR2_LABEL);
+const _def3 = colorByLabel(DEFAULT_COLOR3_LABEL);
 
 let selectedColor1 = _def1.value;  let selectedLabel1 = _def1.label;
 let selectedColor2 = _def2.value;  let selectedLabel2 = _def2.label;
-let selectedColor3 = SPRAYBIKE_COLORS[0].value; let selectedLabel3 = SPRAYBIKE_COLORS[0].label;
-let selectedEffect  = 'solid';     let selectedEffectLabel  = 'Solid';
-let selectedEffect2 = 'none';      let selectedEffect2Label = 'None';
+let selectedColor3 = _def3.value;  let selectedLabel3 = _def3.label;
+let selectedEffect  = DEFAULT_EFFECT1;       let selectedEffectLabel  = DEFAULT_EFFECT1_LABEL;
+let selectedEffect2 = DEFAULT_EFFECT2;       let selectedEffect2Label = DEFAULT_EFFECT2_LABEL;
+let showLogo = false;
 
 let gui;
 
@@ -178,9 +186,14 @@ function setup() {
     selectedColor3 = val.value; selectedLabel3 = val.label; redraw();
   });
 
+  gui.addBoolean('Show Logo', showLogo, function(v) { showLogo = v; redraw(); });
+
   // Sync dropdown visuals to JS defaults
-  gui._controls['Color 1'].control.selectedIndex = SPRAYBIKE_COLORS.indexOf(_def1);
-  gui._controls['Color 2'].control.selectedIndex = SPRAYBIKE_COLORS.indexOf(_def2);
+  gui._controls['Color 1'].control.selectedIndex  = SPRAYBIKE_COLORS.indexOf(_def1);
+  gui._controls['Color 2'].control.selectedIndex  = SPRAYBIKE_COLORS.indexOf(_def2);
+  gui._controls['Color 3'].control.selectedIndex  = SPRAYBIKE_COLORS.indexOf(_def3);
+  gui._controls['Effect 1'].control.selectedIndex = EFFECTS.findIndex(e => e.value === DEFAULT_EFFECT1);
+  gui._controls['Effect 2'].control.selectedIndex = EFFECTS2.findIndex(e => e.value === DEFAULT_EFFECT2);
 
   redraw();
 }
@@ -305,6 +318,15 @@ function draw() {
   const y = height / 2 - sq / 2;
 
   drawSquare(x, y, sq);
+
+  // Logo overlay — PNG already has transparency, draw on top of everything
+  if (showLogo && logoImg) {
+    const logoW = sq * 0.55;
+    const logoH = logoW * (logoImg.height / logoImg.width);
+    imageMode(CENTER);
+    image(logoImg, width / 2, height / 2, logoW, logoH);
+    imageMode(CORNER);
+  }
 
   fill(255);
   noStroke();
