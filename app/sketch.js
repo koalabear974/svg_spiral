@@ -104,3 +104,47 @@ const SPRAYBIKE_COLORS = [
   { label: "Awesome FX Cobweb Silver",         value: "#909090" },
   { label: "Awesome FX Cobweb White",          value: "#f0f0f0" },
 ];
+
+let selectedColor = SPRAYBIKE_COLORS[0].value;
+let selectedLabel = SPRAYBIKE_COLORS[0].label;
+let gui;
+
+function setup() {
+  createCanvas(800, 800);
+  background(30);
+  noLoop();
+
+  // Use QuickSettings directly — p5.gui.js's createGui() wrapper does not
+  // expose addDropDown on the QSGui object, so we bypass it.
+  gui = QuickSettings.create(20, 20, 'Bike Paint');
+  gui.addDropDown('Color 1', SPRAYBIKE_COLORS, function(val) {
+    selectedColor = val.value;
+    selectedLabel = val.label;
+    redraw();
+  });
+
+  // Color 2 (effect layer) — uncomment when adding effects
+  // gui.addDropDown('Color 2', SPRAYBIKE_COLORS, function(val) { ... });
+
+  // Color 3 (effect layer) — uncomment when adding effects
+  // gui.addDropDown('Color 3', SPRAYBIKE_COLORS, function(val) { ... });
+}
+
+function draw() {
+  background(30);
+
+  fill(selectedColor);
+  noStroke();
+  const sq = 500;
+  rect(width / 2 - sq / 2, height / 2 - sq / 2, sq, sq);
+
+  fill(255);
+  noStroke();
+  textAlign(CENTER, TOP);
+  textSize(18);
+  text(selectedLabel, width / 2, height / 2 + sq / 2 + 20);
+
+  fill(100);
+  textSize(14);
+  text(selectedColor, width / 2, height / 2 + sq / 2 + 46);
+}
