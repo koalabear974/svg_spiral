@@ -112,10 +112,20 @@ const EFFECTS = [
   { label: 'Marble',               value: 'marble' },
 ];
 
-let selectedColor1 = SPRAYBIKE_COLORS[0].value;
-let selectedLabel1 = SPRAYBIKE_COLORS[0].label;
-let selectedColor2 = SPRAYBIKE_COLORS[0].value;
-let selectedLabel2 = SPRAYBIKE_COLORS[0].label;
+const DEFAULT_COLOR1_LABEL = 'Fluro Green';
+const DEFAULT_COLOR2_LABEL = 'Redbridge (Crimson)';
+
+function colorByLabel(label) {
+  return SPRAYBIKE_COLORS.find(c => c.label === label) || SPRAYBIKE_COLORS[0];
+}
+
+const _def1 = colorByLabel(DEFAULT_COLOR1_LABEL);
+const _def2 = colorByLabel(DEFAULT_COLOR2_LABEL);
+
+let selectedColor1 = _def1.value;
+let selectedLabel1 = _def1.label;
+let selectedColor2 = _def2.value;
+let selectedLabel2 = _def2.label;
 let selectedColor3 = SPRAYBIKE_COLORS[0].value;
 let selectedLabel3 = SPRAYBIKE_COLORS[0].label;
 let selectedEffect = EFFECTS[0].value;
@@ -150,6 +160,14 @@ function setup() {
     selectedLabel3 = val.label;
     redraw();
   });
+
+  // Sync dropdown visuals to match the JS defaults
+  const idx1 = SPRAYBIKE_COLORS.indexOf(_def1);
+  const idx2 = SPRAYBIKE_COLORS.indexOf(_def2);
+  gui._controls['Color 1'].control.selectedIndex = idx1;
+  gui._controls['Color 2'].control.selectedIndex = idx2;
+
+  redraw();
 }
 
 function drawSquare(x, y, sq) {
@@ -187,9 +205,9 @@ function drawMarble(x, y, sq) {
 
   // Three passes at different noise scales for multi-frequency texture
   const passes = [
-    { sc: 0.004, warpAmt: 90, threshold: 0.50, step: 5 },
-    { sc: 0.009, warpAmt: 40, threshold: 0.53, step: 4 },
-    { sc: 0.018, warpAmt: 20, threshold: 0.55, step: 3 },
+    { sc: 0.014, warpAmt: 30, threshold: 0.52, step: 3 },
+    { sc: 0.028, warpAmt: 15, threshold: 0.54, step: 2 },
+    { sc: 0.055, warpAmt:  8, threshold: 0.56, step: 2 },
   ];
 
   for (let p = 0; p < passes.length; p++) {
