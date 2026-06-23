@@ -339,7 +339,9 @@ function draw() {
 
   // Logo overlay — white at 110% (border), black at 100% (fill), or inverted
   if (showLogo && logoWhite && logoBlack) {
-    const logoW  = sq * 0.55;
+    const cx    = x + sq / 2;  // center of the square, not the full canvas
+    const cy    = y + sq / 2;
+    const logoW  = sq * 0.8;
     const logoH  = logoW * (logoImg.height / logoImg.width);
     const outerW = logoW * 1.1;
     const outerH = logoH * 1.1;
@@ -347,8 +349,8 @@ function draw() {
       ? [logoBlack, logoWhite]
       : [logoWhite, logoBlack];
     imageMode(CENTER);
-    image(border, width / 2, height / 2, outerW, outerH);
-    image(fill,   width / 2, height / 2, logoW,  logoH);
+    image(border, cx, cy, outerW, outerH);
+    image(fill,   cx, cy, logoW,  logoH);
     imageMode(CORNER);
   }
 
