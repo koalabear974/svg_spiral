@@ -341,10 +341,10 @@ function draw() {
   if (showLogo && logoWhite && logoBlack) {
     const cx    = x + sq / 2;  // center of the square, not the full canvas
     const cy    = y + sq / 2;
-    const logoW  = sq * 0.8;
+    const logoW  = sq * 0.55;
     const logoH  = logoW * (logoImg.height / logoImg.width);
-    const outerW = logoW * 1.1;
-    const outerH = logoH * 1.1;
+    const outerW = logoW * 1.25;
+    const outerH = logoH * 1.25;
     const [border, fill] = invertLogo
       ? [logoBlack, logoWhite]
       : [logoWhite, logoBlack];
