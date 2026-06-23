@@ -106,14 +106,26 @@ const SPRAYBIKE_COLORS = [
 ];
 
 const EFFECTS = [
-  { label: 'Solid',                value: 'solid' },
-  { label: 'Gradient Top→Bottom',  value: 'gradient-tb' },
-  { label: 'Gradient Left→Right',  value: 'gradient-lr' },
-  { label: 'Marble',               value: 'marble' },
+  { label: 'Solid',               value: 'solid' },
+  { label: 'Gradient Top→Bottom', value: 'gradient-tb' },
+  { label: 'Gradient Left→Right', value: 'gradient-lr' },
+  { label: 'Marble',              value: 'marble' },
+];
+
+const EFFECTS2 = [
+  { label: 'None',               value: 'none' },
+  { label: 'Marble',             value: 'marble' },
+  { label: 'Gradient Top→Bottom', value: 'gradient-tb' },
+  { label: 'Gradient Left→Right', value: 'gradient-lr' },
 ];
 
 const DEFAULT_COLOR1_LABEL = 'Fluro Yellow';
 const DEFAULT_COLOR2_LABEL = 'Redbridge (Crimson)';
+
+const MARBLE_SCALE    = 0.038;
+const MARBLE_COVERAGE = 0.95;
+const MARBLE_ROUGHNESS = 0.75;
+const MARBLE_SEED     = 160;
 
 function colorByLabel(label) {
   return SPRAYBIKE_COLORS.find(c => c.label === label) || SPRAYBIKE_COLORS[0];
@@ -122,20 +134,11 @@ function colorByLabel(label) {
 const _def1 = colorByLabel(DEFAULT_COLOR1_LABEL);
 const _def2 = colorByLabel(DEFAULT_COLOR2_LABEL);
 
-let selectedColor1 = _def1.value;
-let selectedLabel1 = _def1.label;
-let selectedColor2 = _def2.value;
-let selectedLabel2 = _def2.label;
-let selectedColor3 = SPRAYBIKE_COLORS[0].value;
-let selectedLabel3 = SPRAYBIKE_COLORS[0].label;
-let selectedEffect = EFFECTS[0].value;
-let selectedEffectLabel = EFFECTS[0].label;
-
-// Marble tuning knobs
-let marbleScale    = 0.007;  // blob size: smaller = larger blobs
-let marbleCoverage = 0.52;   // 0=nothing, 1=fully covered
-let marbleRoughness = 0.65;  // persistence: higher = more fine detail
-let marbleSeed     = 42;
+let selectedColor1 = _def1.value;  let selectedLabel1 = _def1.label;
+let selectedColor2 = _def2.value;  let selectedLabel2 = _def2.label;
+let selectedColor3 = SPRAYBIKE_COLORS[0].value; let selectedLabel3 = SPRAYBIKE_COLORS[0].label;
+let selectedEffect  = 'solid';     let selectedEffectLabel  = 'Solid';
+let selectedEffect2 = 'none';      let selectedEffect2Label = 'None';
 
 let gui;
 
@@ -148,91 +151,49 @@ function setup() {
   // Use QuickSettings directly — p5.gui.js's createGui() wrapper does not
   // expose addDropDown on the QSGui object, so we bypass it.
   gui = QuickSettings.create(20, 20, 'Bike Paint');
-  gui.addDropDown('Effect', EFFECTS, function(val) {
-    selectedEffect = val.value;
-    selectedEffectLabel = val.label;
-    redraw();
+  gui.addDropDown('Effect 1', EFFECTS, function(val) {
+    selectedEffect = val.value; selectedEffectLabel = val.label; redraw();
+  });
+  gui.addDropDown('Effect 2', EFFECTS2, function(val) {
+    selectedEffect2 = val.value; selectedEffect2Label = val.label; redraw();
   });
   gui.addDropDown('Color 1', SPRAYBIKE_COLORS, function(val) {
-    selectedColor1 = val.value;
-    selectedLabel1 = val.label;
-    redraw();
+    selectedColor1 = val.value; selectedLabel1 = val.label; redraw();
   });
   gui.addDropDown('Color 2', SPRAYBIKE_COLORS, function(val) {
-    selectedColor2 = val.value;
-    selectedLabel2 = val.label;
-    redraw();
+    selectedColor2 = val.value; selectedLabel2 = val.label; redraw();
   });
   gui.addDropDown('Color 3', SPRAYBIKE_COLORS, function(val) {
-    selectedColor3 = val.value;
-    selectedLabel3 = val.label;
-    redraw();
+    selectedColor3 = val.value; selectedLabel3 = val.label; redraw();
   });
-  gui.addHTML('marbleSep', '<hr style="opacity:.3;margin:4px 0">');
-  gui.addRange('Blob Size',    0.001, 0.1,  marbleScale,     0.001, function(v) { marbleScale    = v; redraw(); });
-  gui.addRange('Coverage',     0.0,   0.95, marbleCoverage,  0.01,  function(v) { marbleCoverage = v; redraw(); });
-  gui.addRange('Roughness',    0.1,   0.99, marbleRoughness, 0.01,  function(v) { marbleRoughness= v; redraw(); });
-  gui.addRange('Seed',         0,     999,  marbleSeed,      1,     function(v) { marbleSeed     = v; redraw(); });
 
-  // Sync dropdown visuals to match the JS defaults
-  const idx1 = SPRAYBIKE_COLORS.indexOf(_def1);
-  const idx2 = SPRAYBIKE_COLORS.indexOf(_def2);
-  gui._controls['Color 1'].control.selectedIndex = idx1;
-  gui._controls['Color 2'].control.selectedIndex = idx2;
+  // Sync dropdown visuals to JS defaults
+  gui._controls['Color 1'].control.selectedIndex = SPRAYBIKE_COLORS.indexOf(_def1);
+  gui._controls['Color 2'].control.selectedIndex = SPRAYBIKE_COLORS.indexOf(_def2);
 
   redraw();
 }
 
-function drawSquare(x, y, sq) {
-  noStroke();
-  if (selectedEffect === 'solid') {
-    fill(selectedColor1);
-    rect(x, y, sq, sq);
-  } else if (selectedEffect === 'marble') {
-    drawMarble(x, y, sq);
-  } else {
-    // Use the Canvas 2D gradient API via drawingContext
-    let grad;
-    if (selectedEffect === 'gradient-tb') {
-      grad = drawingContext.createLinearGradient(x, y, x, y + sq);
-    } else {
-      grad = drawingContext.createLinearGradient(x, y, x + sq, y);
-    }
-    grad.addColorStop(0, selectedColor1);
-    grad.addColorStop(1, selectedColor2);
-    drawingContext.fillStyle = grad;
-    drawingContext.fillRect(x, y, sq, sq);
-  }
-}
+// Apply marble texture over whatever is already on the canvas at (x,y,sq)
+function applyMarble(x, y, sq, hexColor) {
+  noiseDetail(8, MARBLE_ROUGHNESS);
+  noiseSeed(MARBLE_SEED);
 
-function drawMarble(x, y, sq) {
-  // Base coat
-  fill(selectedColor1);
-  noStroke();
-  rect(x, y, sq, sq);
-
-  // Fractal noise: high octave count + high persistence → stone/grunge texture
-  noiseDetail(8, marbleRoughness);
-  noiseSeed(marbleSeed);
-
-  const c2 = color(selectedColor2);
-  const r2 = red(c2), g2 = green(c2), b2 = blue(c2);
+  const c = color(hexColor);
+  const r2 = red(c), g2 = green(c), b2 = blue(c);
+  const wsc = MARBLE_SCALE * 0.4;
 
   const imgData = drawingContext.getImageData(x, y, sq, sq);
   const d = imgData.data;
-
-  // Domain-warp the noise coords to break up any grid regularity
-  const wsc = marbleScale * 0.4;
 
   for (let py = 0; py < sq; py++) {
     for (let px = 0; px < sq; px++) {
       const wx = (noise(px * wsc + 500, py * wsc + 500) - 0.5) * 80;
       const wy = (noise(px * wsc + 600, py * wsc + 600) - 0.5) * 80;
-      const n = noise((px + wx) * marbleScale, (py + wy) * marbleScale);
+      const n  = noise((px + wx) * MARBLE_SCALE, (py + wy) * MARBLE_SCALE);
 
-      if (n > marbleCoverage) {
-        // Sharp transition at threshold, full opacity quickly above it
-        const alpha = min(255, (n - marbleCoverage) * 10 * 255);
+      if (n > MARBLE_COVERAGE) {
+        const alpha = min(255, (n - MARBLE_COVERAGE) * 10 * 255);
         const a = alpha / 255;
         const i = (py * sq + px) * 4;
         d[i]   = d[i]   * (1 - a) + r2 * a;
@@ -243,9 +204,41 @@ function drawMarble(x, y, sq) {
   }
 
   drawingContext.putImageData(imgData, x, y);
-
-  // Reset noise detail to default so other effects aren't affected
   noiseDetail(4, 0.5);
+}
+
+function applyGradient(x, y, sq, hexA, hexB, direction) {
+  const grad = direction === 'gradient-tb'
+    ? drawingContext.createLinearGradient(x, y, x, y + sq)
+    : drawingContext.createLinearGradient(x, y, x + sq, y);
+  grad.addColorStop(0, hexA);
+  grad.addColorStop(1, hexB);
+  drawingContext.fillStyle = grad;
+  drawingContext.fillRect(x, y, sq, sq);
+}
+
+function drawSquare(x, y, sq) {
+  noStroke();
+
+  // — Effect 1 (base layer) —
+  if (selectedEffect === 'solid') {
+    fill(selectedColor1);
+    rect(x, y, sq, sq);
+  } else if (selectedEffect === 'marble') {
+    fill(selectedColor1); rect(x, y, sq, sq);
+    applyMarble(x, y, sq, selectedColor2);
+  } else {
+    applyGradient(x, y, sq, selectedColor1, selectedColor2, selectedEffect);
+  }
+
+  // — Effect 2 (overlay) —
+  if (selectedEffect2 === 'marble') {
+    applyMarble(x, y, sq, selectedColor3);
+  } else if (selectedEffect2 === 'gradient-tb' || selectedEffect2 === 'gradient-lr') {
+    drawingContext.globalAlpha = 0.75;
+    applyGradient(x, y, sq, selectedColor2, selectedColor3, selectedEffect2);
+    drawingContext.globalAlpha = 1.0;
+  }
 }
 
 function draw() {
@@ -260,9 +253,11 @@ function draw() {
   fill(255);
   noStroke();
   textAlign(CENTER, TOP);
-  textSize(16);
-  text(selectedEffectLabel + ' — ' + selectedLabel1 + (selectedEffect !== 'solid' ? ' → ' + selectedLabel2 : ''), width / 2, y + sq + 16);
+  textSize(14);
+  const e1 = selectedEffectLabel + ': ' + selectedLabel1 + (selectedEffect !== 'solid' ? ' → ' + selectedLabel2 : '');
+  const e2 = selectedEffect2 !== 'none' ? '  |  ' + selectedEffect2Label + ': ' + selectedLabel3 : '';
+  text(e1 + e2, width / 2, y + sq + 16);
   fill(100);
-  textSize(13);
-  text(selectedColor1 + (selectedEffect !== 'solid' ? '  →  ' + selectedColor2 : ''), width / 2, y + sq + 36);
+  textSize(12);
+  text(selectedColor1 + (selectedEffect !== 'solid' ? ' → ' + selectedColor2 : '') + (selectedEffect2 !== 'none' ? ' | ' + selectedColor3 : ''), width / 2, y + sq + 36);
 }
