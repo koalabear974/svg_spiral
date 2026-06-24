@@ -137,9 +137,30 @@ header p { margin-top: 4px; opacity: 0.6; font-size: 0.85rem; }
 .modal-construction { font-size: 0.78rem; line-height: 1.6; color: #5c4a3e; font-family: monospace; background: #f9f5ef; padding: 10px 12px; border-radius: 6px; }
 .modal-construction h4 { font-family: system-ui; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: #9a8a7e; margin-bottom: 6px; font-weight: 600; }
 
+/* ── Compact color chips */
+.color-chips { display: flex; flex-wrap: wrap; gap: 7px; }
+.remap-chip { display: inline-flex; align-items: center; gap: 3px; padding: 3px 5px; border-radius: 5px; cursor: pointer; border: 1px solid transparent; transition: border-color 0.12s; }
+.remap-chip:hover { border-color: #d4c8be; background: #fff; }
+.chip-swatch { width: 16px; height: 16px; border-radius: 3px; border: 1px solid rgba(0,0,0,0.12); flex-shrink: 0; }
+.chip-arrow { color: #b0a090; font-size: 0.7rem; }
+
+/* ── DMC closest panel */
+#mDmcPanel { margin-top: 10px; padding: 8px 10px; border-radius: 6px; background: #f0ece6; display: none; }
+#mDmcPanel.open { display: block; }
+#mDmcPanel h4 { font-family: system-ui; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: #9a8a7e; margin-bottom: 6px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+#mDmcSelected { width: 16px; height: 16px; border-radius: 3px; border: 1px solid rgba(0,0,0,0.15); display: inline-block; vertical-align: middle; }
+.mdmc-row { display: flex; align-items: center; gap: 7px; padding: 3px 4px; border-radius: 4px; }
+.mdmc-row.in-kit { background: rgba(80,160,90,0.12); }
+.mdmc-swatch { width: 16px; height: 16px; border-radius: 3px; border: 1px solid rgba(0,0,0,0.12); flex-shrink: 0; }
+.mdmc-id { font-family: monospace; font-size: 0.75rem; font-weight: 600; color: #3c2c20; min-width: 52px; }
+.mdmc-name { font-size: 0.7rem; color: #7a6a5e; flex: 1; }
+.mdmc-kit-badge { font-size: 0.63rem; color: #3a8a45; font-weight: 600; }
+
 /* ── Color remap rows */
-.color-remap-row { display: flex; align-items: center; gap: 7px; margin-bottom: 8px; position: relative; font-family: system-ui; }
-.remap-swatch { width: 18px; height: 18px; border-radius: 3px; border: 1px solid rgba(0,0,0,0.12); flex-shrink: 0; }
+#mRemapper { margin-top: 10px; display: none; }
+#mRemapper.open { display: block; }
+.color-remap-row { display: flex; align-items: center; gap: 7px; margin-bottom: 7px; position: relative; font-family: system-ui; }
+.remap-swatch { width: 16px; height: 16px; border-radius: 3px; border: 1px solid rgba(0,0,0,0.12); flex-shrink: 0; }
 .remap-mapped { transition: background 0.2s; }
 .remap-arrow { color: #b0a090; font-size: 0.8rem; flex-shrink: 0; }
 .remap-input-wrap { position: relative; flex: 1; min-width: 0; }
@@ -148,7 +169,7 @@ header p { margin-top: 4px; opacity: 0.6; font-size: 0.85rem; }
 .remap-dropdown { display: none; position: absolute; top: calc(100% + 3px); left: 0; right: 0; background: #fff; border: 1px solid #d4c8be; border-radius: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.12); z-index: 200; max-height: 190px; overflow-y: auto; }
 .remap-dropdown.open { display: block; }
 .remap-option { display: flex; align-items: center; gap: 7px; padding: 5px 8px; cursor: pointer; }
-.remap-option:hover, .remap-option.focused { background: #f5f0e8; }
+.remap-option:hover { background: #f5f0e8; }
 .remap-option.in-kit { background: rgba(80,160,90,0.08); }
 .remap-option.in-kit:hover { background: rgba(80,160,90,0.18); }
 .remap-opt-swatch { width: 14px; height: 14px; border-radius: 2px; border: 1px solid rgba(0,0,0,0.1); flex-shrink: 0; }
@@ -158,6 +179,9 @@ header p { margin-top: 4px; opacity: 0.6; font-size: 0.85rem; }
 .remap-clear { background: none; border: none; cursor: pointer; color: #b0a090; font-size: 1rem; padding: 0 2px; line-height: 1; flex-shrink: 0; display: none; }
 .remap-clear.visible { display: block; }
 .remap-clear:hover { color: #8b2020; }
+#mRemapBtn { font-size: 0.72rem; color: #9a8a7e; border: 1px solid #d4c8be; border-radius: 4px; padding: 3px 8px; background: transparent; cursor: pointer; white-space: nowrap; display: none; }
+#mRemapBtn:hover { background: #f0ece6; color: #3c2c20; }
+#mRemapBtn.active { background: #2c1810; color: #f5f0e8; border-color: #2c1810; }
 
 /* ── Kit config overlay */
 #mKitOverlay {
@@ -265,8 +289,14 @@ header p { margin-top: 4px; opacity: 0.6; font-size: 0.85rem; }
           <h4>Construction Notes</h4>
           <div id="mConstruct"></div>
         </div>
+        <div id="mDmcPanel">
+          <h4>Closest thread — <span id="mDmcSelected"></span></h4>
+          <div id="mDmcMatches"></div>
+        </div>
+        <div id="mRemapper"></div>
         <div class="mopen-row">
           <button id="mOpenViewer">Open in cross-stitch viewer</button>
+          <button id="mRemapBtn">Remap colors</button>
           <button id="mKitBtn">⚙ My kit</button>
           <span id="mKitStatus"></span>
         </div>
@@ -982,6 +1012,9 @@ function openModal(m) {
   document.getElementById('mMeta').textContent = `${m.tradition.replace('-',' ')} · ${m.gridW}×${m.gridH} cells · ${m.tradition === 'bosnian' ? '1 color' : '3 colors'}`;
   document.getElementById('mDesc').textContent = m.desc;
   document.getElementById('mConstruct').textContent = m.notes;
+  document.getElementById('mDmcPanel').classList.remove('open');
+  document.getElementById('mRemapper').classList.remove('open');
+  document.getElementById('mRemapBtn').style.display = 'none';
   refreshModalCanvas();
   window._activeModalMotif = { motif: m, isJson: false };
   document.getElementById('mOpenViewer').classList.add('visible');
@@ -989,18 +1022,63 @@ function openModal(m) {
 }
 
 let activeJsonMotif = null;
+let colorMappings = {};
+
+function loadColorMappings(name) {
+  try { return JSON.parse(localStorage.getItem(`xsColorMap_${name}`) || '{}'); } catch { return {}; }
+}
+function saveColorMappings(name, maps) {
+  localStorage.setItem(`xsColorMap_${name}`, JSON.stringify(maps));
+}
+
+function buildColorChips(m) {
+  const construct = document.getElementById('mConstruct');
+  construct.innerHTML = '';
+  const wrap = document.createElement('div');
+  wrap.className = 'color-chips';
+  m.colors.forEach((c, i) => {
+    const chip = document.createElement('span');
+    chip.className = 'remap-chip';
+    chip.title = 'Click to see closest DMC';
+    const orig = document.createElement('span');
+    orig.className = 'chip-swatch';
+    orig.style.background = c.hexValue;
+    chip.appendChild(orig);
+    if (colorMappings[i]) {
+      const arrow = document.createElement('span');
+      arrow.className = 'chip-arrow';
+      arrow.textContent = '→';
+      const mapped = document.createElement('span');
+      mapped.className = 'chip-swatch';
+      mapped.style.background = colorMappings[i].hex;
+      mapped.title = `DMC ${colorMappings[i].id}`;
+      chip.appendChild(arrow);
+      chip.appendChild(mapped);
+    }
+    chip.addEventListener('click', () => showDmcPanel(c.hexValue));
+    wrap.appendChild(chip);
+  });
+  construct.appendChild(wrap);
+}
 
 function openJsonModal(m) {
   activeJsonMotif = m;
   activeMotif = null;
-  colorOverrides = {};
+  colorMappings = loadColorMappings(m.name);
+  colorOverrides = Object.fromEntries(Object.entries(colorMappings).map(([i, v]) => [i, v.hex]));
   document.getElementById('mTitle').textContent = m.name.replace(/_/g, ' ');
   document.getElementById('mTitleEn').textContent = `${m.stitchWidth}×${m.stitchHeight} cells · cell ${m.cellSizePx}px · ${m.colors.length} colors`;
   document.getElementById('mMeta').textContent = 'generated · image_to_motif.py';
   document.getElementById('mDesc').textContent = `Source: ${m.source}`;
-  const construct = document.getElementById('mConstruct');
-  construct.innerHTML = '';
-  m.colors.forEach((c, i) => construct.appendChild(buildDmcAutocomplete(i, c.hexValue)));
+  buildColorChips(m);
+  document.getElementById('mDmcPanel').classList.remove('open');
+  const remapper = document.getElementById('mRemapper');
+  remapper.innerHTML = '';
+  remapper.classList.remove('open');
+  const remapBtn = document.getElementById('mRemapBtn');
+  remapBtn.style.display = '';
+  remapBtn.textContent = 'Remap colors';
+  remapBtn.classList.remove('active');
   refreshModalCanvas();
   window._activeModalMotif = { motif: m, isJson: true };
   document.getElementById('mOpenViewer').classList.add('visible');
@@ -1012,7 +1090,9 @@ function closeModal() {
   activeMotif = null;
   activeJsonMotif = null;
   colorOverrides = {};
+  colorMappings = {};
   document.getElementById('mOpenViewer').classList.remove('visible');
+  document.getElementById('mRemapBtn').style.display = 'none';
   window._activeModalMotif = null;
 }
 
@@ -1159,13 +1239,32 @@ document.getElementById('mOpenViewer').addEventListener('click', () => {
 </script>
 
 <script>
+// ─── DMC CLOSEST PANEL ───────────────────────────────────────────────────────
+function showDmcPanel(hex) {
+  const kit = getKitSet();
+  const matches = findClosestDMC(hex, 12);
+  const sel = document.getElementById('mDmcSelected');
+  sel.style.background = hex;
+  sel.title = hex;
+  document.getElementById('mDmcMatches').innerHTML = matches.map(m => {
+    const inKit = kit.size > 0 && kit.has(m.id.toUpperCase());
+    return `<div class="mdmc-row${inKit ? ' in-kit' : ''}">
+      <div class="mdmc-swatch" style="background:${m.hex}"></div>
+      <div class="mdmc-id">DMC ${m.id}</div>
+      <div class="mdmc-name">${m.name}</div>
+      ${inKit ? '<div class="mdmc-kit-badge">✓ have it</div>' : ''}
+    </div>`;
+  }).join('');
+  document.getElementById('mDmcPanel').classList.add('open');
+}
+
 // ─── DMC COLOR REMAPPER ───────────────────────────────────────────────────────
 function buildDmcAutocomplete(colorIndex, originalHex) {
   const row = document.createElement('div');
   row.className = 'color-remap-row';
 
   const origSwatch = document.createElement('span');
-  origSwatch.className = 'remap-swatch remap-orig';
+  origSwatch.className = 'remap-swatch';
   origSwatch.style.background = originalHex;
   origSwatch.title = originalHex;
 
@@ -1187,6 +1286,21 @@ function buildDmcAutocomplete(colorIndex, originalHex) {
   input.placeholder = 'DMC number or name…';
   input.autocomplete = 'off';
   input.spellcheck = false;
+
+  const clearBtn = document.createElement('button');
+  clearBtn.className = 'remap-clear';
+  clearBtn.textContent = '×';
+  clearBtn.title = 'Reset to original';
+
+  // Pre-fill if already mapped
+  if (colorMappings[colorIndex]) {
+    const saved = colorMappings[colorIndex];
+    input.value = `DMC ${saved.id} — ${saved.name}`;
+    mappedSwatch.style.background = saved.hex;
+    mappedSwatch.style.opacity = '1';
+    mappedSwatch.title = `DMC ${saved.id} — ${saved.name}`;
+    clearBtn.classList.add('visible');
+  }
 
   const dropdown = document.createElement('div');
   dropdown.className = 'remap-dropdown';
@@ -1219,7 +1333,9 @@ function buildDmcAutocomplete(colorIndex, originalHex) {
   }
 
   function selectOption(hex, id, name) {
+    colorMappings[colorIndex] = { hex, id, name };
     colorOverrides[colorIndex] = hex;
+    saveColorMappings(activeJsonMotif.name, colorMappings);
     mappedSwatch.style.background = hex;
     mappedSwatch.style.opacity = '1';
     mappedSwatch.title = `DMC ${id} — ${name}`;
@@ -1232,19 +1348,16 @@ function buildDmcAutocomplete(colorIndex, originalHex) {
   input.addEventListener('focus', () => showOptions(input.value));
   input.addEventListener('input', () => showOptions(input.value));
   input.addEventListener('blur', () => setTimeout(() => dropdown.classList.remove('open'), 150));
-
   dropdown.addEventListener('mousedown', e => {
     const opt = e.target.closest('.remap-option');
     if (!opt) return;
     selectOption(opt.dataset.hex, opt.dataset.id, opt.dataset.name);
   });
 
-  const clearBtn = document.createElement('button');
-  clearBtn.className = 'remap-clear';
-  clearBtn.textContent = '×';
-  clearBtn.title = 'Reset to original';
   clearBtn.addEventListener('click', () => {
+    delete colorMappings[colorIndex];
     delete colorOverrides[colorIndex];
+    saveColorMappings(activeJsonMotif.name, colorMappings);
     mappedSwatch.style.background = originalHex;
     mappedSwatch.style.opacity = '0.25';
     mappedSwatch.title = '';
@@ -1262,6 +1375,26 @@ function buildDmcAutocomplete(colorIndex, originalHex) {
   row.appendChild(clearBtn);
   return row;
 }
+
+document.getElementById('mRemapBtn').addEventListener('click', () => {
+  const remapper = document.getElementById('mRemapper');
+  const btn = document.getElementById('mRemapBtn');
+  const isOpen = remapper.classList.contains('open');
+  if (isOpen) {
+    remapper.classList.remove('open');
+    remapper.innerHTML = '';
+    btn.textContent = 'Remap colors';
+    btn.classList.remove('active');
+    buildColorChips(activeJsonMotif);
+  } else {
+    document.getElementById('mDmcPanel').classList.remove('open');
+    remapper.innerHTML = '';
+    activeJsonMotif.colors.forEach((c, i) => remapper.appendChild(buildDmcAutocomplete(i, c.hexValue)));
+    remapper.classList.add('open');
+    btn.textContent = 'Close remap';
+    btn.classList.add('active');
+  }
+});
 
 function updateKitStatus() {
   const kit = getKitSet();
