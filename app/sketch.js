@@ -163,7 +163,7 @@ let selectedEffect2 = DEFAULT_EFFECT2;       let selectedEffect2Label = DEFAULT_
 let showLogo = false;
 let invertLogo = false;
 
-let gui;
+var gui;
 
 // Render logo as a solid-colour silhouette at an exact pixel size.
 // Rendering at the target size avoids any scaling at draw time, giving pixel-perfect alignment.
