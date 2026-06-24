@@ -13,3 +13,4 @@ package-lock.json
 motif_books
 motif_wikimedia
 saves/save_*/
+!saves/save_*.js

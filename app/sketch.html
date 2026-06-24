@@ -62,13 +62,24 @@
 <script src="motifs/motifs.js" onerror="void 0"></script>
 <script src="sketch.js"></script>
 <script>
-// Load a specific save AFTER sketch.js so it overrides setup/draw.
-// document.write during parse = synchronous; save executes before p5's window.load fires.
-(function(){
+(function() {
   const s = new URLSearchParams(location.search).get('s');
-  if (s && /^saves\/[\w.\- ]+\.js$/.test(s)) {
-    document.write('\x3Cscript src="/' + s + '">\x3C\/script>');
-  }
+  if (!s || !/^saves\/[\w.\- ]+\.js$/.test(s)) return;
+  // Null out sketch.js's setup/draw so p5 won't auto-init on window.load.
+  // We'll create the p5 instance manually once the save file is loaded.
+  const origSetup = window.setup;
+  const origDraw = window.draw;
+  window.setup = null;
+  window.draw = null;
+  const script = document.createElement('script');
+  script.src = '/' + s;
+  script.onload = function() { new p5(); };
+  script.onerror = function() {
+    window.setup = origSetup;
+    window.draw = origDraw;
+    new p5();
+  };
+  document.head.appendChild(script);
 })();
 </script>
 <!--<script src="saves/save_20230713_0805_voronoi_plane.js"></script>-->
