@@ -44,17 +44,6 @@
     }
   </style>
 <script src="/sidebar.js"></script>
-<script>
-// Load a specific save if ?s=saves/filename.js is in the URL
-(function(){
-  const s = new URLSearchParams(location.search).get('s');
-  if (s && /^saves\/[\w.\- ]+\.js$/.test(s)) {
-    const el = document.createElement('script');
-    el.src = '/' + s;
-    document.head.appendChild(el);
-  }
-})();
-</script>
 </head>
 <body>
 <main>
@@ -71,7 +60,17 @@
 <!--<script src="data.js"></script>-->
 <script>window.IMPORTED_MOTIFS = [];</script>
 <script src="motifs/motifs.js" onerror="void 0"></script>
- <script src="sketch.js"></script>
+<script src="sketch.js"></script>
+<script>
+// Load a specific save AFTER sketch.js so it overrides setup/draw.
+// document.write during parse = synchronous; save executes before p5's window.load fires.
+(function(){
+  const s = new URLSearchParams(location.search).get('s');
+  if (s && /^saves\/[\w.\- ]+\.js$/.test(s)) {
+    document.write('\x3Cscript src="/' + s + '">\x3C\/script>');
+  }
+})();
+</script>
 <!--<script src="saves/save_20230713_0805_voronoi_plane.js"></script>-->
  <!-- <script src="saves/save_20240509_1417_coil_path.js"></script> -->
 <!-- <script src="saves/save_20231110_1055_perlin_donut_a1.js"></script>-->
