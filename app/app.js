@@ -79,6 +79,8 @@ app.get('/api/motifs', async (_req, res) => {
   res.json({ motifs: [...localMotifs, ...blobMotifs] });
 });
 
+app.all('/api/progress', require('./api/progress'));
+
 app.get('/api/blob-motifs', async (_req, res) => {
   const motifs = [];
   try {

@@ -233,6 +233,16 @@ header p { margin-top: 4px; opacity: 0.6; font-size: 0.85rem; }
   #mOpenViewer { display: none; width: 100%; text-align: center; }
   #mOpenViewer.visible { display: block; }
 }
+
+/* "Save offline" modal button */
+#mSaveOfflineBtn {
+  font-size: 0.72rem; color: #9a8a7e; border: 1px solid #d4c8be; border-radius: 4px;
+  padding: 3px 8px; background: transparent; cursor: pointer; white-space: nowrap;
+  display: none;
+}
+#mSaveOfflineBtn.visible { display: inline-block; }
+#mSaveOfflineBtn:hover { background: #f0ece6; color: #3c2c20; }
+#mSaveOfflineBtn.saved { color: #3a8a45; border-color: #3a8a45; }
 </style>
 </head>
 <body>
@@ -306,6 +316,7 @@ header p { margin-top: 4px; opacity: 0.6; font-size: 0.85rem; }
         <div id="mRemapper"></div>
         <div class="mopen-row">
           <button id="mOpenViewer">Open in cross-stitch viewer</button>
+          <button id="mSaveOfflineBtn">⬇ Save offline</button>
           <button id="mRemapBtn">Remap colors</button>
           <button id="mKitBtn">⚙ My kit</button>
           <span id="mKitStatus"></span>
@@ -330,6 +341,54 @@ header p { margin-top: 4px; opacity: 0.6; font-size: 0.85rem; }
 <script>window.IMPORTED_MOTIFS = [];</script>
 <script src="motifs/motifs.js" onerror="void 0"></script>
 <script src="dmc-palette.js"></script>
+
+<script>
+// ─── SAVE OFFLINE (cache motif JSON + mark progress in localStorage) ────────
+// Defined ahead of the main script block below since renderCachedCards()
+// (called during that block's synchronous init) depends on getMotifCache().
+function getMotifCache() {
+  try { return JSON.parse(localStorage.getItem('xsMotifCache') || '{}'); } catch { return {}; }
+}
+function setCachedMotif(m) {
+  const cache = getMotifCache();
+  cache[m._file || m.name] = m;
+  localStorage.setItem('xsMotifCache', JSON.stringify(cache));
+}
+
+function resetSaveOfflineBtn() {
+  const btn = document.getElementById('mSaveOfflineBtn');
+  btn.classList.add('visible');
+  btn.classList.remove('saved');
+  btn.textContent = '⬇ Save offline';
+}
+
+async function saveOfflineCopy() {
+  const active = window._activeModalMotif;
+  if (!active) return;
+  const btn = document.getElementById('mSaveOfflineBtn');
+  const name = active.isJson ? active.motif.name.replace(/_/g, ' ') : active.motif.name;
+
+  // Motif data only needs caching when it was fetched from Vercel Blob —
+  // local/built-in motifs are already baked into the page.
+  if (active.isJson && active.motif._source === 'blob') setCachedMotif(active.motif);
+
+  try {
+    const r = await fetch('/api/progress?name=' + encodeURIComponent(name));
+    const data = await r.json();
+    if (Array.isArray(data.done) && data.done.length > 0) {
+      localStorage.setItem('xs-progress-' + name, JSON.stringify(data.done));
+    }
+  } catch {}
+
+  btn.textContent = '✓ Saved offline';
+  btn.classList.add('saved');
+  setTimeout(() => {
+    if (btn.classList.contains('visible')) resetSaveOfflineBtn();
+  }, 1800);
+}
+document.getElementById('mSaveOfflineBtn').addEventListener('click', saveOfflineCopy);
+</script>
+
 <script>
 // ─── PALETTES ────────────────────────────────────────────────────────────────
 // Index 0=bg, 1=primary, 2=secondary, 3=accent
@@ -1028,6 +1087,7 @@ function openModal(m) {
   refreshModalCanvas();
   window._activeModalMotif = { motif: m, isJson: false };
   document.getElementById('mOpenViewer').classList.add('visible');
+  resetSaveOfflineBtn();
   modalBg.classList.add('open');
 }
 
@@ -1092,6 +1152,7 @@ function openJsonModal(m) {
   refreshModalCanvas();
   window._activeModalMotif = { motif: m, isJson: true };
   document.getElementById('mOpenViewer').classList.add('visible');
+  resetSaveOfflineBtn();
   modalBg.classList.add('open');
 }
 
@@ -1102,6 +1163,7 @@ function closeModal() {
   colorOverrides = {};
   colorMappings = {};
   document.getElementById('mOpenViewer').classList.remove('visible');
+  document.getElementById('mSaveOfflineBtn').classList.remove('visible');
   document.getElementById('mRemapBtn').style.display = 'none';
   window._activeModalMotif = null;
 }
@@ -1148,8 +1210,50 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal()
   });
 })();
 
+// ─── OFFLINE-CACHED CARDS (from "Save offline", so blob motifs stay browsable
+// without hitting /api/blob-motifs) ──────────────────────────────────────────
+function renderCachedCards() {
+  const cache = getMotifCache();
+  const files = Object.keys(cache);
+  if (!files.length) return;
+  const frag = document.createDocumentFragment();
+  for (const file of files) {
+    const m = cache[file];
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.dataset.tradition = 'generated';
+    card.dataset.cacheFile = file;
+    card._jsonMotif = m;
+
+    const wrap = document.createElement('div');
+    wrap.className = 'card-canvas-wrap';
+    const canvas = document.createElement('canvas');
+    renderJsonMotif(canvas, m, cellPxForJsonCard(m));
+    wrap.appendChild(canvas);
+
+    const info = document.createElement('div');
+    info.className = 'card-info';
+    const colorDots = m.colors.map(c =>
+      `<span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${c.hexValue};margin-right:2px;border:1px solid #ccc"></span>`
+    ).join('');
+    info.innerHTML = `
+      <div class="card-name">${(m.name || '').replace(/_/g,' ')}</div>
+      <div class="card-name-en">${m.stitchWidth}×${m.stitchHeight} cells · ${(m.colors||[]).length} colors</div>
+      <span class="badge t-generated">offline copy</span>
+      <div style="margin-top:6px">${colorDots}</div>
+    `;
+
+    card.appendChild(wrap);
+    card.appendChild(info);
+    card.addEventListener('click', () => openJsonModal(m));
+    frag.appendChild(card);
+  }
+  grid.insertBefore(frag, grid.firstChild);
+}
+
 // ─── INIT ────────────────────────────────────────────────────────────────────
 buildCards();
+renderCachedCards();
 loadBlobMotifs();
 
 async function loadBlobMotifs() {
@@ -1165,6 +1269,11 @@ async function loadBlobMotifs() {
   // Prepend blob motif cards (newest first) before the existing grid content
   const frag = document.createDocumentFragment();
   for (const m of [...blobMotifs].reverse()) {
+    // A live copy arrived — drop the offline-cached stand-in for it.
+    if (m._file) {
+      const dup = grid.querySelector(`.card[data-cache-file="${CSS.escape(m._file)}"]`);
+      if (dup) dup.remove();
+    }
     const card = document.createElement('div');
     card.className = 'card';
     card.dataset.tradition = 'generated';
