@@ -33,7 +33,7 @@ Express server on port 8765. Key responsibilities:
 | Sketch | `sketch.html` + `sketch.js` | p5.js generative art canvas; press Space to redraw, S to save SVG |
 | Motif Browser | `motif_browser.html` | Grid catalog of all saved motifs with filter/palette controls |
 | Motif Studio | `motif_studio.html` | Image-to-cross-stitch converter: load image → pixel grid → extract motif → save |
-| Cross-Stitch Viewer | `motif_viewer.html` | Interactive viewer with rulers, pinch-zoom, pan, color-toggle legend |
+| Cross-Stitch Viewer | `motif_viewer.html` | Interactive viewer with rulers, pinch-zoom, pan, color-toggle legend, and Print/PDF export (tiled multi-page chart — colored-symbol and/or color-blocks-plus-symbols styles, adjustable mm-per-square, cover page with full color+symbol preview, thread list) |
 
 ### Motif Data Format
 Motifs are JSON objects saved to `app/motifs/<name>.json` (local) or Vercel Blob at `motifs/<name>.json`. `app/motifs/motifs.js` is an auto-generated manifest (`window.IMPORTED_MOTIFS`) rebuilt on every local save/delete.

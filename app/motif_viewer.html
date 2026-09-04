@@ -272,6 +272,61 @@ body { display: flex; flex-direction: column; }
 @media (max-width: 400px) {
   #xsZoomPct { display: none; }
 }
+
+/* ── Print / PDF export modal ─────────────────────────── */
+#xsPrintModal {
+  position: absolute; inset: 0; z-index: 70;
+  display: none; align-items: center; justify-content: center;
+  background: rgba(0,0,0,0.72);
+}
+#xsPrintModal.open { display: flex; }
+#xsPrintPanel {
+  background: #2c1810; color: #f5f0e8; border-radius: 12px;
+  width: min(440px, 92vw); max-height: 88vh; overflow-y: auto;
+  box-shadow: 0 12px 60px rgba(0,0,0,0.55);
+}
+.xs-pr-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 18px; border-bottom: 1px solid rgba(255,255,255,0.12);
+  font-family: Georgia, serif; font-size: 0.95rem;
+}
+.xs-pr-x {
+  background: transparent; border: none; color: #f5f0e8;
+  font-size: 1rem; cursor: pointer; opacity: 0.7;
+}
+.xs-pr-x:hover { opacity: 1; }
+.xs-pr-body { padding: 14px 18px; display: flex; flex-direction: column; gap: 14px; }
+.xs-pr-group { display: flex; flex-direction: column; gap: 7px; }
+.xs-pr-label {
+  font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.12em; opacity: 0.5;
+}
+.xs-pr-body label {
+  display: flex; align-items: center; gap: 8px; font-size: 0.82rem; cursor: pointer;
+}
+.xs-pr-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.xs-pr-row input[type=range] { flex: 1; min-width: 120px; }
+.xs-pr-body input[type=number], .xs-pr-body select {
+  background: #1e120a; color: #f5f0e8; border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 5px; padding: 5px 7px; font-size: 0.8rem;
+}
+.xs-pr-body input[type=number] { width: 64px; }
+.xs-pr-col {
+  flex-direction: column !important; align-items: flex-start !important;
+  gap: 4px !important; font-size: 0.6rem !important;
+  text-transform: uppercase; letter-spacing: 0.08em; opacity: 0.8;
+}
+.xs-pr-unit { font-size: 0.72rem; opacity: 0.6; }
+.xs-pr-hint { font-size: 0.72rem; opacity: 0.65; }
+.xs-pr-summary {
+  font-size: 0.78rem; line-height: 1.5;
+  background: rgba(255,255,255,0.06); border-radius: 7px; padding: 9px 11px;
+}
+.xs-pr-note { font-size: 0.7rem; opacity: 0.55; line-height: 1.45; }
+.xs-pr-foot {
+  display: flex; justify-content: flex-end; gap: 8px;
+  padding: 12px 18px; border-top: 1px solid rgba(255,255,255,0.12);
+}
+.xs-pr-go { background: #8b2020; border-color: #8b2020; }
 </style>
 </head>
 <body>
@@ -285,6 +340,7 @@ body { display: flex; flex-direction: column; }
   <button class="xs-btn" id="xsMarkBtn">Mark</button>
   <button class="xs-btn xs-btn-clear" id="xsClearBtn">Clear</button>
   <button class="xs-btn" id="xsSymBtn">Symbols</button>
+  <button class="xs-btn" id="xsPrintBtn">Print</button>
   <button class="xs-btn" id="xsFitBtn">Fit</button>
   <span id="xsSyncPill"></span>
   <button class="xs-btn" id="xsBackBtn">← Back</button>
@@ -317,6 +373,74 @@ body { display: flex; flex-direction: column; }
     <div id="xsColorModalSwatch"></div>
     <div id="xsColorModalHex"></div>
     <div id="xsColorModalHint">tap anywhere to close</div>
+  </div>
+  <div id="xsPrintModal">
+    <div id="xsPrintPanel">
+      <div class="xs-pr-head">
+        <span>Print / Export PDF</span>
+        <button class="xs-pr-x" id="xsPrintClose">✕</button>
+      </div>
+      <div class="xs-pr-body">
+        <div class="xs-pr-group">
+          <div class="xs-pr-label">Chart style (one page set each)</div>
+          <label><input type="checkbox" id="xsPrSym" checked> Symbol chart — symbols in thread color</label>
+          <label><input type="checkbox" id="xsPrBoth"> Color blocks + symbols</label>
+        </div>
+        <div class="xs-pr-group">
+          <div class="xs-pr-label">Square size — tune this for your printer</div>
+          <div class="xs-pr-row">
+            <input type="range" id="xsPrSizeRange" min="2" max="10" step="0.5" value="4">
+            <input type="number" id="xsPrSize" min="1" max="20" step="0.1" value="4">
+            <span class="xs-pr-unit">mm / square</span>
+          </div>
+          <div class="xs-pr-hint" id="xsPrScaleHint"></div>
+        </div>
+        <div class="xs-pr-group">
+          <div class="xs-pr-row">
+            <label class="xs-pr-col">Paper
+              <select id="xsPrPaper">
+                <option value="a4">A4</option>
+                <option value="letter">Letter</option>
+                <option value="a3">A3</option>
+                <option value="legal">Legal</option>
+              </select>
+            </label>
+            <label class="xs-pr-col">Orientation
+              <select id="xsPrOrient">
+                <option value="portrait">Portrait</option>
+                <option value="landscape">Landscape</option>
+              </select>
+            </label>
+            <label class="xs-pr-col">Page overlap
+              <select id="xsPrOverlap">
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2" selected>2</option>
+                <option value="3">3</option>
+                <option value="5">5</option>
+              </select>
+            </label>
+          </div>
+        </div>
+        <div class="xs-pr-group">
+          <div class="xs-pr-label">Include</div>
+          <label><input type="checkbox" id="xsPrGrid" checked> Grid lines (bold every 10)</label>
+          <label><input type="checkbox" id="xsPrNums" checked> Row / column numbers</label>
+          <label><input type="checkbox" id="xsPrLegend" checked> Color &amp; thread list page</label>
+          <label><input type="checkbox" id="xsPrCover" checked> Cover page with preview + page map</label>
+          <label><input type="checkbox" id="xsPrVisibleOnly" checked> Only colors visible on screen</label>
+          <label><input type="checkbox" id="xsPrDone"> Grey out completed stitches</label>
+        </div>
+        <div class="xs-pr-summary" id="xsPrSummary"></div>
+        <div class="xs-pr-note">Opens a print-ready view in a new tab. In the browser print dialog choose
+          <b>Save as PDF</b>, set scale to <b>100%</b> (not “Fit to page”) and margins to “Default” so each
+          square measures exactly the size above.</div>
+      </div>
+      <div class="xs-pr-foot">
+        <button class="xs-btn" id="xsPrintCancel">Cancel</button>
+        <button class="xs-btn xs-pr-go" id="xsPrintGo">Open print view</button>
+      </div>
+    </div>
   </div>
   <div id="xsProgress"></div>
   <div id="noMotif">
@@ -1070,6 +1194,333 @@ body { display: flex; flex-direction: column; }
     document.getElementById('xsCanvas').classList.remove('xs-select');
   }
 
+  // ── Print / PDF export ─────────────────────────────────────────────────────
+  const PR_PAPER = { a4: [210, 297], letter: [215.9, 279.4], a3: [297, 420], legal: [215.9, 355.6] };
+  const PR_MARGIN = 10; // mm
+
+  function prEl(id) { return document.getElementById(id); }
+
+  function prNum(n) { return (Math.round(n * 100) / 100).toString(); }
+
+  function prXmlEsc(s) {
+    return String(s == null ? '' : s).replace(/[<>&"']/g, c => (
+      { '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;', "'": '&#39;' }[c]));
+  }
+
+  function prReadSettings() {
+    let [pw, ph] = PR_PAPER[prEl('xsPrPaper').value] || PR_PAPER.a4;
+    if (prEl('xsPrOrient').value === 'landscape') { const t = pw; pw = ph; ph = t; }
+    const sq = Math.min(25, Math.max(1, parseFloat(prEl('xsPrSize').value) || 4));
+    const overlap = parseInt(prEl('xsPrOverlap').value, 10) || 0;
+    const nums = prEl('xsPrNums').checked;
+    const gutter = nums ? Math.max(6, sq * 1.4) : 0;
+    const headerH = 8;
+    const usableW = pw - PR_MARGIN * 2;
+    const usableH = ph - PR_MARGIN * 2;
+    const perX = Math.max(1, Math.floor((usableW - gutter) / sq));
+    const perY = Math.max(1, Math.floor((usableH - headerH - gutter) / sq));
+    const stepX = Math.max(1, perX - overlap);
+    const stepY = Math.max(1, perY - overlap);
+    const cols = xm ? xm.cols : 1, rows = xm ? xm.rows : 1;
+    const pagesX = cols > perX ? Math.ceil((cols - perX) / stepX) + 1 : 1;
+    const pagesY = rows > perY ? Math.ceil((rows - perY) / stepY) + 1 : 1;
+    const styles = [];
+    if (prEl('xsPrSym').checked) styles.push('sym');
+    if (prEl('xsPrBoth').checked) styles.push('both');
+    return {
+      pw, ph, sq, overlap, nums, gutter, headerH, usableW, usableH,
+      perX, perY, stepX, stepY, pagesX, pagesY, styles,
+      grid: prEl('xsPrGrid').checked,
+      legend: prEl('xsPrLegend').checked,
+      cover: prEl('xsPrCover').checked,
+      visibleOnly: prEl('xsPrVisibleOnly').checked,
+      doneGrey: prEl('xsPrDone').checked,
+    };
+  }
+
+  function prSheetTotal(s) {
+    return (s.cover ? 1 : 0) + (s.legend ? 1 : 0) + s.styles.length * s.pagesX * s.pagesY;
+  }
+
+  function prUpdateSummary() {
+    if (!xm) return;
+    const s = prReadSettings();
+    const wCm = xm.cols * s.sq / 10, hCm = xm.rows * s.sq / 10;
+    const spi = 25.4 / s.sq;
+    prEl('xsPrScaleHint').textContent =
+      `≈ ${spi.toFixed(1)} squares per inch · each square ${s.sq.toFixed(1)} mm`;
+    const total = prSheetTotal(s);
+    let msg =
+      `Finished chart <b>${wCm.toFixed(1)} × ${hCm.toFixed(1)} cm</b> · ` +
+      `${xm.cols} × ${xm.rows} stitches<br>` +
+      `<b>${s.pagesX} × ${s.pagesY}</b> pages per chart · ` +
+      `<b>${s.styles.length}</b> style(s) · <b>${total}</b> sheet(s) total`;
+    if (!s.styles.length) {
+      msg += `<br><span style="color:#e6a5a5">Pick at least one chart style.</span>`;
+    } else if (total > 40) {
+      msg += `<br><span style="color:#e6a5a5">That is a lot of sheets — increase the square size.</span>`;
+    }
+    prEl('xsPrSummary').innerHTML = msg;
+  }
+
+  function prGridSVG(c0, c1, r0, r1, s) {
+    const tw = (c1 - c0) * s.sq, th = (r1 - r0) * s.sq;
+    let thin = '', bold = '';
+    for (let c = c0; c <= c1; c++) {
+      const seg = `M${prNum((c - c0) * s.sq)} 0V${prNum(th)}`;
+      if (c % 10 === 0) bold += seg; else thin += seg;
+    }
+    for (let r = r0; r <= r1; r++) {
+      const seg = `M0 ${prNum((r - r0) * s.sq)}H${prNum(tw)}`;
+      if (r % 10 === 0) bold += seg; else thin += seg;
+    }
+    return `<path d="${thin}" fill="none" stroke="#b0b0b0" stroke-width="0.07"/>` +
+      `<path d="${bold}" fill="none" stroke="#333333" stroke-width="0.25"/>` +
+      `<rect x="0" y="0" width="${prNum(tw)}" height="${prNum(th)}" fill="none" stroke="#333333" stroke-width="0.35"/>`;
+  }
+
+  function prLum(hex) {
+    const r = parseInt(hex.slice(1, 3), 16) / 255;
+    const g = parseInt(hex.slice(3, 5), 16) / 255;
+    const b = parseInt(hex.slice(5, 7), 16) / 255;
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  }
+
+  // Symbols are drawn in their own thread color; very light threads are darkened
+  // so the glyph stays legible on white paper.
+  function prSymColor(hex) {
+    if (!/^#[0-9a-fA-F]{6}$/.test(hex)) return '#1a1a1a';
+    if (prLum(hex) < 0.72) return hex;
+    const mix = i => Math.round(parseInt(hex.slice(i, i + 2), 16) * 0.42).toString(16).padStart(2, '0');
+    return '#' + mix(1) + mix(3) + mix(5);
+  }
+
+  function prCellsSVG(c0, c1, r0, r1, s, style) {
+    const showColor = style === 'both';
+    const colorSyms = style === 'sym'; // symbols carry their own thread color
+    const cellOp = style === 'both' ? 0.38 : 1;
+    const fs = s.sq * 0.72;
+    const tw = (c1 - c0) * s.sq, th = (r1 - r0) * s.sq;
+    let cells = '', syms = '', done = '';
+    for (let r = r0; r < r1; r++) {
+      for (let c = c0; c < c1; c++) {
+        const hex = xm.cell(c, r);
+        if (s.visibleOnly && hiddenColors.has(hex)) continue;
+        const x = (c - c0) * s.sq, y = (r - r0) * s.sq;
+        if (showColor) {
+          cells += `<rect x="${prNum(x)}" y="${prNum(y)}" width="${prNum(s.sq)}" height="${prNum(s.sq)}" fill="${hex}"` +
+            (cellOp < 1 ? ` fill-opacity="${cellOp}"` : '') + `/>`;
+        }
+        syms += `<text x="${prNum(x + s.sq / 2)}" y="${prNum(y + s.sq / 2)}"` +
+          (colorSyms ? ` fill="${prSymColor(hex)}"` : '') + `>` +
+          `${prXmlEsc(colorSymbols.get(hex) || '×')}</text>`;
+        if (s.doneGrey && doneSet.has(c + ',' + r)) {
+          done += `<rect x="${prNum(x)}" y="${prNum(y)}" width="${prNum(s.sq)}" height="${prNum(s.sq)}"/>`;
+        }
+      }
+    }
+    let out = `<rect x="0" y="0" width="${prNum(tw)}" height="${prNum(th)}" fill="#ffffff"/>`;
+    out += cells;
+    if (done) out += `<g fill="#000000" fill-opacity="0.28">${done}</g>`;
+    if (s.grid) out += prGridSVG(c0, c1, r0, r1, s);
+    if (syms) {
+      out += `<g font-family="'DejaVu Sans','Segoe UI Symbol','Noto Sans Symbols2',sans-serif" ` +
+        `font-size="${prNum(fs)}"` + (colorSyms ? '' : ' fill="#1a1a1a"') +
+        ` text-anchor="middle" dominant-baseline="central">${syms}</g>`;
+    }
+    return out;
+  }
+
+  function prPageSVG(c0, c1, r0, r1, s, style, showNums) {
+    const g = showNums ? s.gutter : 0;
+    const tw = (c1 - c0) * s.sq, th = (r1 - r0) * s.sq;
+    const W = g + tw, H = g + th;
+    let b = `<g transform="translate(${prNum(g)} ${prNum(g)})">${prCellsSVG(c0, c1, r0, r1, s, style)}</g>`;
+    if (g > 0) {
+      const nfs = Math.min(g * 0.55, 3);
+      let labels = '';
+      for (let c = Math.ceil(c0 / 10) * 10; c <= c1; c += 10) {
+        labels += `<text x="${prNum(g + (c - c0) * s.sq)}" y="${prNum(g * 0.72)}" text-anchor="middle">${c}</text>`;
+      }
+      for (let r = Math.ceil(r0 / 10) * 10; r <= r1; r += 10) {
+        labels += `<text x="${prNum(g * 0.66)}" y="${prNum(g + (r - r0) * s.sq)}" text-anchor="end" dominant-baseline="central">${r}</text>`;
+      }
+      b += `<g font-family="sans-serif" font-size="${prNum(nfs)}" fill="#333333">${labels}</g>`;
+    }
+    return `<svg class="chart-svg" width="${prNum(W)}mm" height="${prNum(H)}mm" ` +
+      `viewBox="0 0 ${prNum(W)} ${prNum(H)}" xmlns="http://www.w3.org/2000/svg">${b}</svg>`;
+  }
+
+  function prStyleLabel(style) {
+    return style === 'sym' ? 'Symbol chart' : 'Color blocks + symbols';
+  }
+
+  function prChartSheets(s, style) {
+    let html = '';
+    const total = s.pagesX * s.pagesY;
+    let n = 0;
+    for (let py = 0; py < s.pagesY; py++) {
+      for (let px = 0; px < s.pagesX; px++) {
+        n++;
+        const c0 = px * s.stepX, r0 = py * s.stepY;
+        if (c0 >= xm.cols || r0 >= xm.rows) continue;
+        const c1 = Math.min(xm.cols, c0 + s.perX);
+        const r1 = Math.min(xm.rows, r0 + s.perY);
+        html +=
+          `<div class="sheet"><div class="sheet-hd">` +
+          `<span>${prXmlEsc(xm.name)} — ${prStyleLabel(style)}</span>` +
+          `<span>page ${n}/${total} · cols ${c0}–${c1} · rows ${r0}–${r1}</span>` +
+          `</div><div class="sheet-body">${prPageSVG(c0, c1, r0, r1, s, style, s.nums)}</div></div>`;
+      }
+    }
+    return html;
+  }
+
+  function prCoverSheet(s) {
+    const availW = s.usableW, availH = s.usableH - 74;
+    const mini = Math.max(0.15, Math.min(availW / xm.cols, availH / xm.rows));
+    const miniS = Object.assign({}, s, { sq: mini, grid: mini > 1.2, doneGrey: false });
+    // cover preview always shows the full pattern in color + symbols
+    const style = 'both';
+    const nColors = xm.colors.filter(h => !(s.visibleOnly && hiddenColors.has(h))).length;
+    return `<div class="sheet cover">` +
+      `<h1>${prXmlEsc(xm.name)}</h1>` +
+      `<div class="cover-meta">` +
+      `${xm.cols} × ${xm.rows} stitches &nbsp;·&nbsp; ` +
+      `${(xm.cols * s.sq / 10).toFixed(1)} × ${(xm.rows * s.sq / 10).toFixed(1)} cm ` +
+      `at ${s.sq.toFixed(1)} mm/square &nbsp;·&nbsp; ${nColors} colors &nbsp;·&nbsp; ` +
+      `${s.pagesX} × ${s.pagesY} pages per chart` +
+      `</div>` +
+      `<div class="cover-preview">${prPageSVG(0, xm.cols, 0, xm.rows, miniS, style, false)}</div>` +
+      `<div class="cover-note">Assemble pages left to right, top to bottom. ` +
+      `Bold grid lines mark every 10 stitches.</div>` +
+      `</div>`;
+  }
+
+  function prThreadSheet(s) {
+    const counts = new Map();
+    for (let r = 0; r < xm.rows; r++) {
+      for (let c = 0; c < xm.cols; c++) {
+        const hex = xm.cell(c, r);
+        counts.set(hex, (counts.get(hex) || 0) + 1);
+      }
+    }
+    let rows = '';
+    xm.colors.forEach(hex => {
+      if (s.visibleOnly && hiddenColors.has(hex)) return;
+      const dmc = (typeof DMC_PALETTE !== 'undefined') ? findClosestDMC(hex, 1)[0] : null;
+      rows +=
+        `<tr>` +
+        `<td><span class="sw" style="background:${hex}"></span></td>` +
+        `<td class="c">${prXmlEsc(colorSymbols.get(hex) || '×')}</td>` +
+        `<td>${dmc ? 'DMC ' + prXmlEsc(dmc.id) : prXmlEsc(hex)}</td>` +
+        `<td>${dmc ? prXmlEsc(dmc.name) : ''}</td>` +
+        `<td class="n">${counts.get(hex) || 0}</td>` +
+        `</tr>`;
+    });
+    return `<div class="sheet"><div class="sheet-hd">` +
+      `<span>${prXmlEsc(xm.name)} — Thread list</span>` +
+      `<span>${prXmlEsc(new Date().toLocaleDateString())}</span></div>` +
+      `<table class="thread-tbl"><thead><tr>` +
+      `<th>Color</th><th>Sym</th><th>Thread</th><th>Name</th><th>Stitches</th>` +
+      `</tr></thead><tbody>${rows}</tbody></table></div>`;
+  }
+
+  function prBuildDoc(s) {
+    let body =
+      `<div class="screen-bar">` +
+      `<button type="button" onclick="window.print()">Print / Save as PDF</button>` +
+      `<span>${prSheetTotal(s)} sheet(s). Set scale to <b>100%</b> (not “Fit to page”) ` +
+      `and margins to “Default” so squares measure correctly.</span>` +
+      `<button type="button" onclick="window.close()">Close</button>` +
+      `</div>`;
+    if (s.cover) body += prCoverSheet(s);
+    s.styles.forEach(style => { body += prChartSheets(s, style); });
+    if (s.legend) body += prThreadSheet(s);
+
+    return `<!DOCTYPE html><html><head><meta charset="utf-8">` +
+      `<title>${prXmlEsc(xm.name)} — cross-stitch chart</title><style>` +
+      `@page { size: ${prNum(s.pw)}mm ${prNum(s.ph)}mm; margin: ${PR_MARGIN}mm; }` +
+      `*{box-sizing:border-box;} html,body{margin:0;padding:0;}` +
+      `body{font-family:Georgia,serif;color:#1a1a1a;background:#fff;}` +
+      `.sheet{break-after:page;page-break-after:always;overflow:hidden;}` +
+      `.sheet:last-child{break-after:auto;page-break-after:auto;}` +
+      `.sheet-hd{display:flex;justify-content:space-between;align-items:baseline;` +
+      `font-size:9pt;margin-bottom:3mm;color:#444;font-family:sans-serif;}` +
+      `.chart-svg{display:block;max-width:100%;}` +
+      `.cover h1{font-size:22pt;margin:0 0 4mm;}` +
+      `.cover-meta{font-family:sans-serif;font-size:9.5pt;color:#555;margin-bottom:6mm;}` +
+      `.cover-preview{border:1px solid #ddd;padding:4mm;display:inline-block;max-width:100%;}` +
+      `.cover-note{font-family:sans-serif;font-size:8.5pt;color:#777;margin-top:5mm;}` +
+      `.thread-tbl{width:100%;border-collapse:collapse;font-family:sans-serif;font-size:9pt;}` +
+      `.thread-tbl th,.thread-tbl td{border:1px solid #ccc;padding:3px 7px;text-align:left;}` +
+      `.thread-tbl td.c{text-align:center;font-size:12pt;}` +
+      `.thread-tbl td.n{text-align:right;font-variant-numeric:tabular-nums;}` +
+      `.sw{display:inline-block;width:15px;height:15px;border:1px solid #999;vertical-align:middle;}` +
+      `.screen-bar{display:none;}` +
+      `@media screen{body{background:#525659;padding:16px;}` +
+      `.screen-bar{display:flex;gap:14px;align-items:center;justify-content:center;` +
+      `position:sticky;top:0;z-index:9;background:#2c1810;color:#f5f0e8;` +
+      `font-family:sans-serif;font-size:12px;padding:10px 14px;margin:-16px -16px 16px;}` +
+      `.screen-bar button{background:#8b2020;color:#fff;border:none;border-radius:5px;` +
+      `padding:7px 14px;cursor:pointer;font-size:12px;}` +
+      `.screen-bar button:last-child{background:transparent;border:1px solid rgba(255,255,255,.3);}` +
+      `.sheet{background:#fff;width:${prNum(s.pw)}mm;min-height:${prNum(s.ph)}mm;` +
+      `margin:0 auto 16px;padding:${PR_MARGIN}mm;box-shadow:0 3px 16px rgba(0,0,0,.45);}}` +
+      `@media print{.screen-bar{display:none !important;}}` +
+      `</style></head><body>${body}</body></html>`;
+  }
+
+  function prPrintViaFrame(html) {
+    const frame = document.createElement('iframe');
+    frame.style.cssText = 'position:fixed;right:0;bottom:0;width:0;height:0;border:0;';
+    document.body.appendChild(frame);
+    const d = frame.contentWindow.document;
+    d.open(); d.write(html); d.close();
+    const go = () => { try { frame.contentWindow.focus(); frame.contentWindow.print(); } catch (e) {} };
+    frame.onload = () => setTimeout(go, 350);
+    setTimeout(() => frame.remove(), 120000);
+  }
+
+  function prGenerate() {
+    if (!xm) return;
+    const s = prReadSettings();
+    if (!s.styles.length) { prUpdateSummary(); return; }
+    const html = prBuildDoc(s);
+    closePrintModal();
+    const w = window.open('', '_blank');
+    if (w && w.document) {
+      w.document.open();
+      w.document.write(html);
+      w.document.close();
+      w.focus();
+    } else {
+      prPrintViaFrame(html);
+    }
+  }
+
+  function prSyncSize(from) {
+    const rng = prEl('xsPrSizeRange'), num = prEl('xsPrSize');
+    if (from === 'range') {
+      num.value = rng.value;
+    } else {
+      let v = parseFloat(num.value);
+      if (isNaN(v)) return;
+      rng.value = Math.min(parseFloat(rng.max), Math.max(parseFloat(rng.min), v));
+    }
+    prUpdateSummary();
+  }
+
+  function openPrintModal() {
+    if (!xm) return;
+    prEl('xsPrintModal').classList.add('open');
+    prUpdateSummary();
+  }
+
+  function closePrintModal() {
+    prEl('xsPrintModal').classList.remove('open');
+  }
+
   function init() {
     const canvas = document.getElementById('xsCanvas');
 
@@ -1157,6 +1608,20 @@ body { display: flex; flex-direction: column; }
       markDirty();
     });
 
+    // Print / PDF export
+    prEl('xsPrintBtn').addEventListener('click', openPrintModal);
+    prEl('xsPrintClose').addEventListener('click', closePrintModal);
+    prEl('xsPrintCancel').addEventListener('click', closePrintModal);
+    prEl('xsPrintGo').addEventListener('click', prGenerate);
+    prEl('xsPrintModal').addEventListener('click', e => {
+      if (e.target === prEl('xsPrintModal')) closePrintModal();
+    });
+    prEl('xsPrSizeRange').addEventListener('input', () => prSyncSize('range'));
+    prEl('xsPrSize').addEventListener('input', () => prSyncSize('num'));
+    ['xsPrPaper', 'xsPrOrient', 'xsPrOverlap', 'xsPrSym', 'xsPrBoth',
+     'xsPrGrid', 'xsPrNums', 'xsPrLegend', 'xsPrCover', 'xsPrVisibleOnly', 'xsPrDone']
+      .forEach(id => prEl(id).addEventListener('change', prUpdateSummary));
+
     const modal = document.getElementById('xsColorModal');
     modal.addEventListener('click', hideColorModal);
     modal.addEventListener('touchend', e => { e.preventDefault(); hideColorModal(); }, { passive: false });
@@ -1195,6 +1660,10 @@ body { display: flex; flex-direction: column; }
 
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape') {
+        if (document.getElementById('xsPrintModal').classList.contains('open')) {
+          closePrintModal();
+          return;
+        }
         if (document.getElementById('xsColorModal').classList.contains('open')) {
           hideColorModal();
           return;
